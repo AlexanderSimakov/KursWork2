@@ -5,9 +5,7 @@ QtWidgetsApplication1::QtWidgetsApplication1(QWidget *parent) : QMainWindow(pare
 {
     ui.setupUi(this);
     ui.lineEdit_9->setVisible(false);
-    /*QFontDatabase::addApplicationFont("Fonts/Ubuntu-RI.ttf");
-    QFont ubuntu("Ubuntu", 18);
-    ui.pushButton_6->setFont(ubuntu);*/
+    QFontDatabase::addApplicationFont("Fonts/Ubuntu-RI.ttf");
 }
 
 void QtWidgetsApplication1::init() {

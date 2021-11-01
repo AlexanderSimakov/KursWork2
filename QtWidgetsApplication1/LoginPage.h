@@ -28,6 +28,7 @@ private:
 	const int PAGE_HEIGHT;
 
 	void init_error_message();
+	void adjust_fonts();
 
 	bool is_account_have_access(string login);
 	string get_login();
