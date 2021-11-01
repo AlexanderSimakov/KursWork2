@@ -5,12 +5,6 @@ LoginPage::LoginPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWor
 	this->ui = ui;
 	this->page = ui->logInPage;
 	this->account_db = account_db;
-
-	connect(ui->log_in_button, &QPushButton::clicked, this, 
-		[]() {
-		
-		
-		});
 }
 
 void LoginPage::open() {
@@ -24,30 +18,39 @@ Account LoginPage::get_authorized_account() {
 
 	if (login.size() == 0 || pass.size() == 0) {
 		clear_error_message();
-		show_error_message("Fields should not be empty");
+		show_error_message("Oops. Fields should not be empty");
+		return account;
+	}else if (!is_account_have_access(login)) {
+		clear_error_message();
+		clear_password_input();
+		show_error_message("Oops. Account have no access");
 		return account;
 	}
 
 	string db_account_hash = account_db->get_text("LOGIN", login, 2);
 	string db_account_salt = account_db->get_text("LOGIN", login, 3);
-	string input_password = account.get_password(db_account_hash, db_account_salt, pass);
 
-	if (input_password == "-1") {
+	if (!account.is_right_password(db_account_hash, db_account_salt, pass)) {
 		clear_error_message();
-		show_error_message("Error");
+		clear_password_input();
+		show_error_message("Oops. Wrong login or password");
 		return account;
 	}
-	else if (account_db->get_int("LOGIN", login, 5) == 0) {
-		clear_error_message();
-		show_error_message("Account have no access");
-		return account;
-	}
-	else { // good
+	else { 
+		account.set_login(login);
+		account.set_name(account_db->get_text("LOGIN", login, 1));
+		account.set_salted_hash_password(db_account_hash);
+		account.set_salt(db_account_salt);
 		account.set_role(account_db->get_int("LOGIN", login, 4));
+		account.set_access(account_db->get_int("LOGIN", login, 5));
+		account.set_id(account_db->get_int("LOGIN", login, 6));
 		return account;
 	}
 }
 
+bool LoginPage::is_account_have_access(string login) {
+	return account_db->get_int("LOGIN", login, 5) == 1;
+}
 
 string LoginPage::get_login() {
 	return ui->authorization_login_input->text().toStdString();

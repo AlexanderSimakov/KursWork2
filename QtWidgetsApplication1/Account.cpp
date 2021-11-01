@@ -63,6 +63,13 @@ string Account::get_password(string true_hash, string true_salt, string password
 		return password;
 }
 
+bool Account::is_right_password(string true_hash, string true_salt, string password) {
+	if (true_hash != get_generated_hash(password, true_salt)) // неправильный логин или пароль
+		return false;
+	else
+		return true;
+}
+
 string Account::get_generated_hash(string line, string salt) {
 	return sha1(sha1(line + salt) + sha1(line));
 }

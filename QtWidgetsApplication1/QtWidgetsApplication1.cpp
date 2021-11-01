@@ -57,7 +57,7 @@ void QtWidgetsApplication1::back_to_accounts()
 
 void QtWidgetsApplication1::back_to_authorization() {
     if (QMessageBox::Yes == QMessageBox::question(this, "Exit Confirmation", "Exit?", QMessageBox::Yes | QMessageBox::No)) {
-        ui.stackedWidget->setCurrentWidget(ui.logInPage);
+        login_page->open();
         qDeleteAll(ui.page_2->children());
     }
 }

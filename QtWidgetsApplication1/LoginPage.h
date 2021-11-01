@@ -27,6 +27,7 @@ private:
 	const int PAGE_WIDTH;
 	const int PAGE_HEIGHT;
 
+	bool is_account_have_access(string login);
 	string get_login();
 	string get_password();
 	void show_error_message(string text);

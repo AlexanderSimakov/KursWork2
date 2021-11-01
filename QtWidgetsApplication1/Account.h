@@ -29,6 +29,7 @@ public:
     void add_in_db(SQLWork* account_db);
 
     string get_password(string true_hash, string true_salt, string password);
+    bool is_right_password(string true_hash, string true_salt, string password);
     static string get_generated_hash(string line, string salt);
     static string get_symbols_for_salt();
     static string get_generated_salt();
