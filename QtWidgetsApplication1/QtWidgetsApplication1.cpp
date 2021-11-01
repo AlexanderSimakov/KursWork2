@@ -28,18 +28,14 @@ void QtWidgetsApplication1::set_people_db(SQLWork* db) {
 
 void QtWidgetsApplication1::log_in() 
 {
-    Account account = login_page->get_authorized_account();
-    if (account.get_role() == 1) {
-        login_page->clear_error_message();
-        login_page->clear_password_input();
+    current_account = login_page->get_authorized_account();
+    if (current_account.get_role() == 1) {
         ui.choise_account_page->setEnabled(true);
         ui.choise_account_page->setVisible(true);
         ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
         open_books_page();
     }
-    else if (account.get_role() == 0) {
-        login_page->clear_error_message();
-        login_page->clear_password_input();
+    else if (current_account.get_role() == 0) {
         ui.choise_account_page->setEnabled(false);
         ui.choise_account_page->setVisible(false);
         ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
@@ -61,6 +57,9 @@ void QtWidgetsApplication1::back_to_authorization() {
 }
 
 void QtWidgetsApplication1::open_books_page() {
+    login_page->clear_error_message();
+    login_page->clear_password_input();
+    ui.adminMainPage_my_account_button->setText(QString::fromStdString(current_account.get_name()));
     ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
     ui.stackedWidget_2->setCurrentWidget(ui.page_3);
     book_page->start();
@@ -77,7 +76,10 @@ void QtWidgetsApplication1::open_accounts_page() {
     ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
     ui.stackedWidget_2->setCurrentWidget(ui.page_2);
     account_page->start();
-    
+}
+
+void QtWidgetsApplication1::open_editing_current_account_page() {
+    account_page->open_edit_account_page(current_account, false, false);
 }
 
 

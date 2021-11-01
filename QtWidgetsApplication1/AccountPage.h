@@ -20,6 +20,7 @@ public:
 
 	void start();
 
+	void open_edit_account_page(Account account, bool is_removable = true, bool is_status_editable = true, bool is_back_to_accounts = true);
 
 private:
 	QWidget* _parent;
@@ -64,7 +65,6 @@ private:
 	Account get_account_by_id(int id);
 
 	void edit_account();
-	void open_edit_account_page(Account account);
 
 	void create_account();
 	void open_account_creation_page();

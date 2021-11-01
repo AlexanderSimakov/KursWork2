@@ -207,12 +207,33 @@ void AccountPage::edit_account() {
 	}
 }
 
-void AccountPage::open_edit_account_page(Account account) {
+void AccountPage::open_edit_account_page(Account account, bool is_removable, bool is_status_editable, bool is_back_to_accounts) {
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
 	clear_account_edit_page();
 
-	ui->remove_account_button->setEnabled(true);
-	ui->remove_account_button->setVisible(true);
+	if (is_removable) {
+		ui->remove_account_button->setEnabled(true);
+		ui->remove_account_button->setVisible(true);
+	}
+	else {
+		ui->remove_account_button->setEnabled(false);
+		ui->remove_account_button->setVisible(false);
+	}
+	
+	if (is_status_editable) {
+		ui->checkBox->setEnabled(true);
+		ui->checkBox->setVisible(true);
+		ui->checkBox_2->setEnabled(true);
+		ui->checkBox_2->setVisible(true);
+	}
+	else {
+		ui->checkBox->setEnabled(false);
+		ui->checkBox->setVisible(false);
+		ui->checkBox_2->setEnabled(false);
+		ui->checkBox_2->setVisible(false);
+	}
+
+
 	ui->pushButton->setText("Apply");
 
 	disconnect(ui->pushButton, 0, 0, 0);

@@ -146,7 +146,7 @@ QLabel#logInBack{
        <set>Qt::ImhPreferNumbers</set>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="editAccountPage">
        <property name="styleSheet">
@@ -2808,6 +2808,22 @@ border-radius: 5px;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>adminMainPage_my_account_button</sender>
+   <signal>clicked()</signal>
+   <receiver>QtWidgetsApplication1Class</receiver>
+   <slot>open_editing_current_account_page()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>790</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>log_in()</slot>
@@ -2825,5 +2841,6 @@ border-radius: 5px;</string>
   <slot>edit_book()</slot>
   <slot>slot1()</slot>
   <slot>slot2()</slot>
+  <slot>open_editing_current_account_page()</slot>
  </slots>
 </ui>

@@ -34,6 +34,7 @@ private slots:
     void open_books_page();
     void open_subsriber_page();
     void open_accounts_page();
+    void open_editing_current_account_page();
    
 
 private:
@@ -44,6 +45,8 @@ private:
     AccountPage* account_page;
     PeoplePage* people_page;
     LoginPage* login_page;
+
+    Account current_account;
 
     Ui::QtWidgetsApplication1Class ui;
     
