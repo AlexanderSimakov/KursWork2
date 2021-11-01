@@ -11,7 +11,6 @@ class LoginPage : QMainWindow
 	Q_OBJECT
 public:
 	LoginPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* account_db);
-
 	void open();
 	void clear_error_message();
 	void clear_password_input();
@@ -23,9 +22,12 @@ private:
 	Ui::QtWidgetsApplication1Class* ui;
 	QWidget* page;
 	SQLWork* account_db;
+	QLabel* error_message;
 
 	const int PAGE_WIDTH;
 	const int PAGE_HEIGHT;
+
+	void init_error_message();
 
 	bool is_account_have_access(string login);
 	string get_login();

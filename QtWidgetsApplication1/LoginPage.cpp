@@ -5,6 +5,7 @@ LoginPage::LoginPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWor
 	this->ui = ui;
 	this->page = ui->logInPage;
 	this->account_db = account_db;
+
 }
 
 void LoginPage::open() {
@@ -61,10 +62,8 @@ string LoginPage::get_password() {
 }
 
 void LoginPage::show_error_message(string text) {
-	QLabel* error_message = new QLabel(QString::fromStdString(text), page);
-	error_message->setObjectName("LoginPage_error_message");
-	error_message->setAlignment(Qt::AlignHCenter);
-	error_message->setGeometry(391, 468, 500, 30);
+	init_error_message();
+	error_message->setText(QString::fromStdString(text));
 	error_message->show();
 }
 
@@ -80,7 +79,14 @@ void LoginPage::clear_password_input() {
 	ui->authorization_pass_input->setText("");
 }
 
-
+void LoginPage::init_error_message() {
+	error_message = new QLabel(QString::fromStdString(""), page);
+	error_message->setObjectName("LoginPage_error_message");
+	error_message->setAlignment(Qt::AlignHCenter);
+	error_message->setStyleSheet("color: #f5685d");
+	error_message->setFont(QFont("Arial", 12));
+	error_message->setGeometry(391, 468, 500, 30);
+}
 
 
 
