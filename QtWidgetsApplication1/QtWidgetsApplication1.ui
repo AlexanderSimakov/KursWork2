@@ -578,10 +578,32 @@ border-radius: 5px;</string>
          <string/>
         </property>
        </widget>
+       <widget class="QLabel" name="login_page_name">
+        <property name="geometry">
+         <rect>
+          <x>391</x>
+          <y>150</y>
+          <width>500</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Login Page</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
        <zorder>logInBack</zorder>
        <zorder>authorization_login_input</zorder>
        <zorder>authorization_pass_input</zorder>
        <zorder>log_in_button</zorder>
+       <zorder>login_page_name</zorder>
       </widget>
       <widget class="QWidget" name="addPeoplePage">
        <widget class="QWidget" name="formLayoutWidget_5">
