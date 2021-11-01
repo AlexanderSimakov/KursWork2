@@ -146,7 +146,7 @@ QLabel#logInBack{
        <set>Qt::ImhPreferNumbers</set>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="editAccountPage">
        <property name="styleSheet">
@@ -1406,22 +1406,6 @@ border-radius: 5px;</string>
        </widget>
       </widget>
       <widget class="QWidget" name="adminMainPage">
-       <widget class="QLabel" name="user_name_label">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>200</width>
-          <height>90</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Name</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
        <widget class="QWidget" name="verticalLayoutWidget_2">
         <property name="geometry">
          <rect>
@@ -2195,13 +2179,48 @@ QPushButton#giveBook_back_button:hover{
          <string/>
         </property>
        </widget>
+       <widget class="QPushButton" name="adminMainPage_my_account_button">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>200</width>
+          <height>90</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton#adminMainPage_my_account_button{
+	color: #FFFFFF;
+	background: #7ab2ff;
+	border: 10px;
+}
+
+QPushButton#adminMainPage_my_account_button:hover{
+	background: #9CC5FF;
+}</string>
+        </property>
+        <property name="text">
+         <string>Account name</string>
+        </property>
+       </widget>
        <zorder>adminMainPage_back</zorder>
-       <zorder>user_name_label</zorder>
        <zorder>verticalLayoutWidget_2</zorder>
        <zorder>choise_books_page</zorder>
        <zorder>choise_subscriber_page</zorder>
        <zorder>choise_account_page</zorder>
        <zorder>exit_button</zorder>
+       <zorder>adminMainPage_my_account_button</zorder>
       </widget>
       <widget class="QWidget" name="addBookPage">
        <widget class="QLineEdit" name="id_create_book_line_edit">
