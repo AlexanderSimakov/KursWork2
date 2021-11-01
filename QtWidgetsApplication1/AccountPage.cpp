@@ -233,6 +233,13 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 		ui->checkBox_2->setVisible(false);
 	}
 
+	if (is_back_to_accounts) {
+		connect(ui->commandLinkButton, SIGNAL(clicked()), _parent, SLOT(back_to_accounts()));
+	}
+	else {
+		connect(ui->commandLinkButton, SIGNAL(clicked()), _parent, SLOT(open_books_page()));
+	}
+
 
 	ui->pushButton->setText("Apply");
 

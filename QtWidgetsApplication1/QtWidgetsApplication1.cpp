@@ -57,6 +57,7 @@ void QtWidgetsApplication1::back_to_authorization() {
 }
 
 void QtWidgetsApplication1::open_books_page() {
+    update_current_account_info();
     login_page->clear_error_message();
     login_page->clear_password_input();
     ui.adminMainPage_my_account_button->setText(QString::fromStdString(current_account.get_name()));
@@ -66,6 +67,7 @@ void QtWidgetsApplication1::open_books_page() {
 }
 
 void QtWidgetsApplication1::open_subsriber_page() {
+    update_current_account_info();
     ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
     ui.stackedWidget_2->setCurrentWidget(ui.page);
     people_page = new PeoplePage(this, &ui, people_db, books_db);
@@ -73,16 +75,25 @@ void QtWidgetsApplication1::open_subsriber_page() {
 }
 
 void QtWidgetsApplication1::open_accounts_page() {
+    update_current_account_info();
     ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
     ui.stackedWidget_2->setCurrentWidget(ui.page_2);
     account_page->start();
 }
 
 void QtWidgetsApplication1::open_editing_current_account_page() {
-    account_page->open_edit_account_page(current_account, false, false);
+    account_page->open_edit_account_page(current_account, false, false, false);
 }
 
-
+void QtWidgetsApplication1::update_current_account_info() {
+    string id = to_string(current_account.get_id());
+    current_account.set_login(accounts_db->get_text("ID", id, 0));
+    current_account.set_name(accounts_db->get_text("ID", id, 1));
+    current_account.set_salted_hash_password(accounts_db->get_text("ID", id, 2));
+    current_account.set_salt(accounts_db->get_text("ID", id, 3));
+    current_account.set_role(accounts_db->get_int("ID", id, 4));
+    current_account.set_access(accounts_db->get_int("ID", id, 5));
+}
 
 
 

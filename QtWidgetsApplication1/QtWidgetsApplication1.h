@@ -49,5 +49,7 @@ private:
     Account current_account;
 
     Ui::QtWidgetsApplication1Class ui;
+
+    void update_current_account_info();
     
 };
