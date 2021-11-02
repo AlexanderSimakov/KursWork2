@@ -10,6 +10,7 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 
 	choise_page_buttons = new ChoisePageButtons(_parent, ui, page, NUMBER_OF_BOOKS_ON_PAGE, &current_page, *this);
 	searching = new Searching(_parent, ui, page, books_db, *this, books_id);
+	ui->id_create_book_line_edit->setVisible(false);
 
 	connect(ui->edit_book_push_button, &QPushButton::clicked, this, 
 		[=]() { 
@@ -374,7 +375,6 @@ void BookPage::open_book_creation_page() {
 			ui->pushButton_3->disconnect();
 			create_book();
 		});
-
 }
 
 void BookPage::create_book() {

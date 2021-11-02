@@ -49,6 +49,7 @@
       </property>
       <property name="styleSheet">
        <string notr="true">QWidget#logInPage {background: #FFF1DE;}
+QWidget#addBookPage {background: #FFF1DE;}
 QLineEdit#authorization_login_input {
 	color: #FFFFFF;
 	background-color: #FFD69C;
