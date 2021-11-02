@@ -87,17 +87,36 @@ void BookPage::show_book(Book book, int row, int column) {
 	//  --------------- create name label ----------------
 	QLabel* name = new QLabel(QString::fromStdString(book.get_name()), page);
 	name->setObjectName("BookPage_name");
-	name->setStyleSheet(" background: #FFE2B9; margin: 2px; border-radius: 10px;");
+	name->setStyleSheet(" background: #FFE2B9; border-radius: 10px;");
+	name->setAlignment(Qt::AlignCenter);
 	name->setFont(QFont("Ubuntu", 10));
 
 
 	//  --------------- create image label ---------------
 	QLabel* image = new QLabel("", page);
-	image->setStyleSheet("border-radius: 10px;");
-	QPixmap pixmap = QPixmap(QString::fromStdString(book.get_path_to_img()));
-	pixmap = pixmap.scaled(QSize(320, 240), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-	image->setPixmap(pixmap);
+	image->setStyleSheet("background: transparent;");
 
+	QPixmap target = QPixmap(QSize(320, 240));
+    target.fill(Qt::transparent);
+
+    QPixmap p = QPixmap(QString::fromStdString(book.get_path_to_img()));
+    p = p.scaled(QSize(320, 240), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QPainter painter (&target);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+
+    QPainterPath path = QPainterPath();
+	int start_x = (320 - p.size().width()) / 2;
+	int start_y = (240 - p.size().height()) / 2;
+    path.addRoundedRect(start_x, start_y, p.size().width(), p.size().height(), 10, 10);
+    painter.setClipPath(path);
+    painter.drawPixmap(start_x, start_y, p);
+
+	image->setPixmap(target);
+	// ---------------------------------------------------
 
 	//  --------------- create button --------------------
 	QPushButton* button = new QPushButton(page);
