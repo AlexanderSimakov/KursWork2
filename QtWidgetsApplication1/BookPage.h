@@ -9,6 +9,7 @@
 #include "Page.h"
 #include "ChoisePageButtons.h"
 #include "Searching.h"
+#include <regex>
 
 class BookPage : public QMainWindow, public Page
 {
@@ -68,6 +69,8 @@ private:
 
 	void open_book_creation_page();
 	void create_book();
+
+	int check_creation();
 
 	void adjust_fonts();
 

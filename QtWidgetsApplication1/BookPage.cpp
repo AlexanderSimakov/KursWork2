@@ -381,6 +381,19 @@ void BookPage::open_book_creation_page() {
 }
 
 void BookPage::create_book() {
+	int error_code = check_creation();
+	if (error_code == 0) {
+		QMessageBox::question(this, "Some fields are empty", "Apply?", QMessageBox::Yes | QMessageBox::No);
+		return;
+	} else if (error_code == -1) {
+		QMessageBox::question(this, "Wrong year", "Apply?", QMessageBox::Yes | QMessageBox::No);
+		return;
+	} else if (error_code == -2) {
+		QMessageBox::question(this, "Wrong pages", "Apply?", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+
+
 	Book book;
 
 	book.set_id(ui->id_create_book_line_edit->text().toInt());
@@ -397,6 +410,36 @@ void BookPage::create_book() {
 
 	book.add_in_db(books_db);
 	open_book_creation_page();
+}
+
+/*
+ 1 - все хорошо
+ 0 - есть незаполненные поля
+-1 - неправильный год
+-2 - неправилные страницы
+*/
+int BookPage::check_creation() {
+	cmatch result;
+	regex regular_year("([1-9])([0-9]{0,3})"); 
+	regex regular_pages("([1-9])([0-9]{0,3})");
+	string year = ui->year_create_book_line_edit->text().toStdString();
+	string pages = ui->pages_create_book_line_edit->text().toStdString();
+
+	if (ui->name_create_book_line_edit->text() == "" ||
+		ui->author_create_book_line_edit->text() == "" ||
+		ui->year_create_book_line_edit->text() == "" ||
+		ui->pages_create_book_line_edit->text() == "" ||
+		ui->content_create_book_line_edit->toPlainText().toStdString() == "") {
+		return 0;
+	}
+	else if (!regex_match(year.c_str(), result, regular_year)) {
+		return -1;
+	}
+	else  if (!regex_match(pages.c_str(), result, regular_pages)) {
+		return -2;
+	}
+
+	return 1;
 }
 
 void BookPage::adjust_fonts() {
