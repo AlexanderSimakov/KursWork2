@@ -12,6 +12,8 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 	searching = new Searching(_parent, ui, page, books_db, *this, books_id);
 	ui->id_create_book_line_edit->setVisible(false);
 
+	adjust_fonts();
+
 	connect(ui->edit_book_push_button, &QPushButton::clicked, this, 
 		[=]() { 
 			ui->edit_book_push_button->disconnect();
@@ -396,6 +398,20 @@ void BookPage::create_book() {
 	book.add_in_db(books_db);
 	open_book_creation_page();
 }
+
+void BookPage::adjust_fonts() {
+	ui->name_create_book_line_edit->setFont(QFont("Ubuntu", 12));
+	ui->author_create_book_line_edit->setFont(QFont("Ubuntu", 12));
+	ui->genre_create_book_line_edit->setFont(QFont("Ubuntu", 12));
+	ui->year_create_book_line_edit->setFont(QFont("Ubuntu", 12));
+	ui->pages_create_book_line_edit->setFont(QFont("Ubuntu", 12));
+	ui->img_create_book_line_edit->setFont(QFont("Ubuntu", 12));
+	ui->pushButton_4->setFont(QFont("Ubuntu", 12));
+	ui->content_create_book_line_edit->setFont(QFont("Ubuntu", 12));
+	ui->pushButton_3->setFont(QFont("Ubuntu", 12));
+	ui->commandLinkButton_3->setFont(QFont("Ubuntu", 12));
+}
+
 
 
 

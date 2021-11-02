@@ -69,6 +69,8 @@ private:
 	void open_book_creation_page();
 	void create_book();
 
+	void adjust_fonts();
+
 };
 
 
