@@ -1438,7 +1438,7 @@ border-radius: 5px;</string>
             <string notr="true">background: #FFF1DE;</string>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="page_3"/>
            <widget class="QWidget" name="showAccountPage"/>
@@ -2261,7 +2261,8 @@ QPushButton#adminMainPage_my_account_button:hover{
 box-sizing: border-box;
 background: #FFD69C;
 color: #FFFFFF;
-border-radius: 5px;</string>
+border-radius: 5px;
+padding-left: 10px;</string>
         </property>
         <property name="text">
          <string/>
@@ -2290,7 +2291,7 @@ box-sizing: border-box;
 background: #FFD69C;
 color: #FFFFFF;
 border-radius: 5px;
-</string>
+padding-left: 10px;</string>
         </property>
         <property name="text">
          <string/>
@@ -2318,7 +2319,8 @@ border-radius: 5px;
 box-sizing: border-box;
 background: #FFD69C;
 color: #FFFFFF;
-border-radius: 5px;</string>
+border-radius: 5px;
+padding-left: 10px;</string>
         </property>
         <property name="currentText">
          <string>Detective</string>
@@ -2358,7 +2360,8 @@ border-radius: 5px;</string>
 box-sizing: border-box;
 background: #FFD69C;
 color: #FFFFFF;
-border-radius: 5px;</string>
+border-radius: 5px;
+padding-left: 10px;</string>
         </property>
         <property name="inputMask">
          <string/>
@@ -2389,7 +2392,8 @@ border-radius: 5px;</string>
 box-sizing: border-box;
 background: #FFD69C;
 color: #FFFFFF;
-border-radius: 5px;</string>
+border-radius: 5px;
+padding-left: 10px;</string>
         </property>
         <property name="text">
          <string/>
@@ -2417,7 +2421,8 @@ border-radius: 5px;</string>
 box-sizing: border-box;
 background: #FFD69C;
 color: #FFFFFF;
-border-radius: 5px;</string>
+border-radius: 5px;
+padding-left: 10px;</string>
         </property>
         <property name="text">
          <string/>
@@ -2475,13 +2480,14 @@ QPushButton#pushButton_4:hover{
 box-sizing: border-box;
 background: #FFD69C;
 color: #FFFFFF;
-border-radius: 5px;</string>
+border-radius: 5px;
+padding-left: 10px;</string>
         </property>
         <property name="documentTitle">
          <string>Name</string>
         </property>
         <property name="placeholderText">
-         <string>Name</string>
+         <string>Content</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pushButton_3">
@@ -2511,15 +2517,15 @@ QPushButton#pushButton_3:hover{
 }</string>
         </property>
         <property name="text">
-         <string>Create</string>
+         <string>Text</string>
         </property>
        </widget>
        <widget class="QCommandLinkButton" name="commandLinkButton_3">
         <property name="geometry">
          <rect>
-          <x>570</x>
+          <x>415</x>
           <y>640</y>
-          <width>140</width>
+          <width>450</width>
           <height>50</height>
          </rect>
         </property>

@@ -354,6 +354,7 @@ void BookPage::edit_book() {
 
 void BookPage::open_book_creation_page() {
 	ui->stackedWidget->setCurrentWidget(ui->addBookPage);
+	ui->pushButton_3->setText("Add book");
 	vector<int> IDs = books_db->get_ints();
 	int min_nonexistent = 1;
 
