@@ -58,6 +58,8 @@ void QtWidgetsApplication1::back_to_authorization() {
 
 void QtWidgetsApplication1::open_books_page() {
     update_current_account_info();
+    clear_all_mark_buttons();
+    mark_books_button();
     login_page->clear_error_message();
     login_page->clear_password_input();
     ui.adminMainPage_my_account_button->setText(QString::fromStdString(current_account.get_name()));
@@ -68,6 +70,8 @@ void QtWidgetsApplication1::open_books_page() {
 
 void QtWidgetsApplication1::open_subsriber_page() {
     update_current_account_info();
+    clear_all_mark_buttons();
+    mark_subscriber_button();
     ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
     ui.stackedWidget_2->setCurrentWidget(ui.page);
     people_page = new PeoplePage(this, &ui, people_db, books_db);
@@ -76,6 +80,8 @@ void QtWidgetsApplication1::open_subsriber_page() {
 
 void QtWidgetsApplication1::open_accounts_page() {
     update_current_account_info();
+    clear_all_mark_buttons();
+    mark_accounts_button();
     ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
     ui.stackedWidget_2->setCurrentWidget(ui.page_2);
     account_page->start();
@@ -95,8 +101,23 @@ void QtWidgetsApplication1::update_current_account_info() {
     current_account.set_access(accounts_db->get_int("ID", id, 5));
 }
 
+void QtWidgetsApplication1::clear_all_mark_buttons() {
+    ui.choise_books_page->setStyleSheet("QPushButton#choise_books_page{ background: #FFD69C; border: 10px; } QPushButton#choise_books_page:hover{ background: #FFE2B9; }");
+    ui.choise_subscriber_page->setStyleSheet("QPushButton#choise_subscriber_page{ background: #FFD69C; border: 10px; } QPushButton#choise_subscriber_page:hover{ background: #FFE2B9; }");
+    ui.choise_account_page->setStyleSheet("QPushButton#choise_account_page{ background: #FFD69C; border: 10px; } QPushButton#choise_account_page:hover{ background: #FFE2B9; }");
+}
 
+void QtWidgetsApplication1::mark_books_button() {
+    ui.choise_books_page->setStyleSheet("QPushButton#choise_books_page{ background: #FFE2B9; border: 10px; } ");
+}
 
+void QtWidgetsApplication1::mark_subscriber_button() {
+    ui.choise_subscriber_page->setStyleSheet("QPushButton#choise_subscriber_page{ background: #FFE2B9; border: 10px; } ");
+}
+
+void QtWidgetsApplication1::mark_accounts_button() {
+    ui.choise_account_page->setStyleSheet("QPushButton#choise_account_page{ background: #FFE2B9; border: 10px; } ");
+}
 
 
 

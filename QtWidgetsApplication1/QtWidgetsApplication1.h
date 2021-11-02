@@ -51,5 +51,10 @@ private:
     Ui::QtWidgetsApplication1Class ui;
 
     void update_current_account_info();
+
+    void clear_all_mark_buttons();
+    void mark_books_button();
+    void mark_subscriber_button();
+    void mark_accounts_button();
     
 };
