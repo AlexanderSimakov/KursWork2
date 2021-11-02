@@ -88,7 +88,7 @@ void BookPage::show_book(Book book, int row, int column) {
 	QLabel* name = new QLabel(QString::fromStdString(book.get_name()), page);
 	name->setObjectName("BookPage_name");
 	name->setStyleSheet(" background: #FFE2B9; margin: 2px; border-radius: 10px;");
-	name->setFont(QFont("Arial", 10));
+	name->setFont(QFont("Ubuntu", 10));
 
 
 	//  --------------- create image label ---------------
@@ -149,6 +149,7 @@ void BookPage::create_add_button() {
 
 	QPushButton* add_button = new QPushButton(QString::fromStdString(BUTTON_TEXT), page);
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
+	add_button->setFont(QFont("Ubuntu", 10));
 	add_button->setObjectName("BookPage_add_button");
 	add_button->setStyleSheet("QPushButton#BookPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#BookPage_add_button::hover { background: #c1ff96; }");
 	connect(add_button, &QPushButton::clicked, this, 
@@ -162,6 +163,7 @@ void BookPage::create_edit_button(Book book, int num_in_list) {
 	const int WIDTH = 100, HEIGHT = 33;
 	QPushButton* edit_btn = new QPushButton("edit", page);
 	edit_btn->setObjectName(QString("book_edit_button"));
+	edit_btn->setFont(QFont("Ubuntu"));
 	edit_btn->setGeometry(PAGE_WIDTH - WIDTH, HEIGHT + MARGIN + ADD * num_in_list, WIDTH, HEIGHT);
 	connect(edit_btn, &QPushButton::clicked, this, [=]() { open_show_book_page(book); });
 	edit_btn->show();

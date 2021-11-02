@@ -6,6 +6,7 @@ QtWidgetsApplication1::QtWidgetsApplication1(QWidget *parent) : QMainWindow(pare
     ui.setupUi(this);
     ui.lineEdit_9->setVisible(false);
     QFontDatabase::addApplicationFont("Fonts/Ubuntu-RI.ttf");
+    adjust_fonts();
 }
 
 void QtWidgetsApplication1::init() {
@@ -119,5 +120,11 @@ void QtWidgetsApplication1::mark_accounts_button() {
     ui.choise_account_page->setStyleSheet("QPushButton#choise_account_page{ background: #FFE2B9; border: 10px; } ");
 }
 
-
+void QtWidgetsApplication1::adjust_fonts() {
+    ui.choise_books_page->setFont(QFont("Ubuntu", 14));
+    ui.choise_subscriber_page->setFont(QFont("Ubuntu", 14));
+    ui.choise_account_page->setFont(QFont("Ubuntu", 14));
+    ui.adminMainPage_my_account_button->setFont(QFont("Ubuntu", 12));
+    ui.exit_button->setFont(QFont("Ubuntu", 14));
+}
 

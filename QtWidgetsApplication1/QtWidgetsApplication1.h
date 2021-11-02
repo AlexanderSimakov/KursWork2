@@ -56,5 +56,7 @@ private:
     void mark_books_button();
     void mark_subscriber_button();
     void mark_accounts_button();
+
+    void adjust_fonts();
     
 };
