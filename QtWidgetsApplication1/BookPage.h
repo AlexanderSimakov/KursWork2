@@ -50,7 +50,7 @@ private:
 	void clear_page();
 	void clear_book_list();
 
-	void show_book(Book* book, int row, int column);
+	void show_book(Book book, int row, int column);
 	void create_choise_page_buttons();
 	void create_search();
 	void create_add_button();

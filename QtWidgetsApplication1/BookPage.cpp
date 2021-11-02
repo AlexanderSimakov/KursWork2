@@ -72,7 +72,7 @@ void BookPage::show_list(){
 
 	int j = 0, k = 0, n = 1;
 	for (int i = 0; i < books_end_at - books_start_at; i++) {
-		show_book(&Book::get_book_by_id(books_db, books_id[i + books_start_at]), j, k);
+		show_book(Book::get_book_by_id(books_db, books_id[i + books_start_at]), j, k);
 		if (j == 3) {
 			j = -1;
 			k++;
@@ -81,20 +81,20 @@ void BookPage::show_list(){
 	}
 }
 
-void BookPage::show_book(Book* book, int row, int column) {
+void BookPage::show_book(Book book, int row, int column) {
 	const int WIDTH = 340, HEIGHT = 300, START_X = 10, START_Y = 13;
 
 	//  --------------- create name label ----------------
-	QLabel* name = new QLabel(QString::fromStdString(book->get_name()), page);
+	QLabel* name = new QLabel(QString::fromStdString(book.get_name()), page);
 	name->setObjectName("BookPage_name");
-	//name->setStyleSheet(" background: #FFE2B9; ");
+	name->setStyleSheet(" background: #FFE2B9; margin: 2px; border-radius: 10px;");
 	name->setFont(QFont("Arial", 10));
 
 
 	//  --------------- create image label ---------------
 	QLabel* image = new QLabel("", page);
 	image->setStyleSheet("border-radius: 10px;");
-	QPixmap pixmap = QPixmap(QString::fromStdString(book->get_path_to_img()));
+	QPixmap pixmap = QPixmap(QString::fromStdString(book.get_path_to_img()));
 	pixmap = pixmap.scaled(QSize(320, 240), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	image->setPixmap(pixmap);
 
@@ -104,18 +104,25 @@ void BookPage::show_book(Book* book, int row, int column) {
 	button->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	button->setLayout(new QGridLayout);
 	button->setObjectName("BookPage_btn");
-	button->setStyleSheet("QPushButton#BookPage_btn{ background: #FFD69C; border: 10px; border-radius: 10px; }"
-		" \n "
-		"QPushButton#BookPage_btn:hover{ background: #FFE2B9; QLabel{ background: #FFE2B9; } }");
+	if (book.get_enabled()) {
+		button->setStyleSheet("QPushButton#BookPage_btn{ background-color: #FFD69C; border-style: solid; border-width: 2px; border-radius: 10px; border-color: #7fbf52 }"
+			" \n "
+			"QPushButton#BookPage_btn:hover{ background: #FFE2B9; }");
+	}
+	else {
+		button->setStyleSheet("QPushButton#BookPage_btn{ background-color: #FFD69C; border-style: solid; border-width: 2px; border-radius: 10px; border-color: #f5685d }"
+			" \n "
+			"QPushButton#BookPage_btn:hover{ background: #FFE2B9; }");
+	}
+	
 
 	button->layout()->addWidget(image);
 	button->layout()->addWidget(name);
 	button->show();
-	Book _book = *book;
 	connect(button, &QPushButton::clicked, this,
 		[=]() {
 			ui->stackedWidget_2->setCurrentWidget(ui->showBookPage);
-			open_show_book_page(_book);
+			open_show_book_page(book);
 		});
 }
 
