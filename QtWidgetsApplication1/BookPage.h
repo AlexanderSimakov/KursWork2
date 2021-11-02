@@ -54,11 +54,6 @@ private:
 	void create_choise_page_buttons();
 	void create_search();
 	void create_add_button();
-
-	void create_back_label(Book book, int row, int column);
-	void create_image(Book* book, int row, int column);
-	void create_name_label(Book* book, int row, int column);
-	void create_author_name_label(Book* book, int num_in_list);
 	
 	void create_edit_button(Book book, int num_in_list);
 

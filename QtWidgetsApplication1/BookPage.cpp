@@ -55,7 +55,7 @@ void BookPage::clear_page() {
 void BookPage::clear_book_list() {
 	qDeleteAll(page->findChildren<QLabel*>());
 	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("choise_page_button")));
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("BookPage_back")));
+	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("BookPage_btn")));
 }
 
 void BookPage::show_list(){
@@ -82,9 +82,41 @@ void BookPage::show_list(){
 }
 
 void BookPage::show_book(Book* book, int row, int column) {
-	create_back_label(*book, row, column);
-	create_name_label(book, row, column);
-	create_image(book, row, column);
+	const int WIDTH = 340, HEIGHT = 300, START_X = 10, START_Y = 13;
+
+	//  --------------- create name label ----------------
+	QLabel* name = new QLabel(QString::fromStdString(book->get_name()), page);
+	name->setObjectName("BookPage_name");
+	//name->setStyleSheet(" background: #FFE2B9; ");
+	name->setFont(QFont("Arial", 10));
+
+
+	//  --------------- create image label ---------------
+	QLabel* image = new QLabel("", page);
+	image->setStyleSheet("border-radius: 10px;");
+	QPixmap pixmap = QPixmap(QString::fromStdString(book->get_path_to_img()));
+	pixmap = pixmap.scaled(QSize(320, 240), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	image->setPixmap(pixmap);
+
+
+	//  --------------- create button --------------------
+	QPushButton* button = new QPushButton(page);
+	button->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
+	button->setLayout(new QGridLayout);
+	button->setObjectName("BookPage_btn");
+	button->setStyleSheet("QPushButton#BookPage_btn{ background: #FFD69C; border: 10px; border-radius: 10px; }"
+		" \n "
+		"QPushButton#BookPage_btn:hover{ background: #FFE2B9; QLabel{ background: #FFE2B9; } }");
+
+	button->layout()->addWidget(image);
+	button->layout()->addWidget(name);
+	button->show();
+	Book _book = *book;
+	connect(button, &QPushButton::clicked, this,
+		[=]() {
+			ui->stackedWidget_2->setCurrentWidget(ui->showBookPage);
+			open_show_book_page(_book);
+		});
 }
 
 void BookPage::create_choise_page_buttons() {
@@ -119,39 +151,6 @@ void BookPage::create_add_button() {
 	add_button->show();
 }
 
-void BookPage::create_back_label(Book book, int row, int column) {
-	const int WIDTH = 340, HEIGHT = 300, START_X = 10, START_Y = 13;
-
-	QPushButton* back = new QPushButton(QString::fromStdString(""), page);
-	back->setStyleSheet("background: #FFD69C; border:10px; border-radius: 10px; ");
-	back->setObjectName("BookPage_back");
-	connect(back, &QPushButton::clicked, this,
-		[=]() {
-			Book _book = book; 
-			ui->stackedWidget_2->setCurrentWidget(ui->showBookPage);
-			open_show_book_page(_book);
-		});
-	back->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
-	back->show();
-}
-
-void BookPage::create_name_label(Book* book, int row, int column) {
-	const int WIDTH = 320, HEIGHT = 20, START_X = 20, START_Y = 277;
-	QLabel* name = new QLabel(QString::fromStdString(book->get_name()), page);
-	name->setStyleSheet("background: #FFD69C;");
-	name->setFont(QFont("Arial", 10));
-	name->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
-	name->show();
-}
-
-void BookPage::create_author_name_label(Book* book, int num_in_list) {
-	const int WIDTH = 100, HEIGHT = 30, FONT_SIZE = 10;
-	QLabel* auth_name = new QLabel(QString::fromStdString(book->get_author_name()), page);
-	auth_name->setFont(QFont("Arial", FONT_SIZE));
-	auth_name->setGeometry(100 + MARGIN * 2, 20 + MARGIN + ADD * num_in_list, WIDTH, HEIGHT);
-	auth_name->show();
-}
-
 void BookPage::create_edit_button(Book book, int num_in_list) {
 	const int WIDTH = 100, HEIGHT = 33;
 	QPushButton* edit_btn = new QPushButton("edit", page);
@@ -159,21 +158,6 @@ void BookPage::create_edit_button(Book book, int num_in_list) {
 	edit_btn->setGeometry(PAGE_WIDTH - WIDTH, HEIGHT + MARGIN + ADD * num_in_list, WIDTH, HEIGHT);
 	connect(edit_btn, &QPushButton::clicked, this, [=]() { open_show_book_page(book); });
 	edit_btn->show();
-}
-
-void BookPage::create_image(Book* book, int row, int column) {
-	const int SIZE = 100;
-	const int WIDTH = 320, HEIGHT = 240, START_X = 20, START_Y = 23;
-	QLabel* image = new QLabel("", page);
-	image->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
-	image->setStyleSheet("border-radius: 10px;");
-	QPixmap pixmap = QPixmap(QString::fromStdString(book->get_path_to_img()));
-	pixmap = pixmap.scaled(QSize(WIDTH, HEIGHT), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-	
-	image->setPixmap(pixmap);
-	//image->pixmap()->scaledToHeight(100);
-	//image->pixmap()->scaledToWidth(100);
-	image->show();
 }
 
 void BookPage::open_show_book_page(Book book) {
