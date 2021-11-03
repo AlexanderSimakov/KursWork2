@@ -77,6 +77,8 @@ private:
 
 	void reconnect_create_button();
 	
+	void show_give_error(string message, double num_of_line);
+	void clear_give_error();
 	int check_giving();
 
 	void adjust_fonts();

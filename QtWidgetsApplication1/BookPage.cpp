@@ -310,33 +310,34 @@ void BookPage::open_give_book_page(Book book) {
 }
 
 void BookPage::give_book(Book book) {
+	clear_give_error();
 	int error_code = check_giving();
 	if (error_code == 0) {
-		QMessageBox::question(this, "Add", "Empty fields", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("All fields should be used", 7);
 		return;
 	}
 	else if (error_code == -1) {
-		QMessageBox::question(this, "Add", "Name", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("Wrong name", 0);
 		return;
 	}
 	else if (error_code == -2) {
-		QMessageBox::question(this, "Add", "Phone", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("Wrong phone", 1);
 		return;
 	}
 	else if (error_code == -3) {
-		QMessageBox::question(this, "Add", "Address", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("Wrong address", 2);
 		return;
 	}
 	else if (error_code == -4) {
-		QMessageBox::question(this, "Add", "Age", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("Wrong age", 3); 
 		return;
 	}
 	else if (error_code == -5) {
-		QMessageBox::question(this, "Add", "Give", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("Wrong give date", 5); 
 		return;
 	}
 	else if (error_code == -6) {
-		QMessageBox::question(this, "Add", "Return", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("Wrong return date", 6);
 		return;
 	}
 	else if (error_code == -7) {
@@ -347,35 +348,37 @@ void BookPage::give_book(Book book) {
 		return;
 	}
 
+	if (QMessageBox::Yes == QMessageBox::question(this, "Give", "Are you shure?", QMessageBox::Yes | QMessageBox::No)) {
+		People people;
 
-	People people;
+		vector<int> IDs = people_db->get_ints();
+		int min_nonexistent = 1;
 
-	vector<int> IDs = people_db->get_ints();
-	int min_nonexistent = 1;
-
-	if (IDs.size() != 0) {
-		for (int i = 0; i < *max_element(IDs.begin(), IDs.end()) + 2; i++) {
-			if (IDs.end() == std::find(IDs.begin(), IDs.end(), min_nonexistent)) {
-				break;
+		if (IDs.size() != 0) {
+			for (int i = 0; i < *max_element(IDs.begin(), IDs.end()) + 2; i++) {
+				if (IDs.end() == std::find(IDs.begin(), IDs.end(), min_nonexistent)) {
+					break;
+				}
+				min_nonexistent++;
 			}
-			min_nonexistent++;
 		}
+
+		people.set_id(min_nonexistent);
+		people.set_book_id(book.get_id());
+		people.set_name(ui->giveBook_name_input->text().toStdString());
+		people.set_phone(ui->giveBook_phone_input->text().toStdString());
+		people.set_address(ui->giveBook_address_input->text().toStdString());
+		people.set_age(ui->giveBook_age_input->text().toInt());
+		people.set_sex(ui->giveBook_sex_input->currentIndex());
+
+		book.set_date_of_giving(ui->giveBook_give_date_input->text().toStdString());
+		book.set_date_of_return(ui->giveBook_return_date_input->text().toStdString());
+		book.set_enabled(false);
+
+		people.add_in_db(people_db);
+		book.update(books_db);
+		open_show_book_page(book);
 	}
-
-	people.set_id(min_nonexistent);
-	people.set_book_id(book.get_id());
-	people.set_name(ui->giveBook_name_input->text().toStdString());
-	people.set_phone(ui->giveBook_phone_input->text().toStdString());
-	people.set_address(ui->giveBook_address_input->text().toStdString());
-	people.set_age(ui->giveBook_age_input->text().toInt());
-	people.set_sex(ui->giveBook_sex_input->currentIndex());
-	
-	book.set_date_of_giving(ui->giveBook_give_date_input->text().toStdString());
-	book.set_date_of_return(ui->giveBook_return_date_input->text().toStdString());
-	book.set_enabled(false);
-
-	people.add_in_db(people_db);
-	book.update(books_db);
 }
 
 void BookPage::return_book(Book book) {
@@ -527,8 +530,22 @@ void BookPage::show_creation_error(string message, double num_of_line) {
 	error_message->show();
 }
 
+void BookPage::show_give_error(string message, double num_of_line) {
+	const int START_X = 490, START_Y = 110, ADD = 70, WIDTH = 400, HEIGHT = 50;
+	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->giveBookPage);
+	error_message->setObjectName("BookPage_give_error");
+	error_message->setStyleSheet("color: #f5685d");
+	error_message->setFont(QFont("Ubuntu", 12));
+	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
+	error_message->show();
+}
+
 void BookPage::clear_creation_error() {
 	qDeleteAll(ui->addBookPage->findChildren<QLabel*>(QString::fromStdString("BookPage_creation_error")));
+}
+
+void BookPage::clear_give_error() {
+	qDeleteAll(ui->giveBookPage->findChildren<QLabel*>(QString::fromStdString("BookPage_give_error")));
 }
 
 void BookPage::clear_creation_fields() {
