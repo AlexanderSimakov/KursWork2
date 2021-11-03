@@ -382,16 +382,18 @@ void BookPage::give_book(Book book) {
 }
 
 void BookPage::return_book(Book book) {
-	book.set_date_of_giving("");
-	book.set_date_of_return("");
-	book.set_enabled(true);
-	book.update(books_db);
+	if (QMessageBox::Yes == QMessageBox::question(this, "Return book", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+		book.set_date_of_giving("");
+		book.set_date_of_return("");
+		book.set_enabled(true);
+		book.update(books_db);
 
-	People people = People::get_people_by_book_id(people_db, book.get_id());
+		People people = People::get_people_by_book_id(people_db, book.get_id());
 
-	people_db->delete_field("ID = " + to_string(people.get_id()));
-	start();
-	open_show_book_page(book);
+		people_db->delete_field("ID = " + to_string(people.get_id()));
+		start();
+		open_show_book_page(book);
+	}
 }
 
 void BookPage::open_edit_book_page(Book book) {
