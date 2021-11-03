@@ -234,9 +234,11 @@ void BookPage::open_show_book_page(Book book) {
 		ui->show_remove_book_button->setVisible(true);
 		disconnect(ui->show_remove_book_button, 0, 0, 0);
 		connect(ui->show_remove_book_button, &QPushButton::clicked, this, [=]() {
-			Book _book = book;
-			QMessageBox::question(this, "Apply Remove", "Apply?", QMessageBox::Yes | QMessageBox::No);
-			books_db->delete_field("ID = " + to_string(_book.get_id()));
+			if (QMessageBox::Yes == QMessageBox::question(this, "Apply Remove", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+				Book _book = book;
+				books_db->delete_field("ID = " + to_string(_book.get_id()));
+				start();
+			}
 			});
 
 		ui->show_edit_book_button->setGeometry(154, 370, 200, 50);
@@ -521,6 +523,22 @@ void BookPage::adjust_fonts() {
 	ui->content_create_book_line_edit->setFont(QFont("Ubuntu", 12));
 	ui->pushButton_3->setFont(QFont("Ubuntu", 12));
 	ui->commandLinkButton_3->setFont(QFont("Ubuntu", 12));
+
+	// show book page
+	ui->show_book_name->setFont(QFont("Ubuntu", 14));
+	ui->show_author->setFont(QFont("Ubuntu", 14));
+	ui->show_year->setFont(QFont("Ubuntu", 12));
+	ui->show_pages->setFont(QFont("Ubuntu", 12));
+	ui->show_content->setFont(QFont("Ubuntu", 10));
+	ui->show_user_name->setFont(QFont("Ubuntu", 10));
+	ui->show_date_of_getting->setFont(QFont("Ubuntu", 10));
+	ui->show_date_of_return->setFont(QFont("Ubuntu", 10));
+	ui->show_remove_book_button->setFont(QFont("Ubuntu", 12));
+	ui->show_edit_book_button->setFont(QFont("Ubuntu", 12));
+	ui->show_return_book_button->setFont(QFont("Ubuntu", 12));
+	ui->show_back_to_book_button->setFont(QFont("Ubuntu", 10));
+
+
 }
 
 
