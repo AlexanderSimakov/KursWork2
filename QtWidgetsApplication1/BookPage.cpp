@@ -229,14 +229,26 @@ void BookPage::open_show_book_page(Book book) {
 	// ---------------------------------------------------
 	
 
-	ui->show_remove_book_button->setEnabled(true);
-	ui->show_remove_book_button->setVisible(true);
-	disconnect(ui->show_remove_book_button, 0, 0, 0);
-	connect(ui->show_remove_book_button, &QPushButton::clicked, this, [=]() { 
-		Book _book = book;
-		QMessageBox::question(this, "Apply Remove", "Apply?", QMessageBox::Yes | QMessageBox::No);
-		books_db->delete_field("ID = " + to_string(_book.get_id()));
-	});
+	if (book.get_enabled()) {
+		ui->show_remove_book_button->setEnabled(true);
+		ui->show_remove_book_button->setVisible(true);
+		disconnect(ui->show_remove_book_button, 0, 0, 0);
+		connect(ui->show_remove_book_button, &QPushButton::clicked, this, [=]() {
+			Book _book = book;
+			QMessageBox::question(this, "Apply Remove", "Apply?", QMessageBox::Yes | QMessageBox::No);
+			books_db->delete_field("ID = " + to_string(_book.get_id()));
+			});
+
+		ui->show_edit_book_button->setGeometry(154, 370, 200, 50);
+		ui->show_remove_book_button->setGeometry(24, 370, 100, 50);
+	}
+	else {
+		ui->show_remove_book_button->setEnabled(false);
+		ui->show_remove_book_button->setVisible(false);
+
+		ui->show_edit_book_button->setGeometry(24, 370, 330, 50);
+		
+	}
 
 	ui->show_edit_book_button->setEnabled(true);
 	ui->show_edit_book_button->setVisible(true);
