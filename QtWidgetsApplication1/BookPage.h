@@ -71,6 +71,12 @@ private:
 	void create_book();
 
 	int check_creation();
+	void show_creation_error(string message, double num_of_line);
+	void clear_creation_error();
+	void clear_creation_fields();
+
+	void reconnect_create_button();
+		
 
 	void adjust_fonts();
 

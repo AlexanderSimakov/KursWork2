@@ -36,6 +36,8 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 }
 
 void BookPage::start() {
+	ui->stackedWidget->setCurrentWidget(ui->adminMainPage);
+	ui->stackedWidget_2->setCurrentWidget(ui->page_3);
 	update_books_id();
 	clear_page();
 	create_add_button();
@@ -357,6 +359,9 @@ void BookPage::edit_book() {
 void BookPage::open_book_creation_page() {
 	ui->stackedWidget->setCurrentWidget(ui->addBookPage);
 	ui->pushButton_3->setText("Add book");
+
+	clear_creation_fields();
+
 	vector<int> IDs = books_db->get_ints();
 	int min_nonexistent = 1;
 
@@ -372,44 +377,41 @@ void BookPage::open_book_creation_page() {
 	ui->id_create_book_line_edit->setText(QString::fromStdString(to_string(min_nonexistent)));
 	ui->id_create_book_line_edit->setEnabled(false);
 
-	disconnect(ui->pushButton_3, 0, 0, 0);
-	connect(ui->pushButton_3, &QPushButton::clicked, this,
-		[=]() {
-			ui->pushButton_3->disconnect();
-			create_book();
-		});
+	reconnect_create_button();
 }
 
 void BookPage::create_book() {
+	clear_creation_error();
 	int error_code = check_creation();
 	if (error_code == 0) {
-		QMessageBox::question(this, "Some fields are empty", "Apply?", QMessageBox::Yes | QMessageBox::No);
-		return;
+		show_creation_error("All fields should be used", 8.5);
+		return reconnect_create_button();
 	} else if (error_code == -1) {
-		QMessageBox::question(this, "Wrong year", "Apply?", QMessageBox::Yes | QMessageBox::No);
-		return;
+		show_creation_error("Wrong year", 3);
+		return reconnect_create_button();
 	} else if (error_code == -2) {
-		QMessageBox::question(this, "Wrong pages", "Apply?", QMessageBox::Yes | QMessageBox::No);
-		return;
+		show_creation_error("Wrong pages", 4);
+		return reconnect_create_button();
 	}
 
+	if (QMessageBox::Yes == QMessageBox::question(this, "Add", "Are you shure?", QMessageBox::Yes | QMessageBox::No)) {
+		Book book;
 
-	Book book;
+		book.set_id(ui->id_create_book_line_edit->text().toInt());
+		book.set_name(ui->name_create_book_line_edit->text().toStdString());
+		book.set_author_name(ui->author_create_book_line_edit->text().toStdString());
+		book.set_genre(ui->genre_create_book_line_edit->currentText().toStdString());
+		book.set_year(ui->year_create_book_line_edit->text().toInt());
+		book.set_amount_of_page(ui->pages_create_book_line_edit->text().toInt());
+		book.set_content(ui->content_create_book_line_edit->toPlainText().toStdString());
+		book.set_path_to_img(ui->img_create_book_line_edit->text().toStdString());
+		book.set_date_of_giving("");
+		book.set_date_of_return("");
+		book.set_enabled(true);
 
-	book.set_id(ui->id_create_book_line_edit->text().toInt());
-	book.set_name(ui->name_create_book_line_edit->text().toStdString());
-	book.set_author_name(ui->author_create_book_line_edit->text().toStdString());
-	book.set_genre(ui->genre_create_book_line_edit->currentText().toStdString());
-	book.set_year(ui->year_create_book_line_edit->text().toInt());
-	book.set_amount_of_page(ui->pages_create_book_line_edit->text().toInt());
-	book.set_content(ui->content_create_book_line_edit->toPlainText().toStdString());
-	book.set_path_to_img(ui->img_create_book_line_edit->text().toStdString());
-	book.set_date_of_giving("");
-	book.set_date_of_return("");
-	book.set_enabled(true);
-
-	book.add_in_db(books_db);
-	open_book_creation_page();
+		book.add_in_db(books_db);
+		start();
+	}
 }
 
 /*
@@ -440,6 +442,39 @@ int BookPage::check_creation() {
 	}
 
 	return 1;
+}
+
+void BookPage::show_creation_error(string message, double num_of_line) {
+	const int START_X = 900, START_Y = 35, ADD = 65, WIDTH = 400, HEIGHT = 50;
+	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->addBookPage);
+	error_message->setObjectName("BookPage_creation_error");
+	error_message->setStyleSheet("color: #f5685d");
+	error_message->setFont(QFont("Ubuntu", 12));
+	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
+	error_message->show();
+}
+
+void BookPage::clear_creation_error() {
+	qDeleteAll(ui->addBookPage->findChildren<QLabel*>(QString::fromStdString("BookPage_creation_error")));
+}
+
+void BookPage::clear_creation_fields() {
+	ui->name_create_book_line_edit->setText("");
+	ui->author_create_book_line_edit->setText("");
+	ui->genre_create_book_line_edit->setCurrentIndex(0);
+	ui->year_create_book_line_edit->setText("");
+	ui->pages_create_book_line_edit->setText("");
+	ui->img_create_book_line_edit->setText("");
+	ui->content_create_book_line_edit->setText("");
+}
+
+void BookPage::reconnect_create_button() {
+	disconnect(ui->pushButton_3, 0, 0, 0);
+	connect(ui->pushButton_3, &QPushButton::clicked, this,
+		[=]() {
+			ui->pushButton_3->disconnect();
+			create_book();
+		});
 }
 
 void BookPage::adjust_fonts() {
