@@ -310,6 +310,44 @@ void BookPage::open_give_book_page(Book book) {
 }
 
 void BookPage::give_book(Book book) {
+	int error_code = check_giving();
+	if (error_code == 0) {
+		QMessageBox::question(this, "Add", "Empty fields", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -1) {
+		QMessageBox::question(this, "Add", "Name", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -2) {
+		QMessageBox::question(this, "Add", "Phone", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -3) {
+		QMessageBox::question(this, "Add", "Address", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -4) {
+		QMessageBox::question(this, "Add", "Age", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -5) {
+		QMessageBox::question(this, "Add", "Give", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -6) {
+		QMessageBox::question(this, "Add", "Return", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -7) {
+		QMessageBox::question(this, "Add", "Date", QMessageBox::Yes | QMessageBox::No);
+		return;
+	}
+	else if (error_code == -8) {
+		return;
+	}
+
+
 	People people;
 
 	vector<int> IDs = people_db->get_ints();
@@ -537,10 +575,63 @@ void BookPage::adjust_fonts() {
 	ui->show_edit_book_button->setFont(QFont("Ubuntu", 12));
 	ui->show_return_book_button->setFont(QFont("Ubuntu", 12));
 	ui->show_back_to_book_button->setFont(QFont("Ubuntu", 10));
-
-
 }
 
+/*
+ 1 - все хорошо
+ 0 - есть незаполненные поля
+-1 - неправильное имя
+-2 - неправильный телефон
+-3 - неправильный адрес
+-4 - неправильный возраст
+-5 - неправильныя дата выдачи
+-6 - неправильная дата возвращения
+-7 - дата возвращения меньше или равна дате выдачи
+*/
+int BookPage::check_giving() {
+	cmatch result;
+	regex regular_name("^([A-Za-z ]{3,30})");
+	regex regular_phone("^(\\+375)(\\([0-9]{2}\\))([0-9]{3})(\\-)([0-9]{2})(\\-)([0-9]{2})");
+	regex regular_address("^([A-Za-z., ]{5,30})");
+	regex regular_age("^([1-9])([0-9]{0,1})");
+	regex regular_give_date("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[012])\\.([1-9]([0-9]){2,3})");
+	regex regular_return_date("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[012])\\.([1-9]([0-9]){2,3})");
+
+
+	string name = ui->giveBook_name_input->text().toStdString();
+	string phone = ui->giveBook_phone_input->text().toStdString();
+	string address = ui->giveBook_address_input->text().toStdString();
+	string age = ui->giveBook_age_input->text().toStdString();
+	string date_of_giving = ui->giveBook_give_date_input->text().toStdString();
+	string date_of_return = ui->giveBook_return_date_input->text().toStdString();
+
+	if (name == "" || phone == "" || address == "" || age == "" || date_of_giving == "" || date_of_return == "") {
+		return 0;
+	}
+	else if (!regex_match(name.c_str(), result, regular_name)) {
+		return -1;
+	}
+	else  if (!regex_match(phone.c_str(), result, regular_phone)) {
+		return -2;
+	}
+	else  if (!regex_match(address.c_str(), result, regular_address)) {
+		return -3;
+	}
+	else  if (!regex_match(age.c_str(), result, regular_age)) {
+		return -4;
+	}
+	else  if (!regex_match(date_of_giving.c_str(), result, regular_give_date)) {
+		return -5;
+	}
+	else  if (!regex_match(date_of_return.c_str(), result, regular_return_date)) {
+		return -6;
+	}
+	else if (false) {
+		return -7;
+	}
+
+	return 1;
+}
 
 
 

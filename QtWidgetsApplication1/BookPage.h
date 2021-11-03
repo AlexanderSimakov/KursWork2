@@ -76,7 +76,8 @@ private:
 	void clear_creation_fields();
 
 	void reconnect_create_button();
-		
+	
+	int check_giving();
 
 	void adjust_fonts();
 
