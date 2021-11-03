@@ -202,10 +202,31 @@ void BookPage::open_show_book_page(Book book) {
 	ui->show_pages->setText(QString::fromStdString(to_string(book.get_amount_of_page())));
 	ui->show_content->setText(QString::fromStdString(book.get_content()));
 
-	QPixmap pixmap = QPixmap(QString::fromStdString(book.get_path_to_img()));
-	pixmap = pixmap.scaled(QSize(326, 326), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-	ui->show_image->setAlignment(Qt::AlignCenter);
-	ui->show_image->setPixmap(pixmap);
+
+	//  --------------- create image label ---------------
+	ui->show_image->setStyleSheet("background: transparent;");
+
+	QPixmap target = QPixmap(QSize(326, 326));
+	target.fill(Qt::transparent);
+
+	QPixmap p = QPixmap(QString::fromStdString(book.get_path_to_img()));
+	p = p.scaled(QSize(326, 326), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+	QPainter painter(&target);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+
+	QPainterPath path = QPainterPath();
+	int start_x = (326 - p.size().width()) / 2;
+	int start_y = (326 - p.size().height()) / 2;
+	path.addRoundedRect(start_x, start_y, p.size().width(), p.size().height(), 10, 10);
+	painter.setClipPath(path);
+	painter.drawPixmap(start_x, start_y, p);
+
+	ui->show_image->setPixmap(target);
+	// ---------------------------------------------------
 	
 
 	ui->show_remove_book_button->setEnabled(true);
