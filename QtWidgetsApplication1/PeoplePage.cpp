@@ -7,11 +7,14 @@ PeoplePage::PeoplePage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLW
 	this->people_db = people_db;
 	this->book_db = book_db;
 	this->_parent = parent;
+
+	searching = new Searching(_parent, ui, page, book_db, *this, people_id);
 }
 
 void PeoplePage::start() {
 	update_people_id();
 	clear_page();
+	create_search();
 	show_list();
 }
 
@@ -20,12 +23,14 @@ void PeoplePage::update_people_id() {
 }
 
 void PeoplePage::clear_page() {
-	qDeleteAll(page->findChildren<QWidget*>());
+	clear_people_list();
+	searching->delete_widgets();
 }
 
 void PeoplePage::clear_people_list() {
 	qDeleteAll(page->findChildren<QLabel*>());
-	// удалить кнопки
+	qDeleteAll(page->findChildren<QPushButton*>("book_return_button"));
+	qDeleteAll(page->findChildren<QPushButton*>("book_show_button"));
 }
 
 void PeoplePage::show_list() {
@@ -101,9 +106,18 @@ void PeoplePage::show_people(People* people, int row, int column) {
 }
 
 void PeoplePage::create_choise_page_buttons() {
-	ChoisePageButtons* choise_page_buttons = new ChoisePageButtons(_parent, ui, page, NUMBER_OF_PEOPLE_ON_PAGE, &current_page, *this);
+	choise_page_buttons = new ChoisePageButtons(_parent, ui, page, NUMBER_OF_PEOPLE_ON_PAGE, &current_page, *this);
 	choise_page_buttons->set_number_of_elements(people_db->get_count());
 	choise_page_buttons->show();
+}
+
+void PeoplePage::create_search() {
+	vector<Search> comm;
+	comm.push_back({"Name", " WHERE NAME GLOB "});
+	comm.push_back({"Give date", " WHERE DATE_OF_GIVING GLOB " });
+	comm.push_back({"Return date", " WHERE DATE_OF_REPEAT GLOB " });
+	searching->init(comm, &current_page);
+	searching->show();
 }
 
 void PeoplePage::create_back_label(int row, int column) {

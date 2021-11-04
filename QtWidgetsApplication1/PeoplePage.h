@@ -8,6 +8,7 @@
 #include "ChoisePageButtons.h"
 #include "Page.h"
 #include <ctime>
+#include "Searching.h"
 
 class PeoplePage : public QMainWindow, public Page
 {
@@ -39,6 +40,9 @@ private:
 
 	vector<int> people_id;
 
+	ChoisePageButtons* choise_page_buttons;
+	Searching* searching;
+
 	void update_people_id();
 
 	void clear_page();
@@ -47,6 +51,7 @@ private:
 	void show_list();
 	void show_people(People* people, int row, int column);
 	void create_choise_page_buttons();
+	void create_search();
 
 	void create_back_label(int row, int column);
 	void create_back_people_info_label(int row, int column);
