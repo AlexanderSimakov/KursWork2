@@ -365,12 +365,10 @@ void BookPage::give_book(Book book) {
 		return;
 	}
 	else if (error_code == -7) {
-		QMessageBox::question(this, "Add", "Date", QMessageBox::Yes | QMessageBox::No);
+		show_give_error("Return date should be more than give date", 6);
 		return;
 	}
-	else if (error_code == -8) {
-		return;
-	}
+	
 
 	if (QMessageBox::Yes == QMessageBox::question(this, "Give", "Are you shure?", QMessageBox::Yes | QMessageBox::No)) {
 		People people;
@@ -682,8 +680,12 @@ int BookPage::check_giving() {
 	else  if (!regex_match(date_of_return.c_str(), result, regular_return_date)) {
 		return -6;
 	}
-	else if (false) {
-		return -7;
+	else{
+		for (int i = date_of_giving.size() - 1; i >= 0; i--) {
+			if (date_of_giving[i] > date_of_return[i]) {
+				return -7;
+			}
+		}
 	}
 
 	return 1;
