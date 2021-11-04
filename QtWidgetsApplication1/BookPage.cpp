@@ -331,6 +331,11 @@ void BookPage::open_give_book_page(Book book) {
 	connect(ui->giveBook_give_button, &QPushButton::clicked, this, [=]() {
 		give_book(book);
 		});
+
+	disconnect(ui->giveBook_back_button, 0, 0, 0);
+	connect(ui->giveBook_back_button, &QPushButton::clicked, this, [=]() {
+		open_show_book_page(book);
+		});
 }
 
 void BookPage::give_book(Book book) {
