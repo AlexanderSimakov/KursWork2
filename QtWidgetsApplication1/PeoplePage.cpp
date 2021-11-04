@@ -279,14 +279,16 @@ void PeoplePage::open_book_info_page(People people) {
 }
 
 void PeoplePage::return_book(People people) {
-	Book book = Book::get_book_by_id(book_db, people.get_book_id());
-	book.set_date_of_giving("");
-	book.set_date_of_return("");
-	book.set_enabled(true);
-	book.update(book_db);
-	
-	people_db->delete_field("ID = " + to_string(people.get_id()));
-	start();
+	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Return", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+		Book book = Book::get_book_by_id(book_db, people.get_book_id());
+		book.set_date_of_giving("");
+		book.set_date_of_return("");
+		book.set_enabled(true);
+		book.update(book_db);
+
+		people_db->delete_field("ID = " + to_string(people.get_id()));
+		start();
+	}
 }
 
 People PeoplePage::get_people_by_id(int id) {
