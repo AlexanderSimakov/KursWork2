@@ -594,6 +594,19 @@ void BookPage::adjust_fonts() {
 	ui->show_edit_book_button->setFont(QFont("Ubuntu", 12));
 	ui->show_return_book_button->setFont(QFont("Ubuntu", 12));
 	ui->show_back_to_book_button->setFont(QFont("Ubuntu", 10));
+
+	// add book page
+	ui->giveBook_book_name_label->setFont(QFont("Ubuntu", 14));
+	ui->giveBook_name_input->setFont(QFont("Ubuntu", 12));
+	ui->giveBook_phone_input->setFont(QFont("Ubuntu", 12));
+	ui->giveBook_address_input->setFont(QFont("Ubuntu", 12));
+	ui->giveBook_age_input->setFont(QFont("Ubuntu", 12));
+	ui->giveBook_sex_input->setFont(QFont("Ubuntu", 12));
+	ui->giveBook_give_date_input->setFont(QFont("Ubuntu", 12));
+	ui->giveBook_return_date_input->setFont(QFont("Ubuntu", 12));
+	ui->giveBook_give_button->setFont(QFont("Ubuntu", 14));
+	ui->giveBook_back_button->setFont(QFont("Ubuntu", 10));
+
 }
 
 /*
