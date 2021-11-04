@@ -35,11 +35,11 @@ void Searching::set_default_search_method() {
 }
 
 void Searching::create_search_button() {
-	const int X = 770, Y = 650, WIDTH = 70, HEIGHT = 40;
+	const int X = 760, Y = 650, WIDTH = 80, HEIGHT = 40;
 	button = new QPushButton("Search", page);
 	button->setObjectName("Search_button");
 	button->setFont(QFont("Ubuntu", 10));
-	button->setStyleSheet("QPushButton#Search_button{ background: #7ab2ff; border: 10px; border-radius: 10px; color: #FFFFFF; } QPushButton#Search_button:hover{ background: #9CC5FF; }");
+	button->setStyleSheet("QPushButton#Search_button{ background: #7ab2ff; border: 10px; border-radius: 10px; text-align: right; padding-right: 10px; color: #FFFFFF; } QPushButton#Search_button:hover{ background: #9CC5FF; }");
 	button->setGeometry(X, Y, WIDTH, HEIGHT);
 	connect(button, &QPushButton::clicked, this,
 		[=]() {
@@ -55,7 +55,7 @@ void Searching::create_search_field() {
 	lineEdit = new QLineEdit(page);
 	lineEdit->setObjectName("Search_field");
 	lineEdit->setFont(QFont("Ubuntu", 10));
-	lineEdit->setStyleSheet("border: 2px; box-sizing: border-box; background: #FFD69C; border-radius: 5px; ");
+	lineEdit->setStyleSheet("border: 2px; box-sizing: border-box; background: #FFD69C; padding-left: 10px; ");
 	lineEdit->setGeometry(X, Y, WIDTH, HEIGHT);
 }
 
@@ -64,7 +64,7 @@ void Searching::crete_search_choise_method_button() {
 	combo_box = new QComboBox(page);
 	combo_box->setObjectName("Search_method");
 	combo_box->setFont(QFont("Ubuntu", 10));
-	combo_box->setStyleSheet("border: 2px; box-sizing: border-box; background: #FFD69C; border-radius: 5px; ");
+	combo_box->setStyleSheet("border: 2px; box-sizing: border-box; background: #FFD69C; border-radius: 10px; padding-left: 10px; ");
 	for (int i = 0; i < search_commands.size(); i++) {
 		combo_box->addItem(search_commands[i].name.c_str());
 	}

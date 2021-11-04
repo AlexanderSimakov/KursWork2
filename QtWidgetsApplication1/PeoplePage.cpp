@@ -114,8 +114,8 @@ void PeoplePage::create_choise_page_buttons() {
 void PeoplePage::create_search() {
 	vector<Search> comm;
 	comm.push_back({"Name", " WHERE NAME GLOB "});
-	comm.push_back({"Give date", " WHERE DATE_OF_GIVING GLOB " });
-	comm.push_back({"Return date", " WHERE DATE_OF_REPEAT GLOB " });
+	comm.push_back({"Given", " WHERE DATE_OF_GIVING GLOB " });
+	comm.push_back({"Return", " WHERE DATE_OF_REPEAT GLOB " });
 	searching->init(comm, &current_page);
 	searching->show();
 }
