@@ -303,6 +303,30 @@ void BookPage::open_give_book_page(Book book) {
 	ui->stackedWidget_2->setCurrentWidget(ui->giveBookPage);
 	ui->giveBook_book_name_label->setText(QString::fromStdString(book.get_name()));
 
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+
+	QString day;
+	QString month;
+
+	int day_i = ltm->tm_mday;
+	if (day_i < 10) 
+		day = QString(QString::fromStdString("0" + to_string(day_i)));
+	else 
+		day = QString(QString::fromStdString(to_string(day_i)));
+
+	int month_i = 1 + ltm->tm_mon;
+	if (month_i < 10)
+		month = QString(QString::fromStdString("0" + to_string(month_i)));
+	else
+		month = QString(QString::fromStdString(to_string(month_i)));
+
+	QString year(QString::fromStdString(to_string(1900 + ltm->tm_year)));
+
+
+
+	ui->giveBook_give_date_input->setText(day + "." + month + "." + year);
+
 	disconnect(ui->giveBook_give_button, 0, 0, 0);
 	connect(ui->giveBook_give_button, &QPushButton::clicked, this, [=]() {
 		give_book(book);

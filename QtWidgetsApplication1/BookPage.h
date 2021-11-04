@@ -10,6 +10,7 @@
 #include "ChoisePageButtons.h"
 #include "Searching.h"
 #include <regex>
+#include <ctime>
 
 class BookPage : public QMainWindow, public Page
 {
