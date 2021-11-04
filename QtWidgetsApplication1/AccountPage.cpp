@@ -93,6 +93,7 @@ void AccountPage::create_add_button() {
 
 	QPushButton* add_button = new QPushButton(QString::fromStdString(BUTTON_TEXT), page);
 	add_button->setObjectName("AccountPage_add_button");
+	add_button->setFont(QFont("Ubuntu", 10));
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
 	add_button->setStyleSheet("QPushButton#AccountPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#AccountPage_add_button::hover { background: #c1ff96; }");
 	connect(add_button, &QPushButton::clicked, this,
@@ -121,7 +122,7 @@ void AccountPage::create_name_label(Account* account, int row, int column) {
 	const int WIDTH = 165, HEIGHT = 24, FONT_SIZE = 10, START_X = 30, START_Y = 24;
 	QLabel* name = new QLabel(QString::fromStdString(account->get_name()), page);
 	name->setStyleSheet("background: #FFD69C;");
-	name->setFont(QFont("Arial", FONT_SIZE));
+	name->setFont(QFont("Ubuntu", FONT_SIZE));
 	name->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	name->show();
 }
@@ -130,7 +131,7 @@ void AccountPage::create_login_label(Account* account, int row, int column) {
 	const int WIDTH = 165, HEIGHT = 24, FONT_SIZE = 10, START_X = 30, START_Y = 65;
 	QLabel* login = new QLabel(QString::fromStdString(account->get_login()), page);
 	login->setStyleSheet("background: #FFD69C;");
-	login->setFont(QFont("Arial", FONT_SIZE));
+	login->setFont(QFont("Ubuntu", FONT_SIZE));
 	login->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	login->show();
 }
