@@ -63,11 +63,40 @@ void PeoplePage::show_people(People* people, int row, int column) {
 	create_return_button(*people, row, column);
 	create_book_button(*people, row, column);
 
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+
+	string day;
+	string month;
+
+	int day_i = ltm->tm_mday;
+	if (day_i < 10)
+		day = "0" + to_string(day_i);
+	else
+		day = to_string(day_i);
+
+	int month_i = 1 + ltm->tm_mon;
+	if (month_i < 10)
+		month = "0" + to_string(month_i);
+	else
+		month = to_string(month_i);
+
+	string year = to_string(1900 + ltm->tm_year);
+
 
 	Book book = Book::get_book_by_id(book_db, people->get_book_id());
+	bool is_overdue = false;
+	string current_data = day + "." + month + "." + year;
+	string date_of_return = book.get_date_of_return();
+	for (int i = current_data.size() - 1; i >= 0; i--) {
+		if (current_data[i] > date_of_return[i]) {
+			is_overdue = true;
+			break;
+		}
+	}
 	create_book_name_label(&book, row, column);
-	create_book_give_date_label(&book, row, column);
-	create_book_return_date_label(&book, row, column);
+	create_book_give_date_label(&book, row, column, is_overdue);
+	create_book_return_date_label(&book, row, column, is_overdue);
 
 }
 
@@ -173,19 +202,29 @@ void PeoplePage::create_book_name_label(Book* book, int row, int column) {
 	book_name->show();
 }
 
-void PeoplePage::create_book_give_date_label(Book* book, int row, int column) {
+void PeoplePage::create_book_give_date_label(Book* book, int row, int column, bool is_overdue) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 215;
 	QLabel* book_give_date = new QLabel(QString::fromStdString(book->get_date_of_giving()), page);
-	book_give_date->setStyleSheet("background: transparent;");
+	
+	if (is_overdue)
+		book_give_date->setStyleSheet("background: transparent; color: #f5685d;");
+	else
+		book_give_date->setStyleSheet("background: transparent; color: #7fbf52;");
+	
 	book_give_date->setFont(QFont("Ubuntu", 10));
 	book_give_date->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	book_give_date->show();
 }
 
-void PeoplePage::create_book_return_date_label(Book* book, int row, int column) {
+void PeoplePage::create_book_return_date_label(Book* book, int row, int column, bool is_overdue) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 255;
 	QLabel* book_return_date = new QLabel(QString::fromStdString(book->get_date_of_return()), page);
-	book_return_date->setStyleSheet("background: transparent;");
+
+	if (is_overdue)
+		book_return_date->setStyleSheet("background: transparent; color: #f5685d;");
+	else
+		book_return_date->setStyleSheet("background: transparent; color: #7fbf52;");
+
 	book_return_date->setFont(QFont("Ubuntu", 10));
 	book_return_date->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	book_return_date->show();

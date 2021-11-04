@@ -7,6 +7,7 @@
 #include "Book.h"
 #include "ChoisePageButtons.h"
 #include "Page.h"
+#include <ctime>
 
 class PeoplePage : public QMainWindow, public Page
 {
@@ -57,8 +58,8 @@ private:
 	void create_sex_label(People* people, int row, int column);
 
 	void create_book_name_label(Book* book, int row, int column);
-	void create_book_give_date_label(Book* book, int row, int column);
-	void create_book_return_date_label(Book* book, int row, int column);
+	void create_book_give_date_label(Book* book, int row, int column, bool is_overdue = false);
+	void create_book_return_date_label(Book* book, int row, int column, bool is_overdue = false);
 
 	void create_book_button(People people, int row, int column);
 	void create_return_button(People people, int row, int column);
