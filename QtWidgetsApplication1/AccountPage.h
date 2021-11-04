@@ -55,12 +55,6 @@ private:
 
 	void create_choise_page_buttons();
 	void create_add_button();
-
-	void create_back_label(Account account, int row, int column);
-	void create_name_label(Account* account, int row, int column);
-	void create_login_label(Account* account, int row, int column);
-	void create_img(Account* account, int row, int column);
-
 	
 	Account get_account_by_id(int id);
 

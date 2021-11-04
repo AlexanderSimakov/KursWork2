@@ -32,13 +32,13 @@ void AccountPage::update_accounts_id() {
 }
 
 void AccountPage::clear_page() {
-	qDeleteAll(page->findChildren<QWidget*>());
+	clear_account_list();
+	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("AccountPage_add_button")));
 }
 
 void AccountPage::clear_account_list() {
-	qDeleteAll(page->findChildren<QLabel*>());
 	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("choise_page_button")));
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("AccountPage_back")));
+	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("accountPage_button")));
 }
 
 void AccountPage::clear_account_edit_page() {
@@ -75,10 +75,54 @@ void AccountPage::show_list() {
 }
 
 void AccountPage::show_account(Account* account, int row, int column){
-	create_back_label(*account, row, column);
-	create_name_label(account, row, column);
-	create_login_label(account, row, column);
-	create_img(account, row, column);
+	QLabel* name = new QLabel(QString::fromStdString(account->get_name()));
+	name->setStyleSheet("background: transparent;");
+	name->setFont(QFont("Ubuntu", 10));
+
+	QLabel* login = new QLabel(QString::fromStdString(account->get_login()));
+	login->setStyleSheet("background: transparent;");
+	login->setFont(QFont("Ubuntu", 10));
+
+	QLabel* image = new QLabel("");
+	QPixmap pixmap;
+
+	if (account->get_role() == 1) {
+		pixmap = admin_pixmap;
+		if (account->get_access()) 
+			image->setStyleSheet("background: #AEFF75; border-radius: 20px;");
+		else
+			image->setStyleSheet("background: #FF7373; border-radius: 20px;");
+	}
+	else {
+		pixmap = user_pixmap;
+		if (account->get_access())
+			image->setStyleSheet("background: #AEFF75; border-radius: 31px;");
+		else
+			image->setStyleSheet("background: #FF7373; border-radius: 31px;");
+	}
+
+	image->setPixmap(pixmap);
+
+	QPushButton* button = new QPushButton(page);
+	QGridLayout* grid_layout = new QGridLayout();
+	button->setGeometry(15 + ADD_X * row, 10 + ADD_Y * column, 255, 90);
+	button->setObjectName("accountPage_button");
+	button->setLayout(grid_layout);
+	button->setStyleSheet("QPushButton#accountPage_button{ background-color: #FFD69C; border-style: solid; border-width: 2px; border-radius: 10px; }"
+		" \n "
+		"QPushButton#accountPage_button:hover{ background: #FFE2B9; }");
+	
+	grid_layout->addWidget(name, 0, 0);
+	grid_layout->addWidget(login, 1, 0);
+	grid_layout->addWidget(image, 0, 1, 0, 2, Qt::AlignRight);
+	
+	Account _account = *account;
+	connect(button, &QPushButton::clicked, this,
+		[=]() {
+			open_edit_account_page(_account);
+		});
+
+	button->show();
 }
 
 void AccountPage::create_choise_page_buttons() {
@@ -101,70 +145,6 @@ void AccountPage::create_add_button() {
 			open_account_creation_page();
 		});
 	add_button->show();
-}
-
-void AccountPage::create_back_label(Account account, int row, int column) {
-	const int WIDTH = 255, HEIGHT = 90, START_X = 15, START_Y = 10;
-	
-	QPushButton* back = new QPushButton(QString::fromStdString(""), page);
-	back->setStyleSheet("background: #FFD69C; border:10px; border-radius: 10px; ");
-	back->setObjectName("AccountPage_back");
-	connect(back, &QPushButton::clicked, this, 
-		[=]() {
-			Account _account = account;
-			open_edit_account_page(_account);
-		});
-	back->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
-	back->show();
-}
-
-void AccountPage::create_name_label(Account* account, int row, int column) {
-	const int WIDTH = 165, HEIGHT = 24, FONT_SIZE = 10, START_X = 30, START_Y = 24;
-	QLabel* name = new QLabel(QString::fromStdString(account->get_name()), page);
-	name->setStyleSheet("background: #FFD69C;");
-	name->setFont(QFont("Ubuntu", FONT_SIZE));
-	name->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
-	name->show();
-}
-
-void AccountPage::create_login_label(Account* account, int row, int column) {
-	const int WIDTH = 165, HEIGHT = 24, FONT_SIZE = 10, START_X = 30, START_Y = 65;
-	QLabel* login = new QLabel(QString::fromStdString(account->get_login()), page);
-	login->setStyleSheet("background: #FFD69C;");
-	login->setFont(QFont("Ubuntu", FONT_SIZE));
-	login->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
-	login->show();
-}
-
-void AccountPage::create_img(Account* account, int row, int column) {
-	const int SIZE = 62, START_X = 197, START_Y = 25;
-	QLabel* image = new QLabel("", page);
-	image->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, SIZE, SIZE);
-	image->setAlignment(Qt::AlignHCenter);
-	QPixmap pixmap;
-
-	if (account->get_role() == 1) {
-		pixmap = admin_pixmap;
-		if (account->get_access()) {
-			image->setStyleSheet("background: #AEFF75; border-radius: 20px;");
-		}
-		else {
-			image->setStyleSheet("background: #FF7373; border-radius: 20px;");
-		}
-	}
-	else {
-		pixmap = user_pixmap;
-		if (account->get_access()) {
-			image->setStyleSheet("background: #AEFF75; border-radius: 31px;");
-		}
-		else {
-			image->setStyleSheet("background: #FF7373; border-radius: 31px;");
-		}
-	}
-
-	
-	image->setPixmap(pixmap);
-	image->show();
 }
 
 Account AccountPage::get_account_by_id(int id) {
