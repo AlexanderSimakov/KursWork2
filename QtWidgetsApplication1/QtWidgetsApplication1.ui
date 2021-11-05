@@ -147,7 +147,7 @@ QLabel#logInBack{
        <set>Qt::ImhPreferNumbers</set>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="editAccountPage">
        <property name="styleSheet">
@@ -478,11 +478,6 @@ border-radius: 5px;</string>
        <zorder>remove_account_button</zorder>
        <zorder>editAccountPage_title</zorder>
       </widget>
-      <widget class="QWidget" name="page_4">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-      </widget>
       <widget class="QWidget" name="logInPage">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -628,9 +623,6 @@ border-radius: 5px;</string>
        <zorder>log_in_button</zorder>
        <zorder>login_page_name</zorder>
       </widget>
-      <widget class="QWidget" name="addPeoplePage"/>
-      <widget class="QWidget" name="registrationPage"/>
-      <widget class="QWidget" name="editBookPage"/>
       <widget class="QWidget" name="adminMainPage">
        <widget class="QWidget" name="verticalLayoutWidget_2">
         <property name="geometry">
@@ -663,10 +655,9 @@ border-radius: 5px;</string>
             <string notr="true">background: #FFF1DE;</string>
            </property>
            <property name="currentIndex">
-            <number>4</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page_3"/>
-           <widget class="QWidget" name="showAccountPage"/>
            <widget class="QWidget" name="showBookPage">
             <widget class="QLabel" name="show_book_name">
              <property name="geometry">
@@ -993,21 +984,7 @@ QPushButton#show_back_to_book_button:hover{
             <zorder>show_return_book_button</zorder>
             <zorder>show_back_to_book_button</zorder>
            </widget>
-           <widget class="QWidget" name="page">
-            <widget class="QLabel" name="label_7">
-             <property name="geometry">
-              <rect>
-               <x>284</x>
-               <y>130</y>
-               <width>81</width>
-               <height>20</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>Абонементы</string>
-             </property>
-            </widget>
-           </widget>
+           <widget class="QWidget" name="page"/>
            <widget class="QWidget" name="giveBookPage">
             <widget class="QLabel" name="giveBook_book_name_label">
              <property name="geometry">
