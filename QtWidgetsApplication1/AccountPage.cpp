@@ -85,6 +85,8 @@ void AccountPage::show_account(Account* account, int row, int column){
 
 	QLabel* image = new QLabel("");
 	QPixmap pixmap;
+	image->setFixedSize(62, 60);
+	image->setAlignment(Qt::AlignHCenter);
 
 	if (account->get_role() == 1) {
 		pixmap = admin_pixmap;
@@ -96,9 +98,9 @@ void AccountPage::show_account(Account* account, int row, int column){
 	else {
 		pixmap = user_pixmap;
 		if (account->get_access())
-			image->setStyleSheet("background: #AEFF75; border-radius: 31px;");
+			image->setStyleSheet("background: #AEFF75; border-radius: 30px;");
 		else
-			image->setStyleSheet("background: #FF7373; border-radius: 31px;");
+			image->setStyleSheet("background: #FF7373; border-radius: 30px;");
 	}
 
 	image->setPixmap(pixmap);
