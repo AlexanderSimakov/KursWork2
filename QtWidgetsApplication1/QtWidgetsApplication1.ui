@@ -414,8 +414,8 @@ border-radius: 5px;</string>
         </property>
         <property name="geometry">
          <rect>
-          <x>420</x>
-          <y>70</y>
+          <x>120</x>
+          <y>230</y>
           <width>111</width>
           <height>27</height>
          </rect>
@@ -444,6 +444,27 @@ border-radius: 5px;</string>
          <string>Remove</string>
         </property>
        </widget>
+       <widget class="QLabel" name="editAccountPage_title">
+        <property name="geometry">
+         <rect>
+          <x>415</x>
+          <y>50</y>
+          <width>450</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Text</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
        <zorder>label_2</zorder>
        <zorder>lineEdit_2</zorder>
        <zorder>lineEdit_6</zorder>
@@ -455,6 +476,7 @@ border-radius: 5px;</string>
        <zorder>commandLinkButton</zorder>
        <zorder>lineEdit_9</zorder>
        <zorder>remove_account_button</zorder>
+       <zorder>editAccountPage_title</zorder>
       </widget>
       <widget class="QWidget" name="page_4">
        <property name="styleSheet">

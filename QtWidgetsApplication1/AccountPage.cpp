@@ -196,6 +196,7 @@ void AccountPage::edit_account() {
 
 void AccountPage::open_edit_account_page(Account account, bool is_removable, bool is_status_editable, bool is_back_to_accounts) {
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
+	ui->editAccountPage_title->setText("Accout editing");
 	clear_account_edit_page();
 
 	if (is_removable) {
@@ -269,6 +270,7 @@ void AccountPage::create_account() {
 
 void AccountPage::open_account_creation_page(){
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
+	ui->editAccountPage_title->setText("Accout creation");
 	clear_account_edit_page();
 	ui->remove_account_button->setEnabled(false);
 	ui->remove_account_button->setVisible(false);
@@ -301,6 +303,8 @@ void AccountPage::adjust_fonts() {
 	ui->remove_account_button->setFont(QFont("Ubuntu", 14));
 	ui->pushButton->setFont(QFont("Ubuntu", 14));
 	ui->commandLinkButton->setFont(QFont("Ubuntu", 10));
+	ui->editAccountPage_title->setFont(QFont("Ubuntu", 14));
+
 }
 
 
