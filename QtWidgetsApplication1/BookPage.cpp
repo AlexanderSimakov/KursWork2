@@ -14,24 +14,12 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 
 	adjust_fonts();
 
-	connect(ui->edit_book_push_button, &QPushButton::clicked, this, 
-		[=]() { 
-			ui->edit_book_push_button->disconnect();
-			edit_book(); 
-		});
 
 	connect(ui->pushButton_4, &QPushButton::clicked, this, 
 		[=]() {
 			ui->pushButton_4->disconnect();
 			QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("Images (*.png *.jpg)"));
 			ui->img_create_book_line_edit->setText(fileName);
-		});
-
-	connect(ui->open_image_edit_push_button, &QPushButton::clicked, this,
-		[=]() {
-			ui->open_image_edit_push_button->disconnect();
-			QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("Images (*.png *.jpg)"));
-			ui->img_edit_book_line_edit_2->setText(fileName);
 		});
 }
 
