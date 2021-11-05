@@ -23,6 +23,8 @@ AccountPage::AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQ
 }
 
 void AccountPage::start() {
+	ui->stackedWidget->setCurrentWidget(ui->adminMainPage);
+	ui->stackedWidget_2->setCurrentWidget(ui->page_2);
 	update_accounts_id();
 	clear_page();
 	create_add_button();
@@ -246,21 +248,23 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 }
 
 void AccountPage::create_account() {
-	Account account = Account();
-	QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No);
-	
-	string salt = account.get_generated_salt();
-	string hash = account.get_generated_hash(ui->lineEdit_7->text().toStdString(), salt);
+	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+		Account account = Account();
 
-	account.set_id(ui->lineEdit_9->text().toInt());
-	account.set_login(ui->lineEdit_6->text().toStdString());
-	account.set_name(ui->lineEdit_2->text().toStdString());
-	account.set_salted_hash_password(hash);
-	account.set_salt(salt);
-	account.set_role(ui->checkBox_2->isChecked());
-	account.set_access(ui->checkBox->isChecked());
+		string salt = account.get_generated_salt();
+		string hash = account.get_generated_hash(ui->lineEdit_7->text().toStdString(), salt);
 
-	account.add_in_db(account_db);
+		account.set_id(ui->lineEdit_9->text().toInt());
+		account.set_login(ui->lineEdit_6->text().toStdString());
+		account.set_name(ui->lineEdit_2->text().toStdString());
+		account.set_salted_hash_password(hash);
+		account.set_salt(salt);
+		account.set_role(ui->checkBox_2->isChecked());
+		account.set_access(ui->checkBox->isChecked());
+
+		account.add_in_db(account_db);
+		start();
+	}
 }
 
 void AccountPage::open_account_creation_page(){
