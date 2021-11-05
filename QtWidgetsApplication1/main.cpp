@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     init_people_db(&people_db);
 
     QtWidgetsApplication1 w;
+    w.setFixedSize(QSize(1280, 720));
     
     w.set_accounts_db(&accounts_db);
     w.set_books_db(&books_db);
