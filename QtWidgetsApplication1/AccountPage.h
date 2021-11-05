@@ -63,5 +63,7 @@ private:
 	void create_account();
 	void open_account_creation_page();
 
+	void adjust_fonts();
+
 };
 

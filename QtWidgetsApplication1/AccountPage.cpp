@@ -7,6 +7,8 @@ AccountPage::AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQ
 	this->account_db = account_db;
 	this->_parent = parent;
 
+	adjust_fonts();
+
 	connect(ui->pushButton_2, &QPushButton::clicked, this,
 		[=]() {
 			ui->pushButton_2->disconnect();
@@ -283,4 +285,18 @@ void AccountPage::open_account_creation_page(){
 	}
 	ui->lineEdit_9->setText(QString::fromStdString(to_string(min_nonexistent)));
 }
+
+
+void AccountPage::adjust_fonts() {
+	ui->lineEdit_2->setFont(QFont("Ubuntu", 14));
+	ui->lineEdit_6->setFont(QFont("Ubuntu", 14));
+	ui->lineEdit_7->setFont(QFont("Ubuntu", 14));
+	ui->lineEdit_8->setFont(QFont("Ubuntu", 14));
+	ui->checkBox->setFont(QFont("Ubuntu", 14));
+	ui->checkBox_2->setFont(QFont("Ubuntu", 14));
+	ui->remove_account_button->setFont(QFont("Ubuntu", 14));
+	ui->pushButton->setFont(QFont("Ubuntu", 14));
+	ui->commandLinkButton->setFont(QFont("Ubuntu", 10));
+}
+
 
