@@ -166,6 +166,7 @@ void BookPage::create_add_button() {
 	add_button->setStyleSheet("QPushButton#BookPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#BookPage_add_button::hover { background: #c1ff96; }");
 	connect(add_button, &QPushButton::clicked, this, 
 		[=]() {
+
 			open_book_creation_page();
 		});
 	add_button->show();
@@ -413,6 +414,10 @@ void BookPage::return_book(Book book) {
 
 void BookPage::open_edit_book_page(Book book) {
 	ui->stackedWidget->setCurrentWidget(ui->addBookPage);
+	clear_creation_fields();
+	clear_creation_error();
+
+	ui->pushButton_3->setText("Edit book");
 	
 	ui->name_create_book_line_edit->setText(QString::fromStdString(book.get_name()));
 	ui->author_create_book_line_edit->setText(QString::fromStdString(book.get_author_name()));
@@ -427,9 +432,30 @@ void BookPage::open_edit_book_page(Book book) {
 	connect(ui->pushButton_3, &QPushButton::clicked, this, [=]() {
 		edit_book();
 		});
+
+	disconnect(ui->commandLinkButton_3, 0, 0, 0);
+	connect(ui->commandLinkButton_3, &QPushButton::clicked, this, [=]() {
+		start();
+		open_show_book_page(book);
+		});
 }
 
 void BookPage::edit_book() {
+	clear_creation_error();
+	int error_code = check_creation();
+	if (error_code == 0) {
+		show_creation_error("All fields should be used", 8.5);
+		return reconnect_create_button();
+	}
+	else if (error_code == -1) {
+		show_creation_error("Wrong year", 3);
+		return reconnect_create_button();
+	}
+	else if (error_code == -2) {
+		show_creation_error("Wrong pages", 4);
+		return reconnect_create_button();
+	}
+
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 		Book book = Book();
 
@@ -446,6 +472,8 @@ void BookPage::edit_book() {
 		book.set_enabled(true);
 
 		book.update(books_db);
+		start();
+		open_show_book_page(book);
 	}
 }
 
@@ -454,6 +482,7 @@ void BookPage::open_book_creation_page() {
 	ui->pushButton_3->setText("Add book");
 
 	clear_creation_fields();
+	clear_creation_error();
 
 	vector<int> IDs = books_db->get_ints();
 	int min_nonexistent = 1;
@@ -469,6 +498,11 @@ void BookPage::open_book_creation_page() {
 
 	ui->id_create_book_line_edit->setText(QString::fromStdString(to_string(min_nonexistent)));
 	ui->id_create_book_line_edit->setEnabled(false);
+
+	disconnect(ui->commandLinkButton_3, 0, 0, 0);
+	connect(ui->commandLinkButton_3, &QPushButton::clicked, this, [=]() {
+		start();
+		});
 
 	reconnect_create_button();
 }
