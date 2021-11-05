@@ -9,12 +9,6 @@ AccountPage::AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQ
 
 	adjust_fonts();
 
-	connect(ui->pushButton_2, &QPushButton::clicked, this,
-		[=]() {
-			ui->pushButton_2->disconnect();
-			create_account();
-		});
-
 	admin_pixmap = QPixmap(QString::fromStdString("admin.png"));
 	admin_pixmap = admin_pixmap.scaled(QSize(62, 62), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
