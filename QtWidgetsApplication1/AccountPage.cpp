@@ -249,6 +249,33 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 }
 
 void AccountPage::create_account() {
+	clear_creation_error();
+	int error_code = check_creation();
+	if (error_code == 0) {
+		show_creation_error("All fields should be used", 4.8);
+		return;
+	}
+	else if (error_code == -1) {
+		show_creation_error("Wrong name", 0);
+		return;
+	}
+	else if (error_code == -2) {
+		show_creation_error("Wrong login", 1);
+		return;
+	}
+	else if (error_code == -3) {
+		show_creation_error("login already used", 1);
+		return;
+	}
+	else if (error_code == -4) {
+		show_creation_error("Wrong password", 2);
+		return;
+	}
+	else if (error_code == -5) {
+		show_creation_error("Password not same", 3);
+		return;
+	}
+
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 		Account account = Account();
 
@@ -272,6 +299,7 @@ void AccountPage::open_account_creation_page(){
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
 	ui->editAccountPage_title->setText("Accout creation");
 	clear_account_edit_page();
+	clear_creation_error();
 	ui->remove_account_button->setEnabled(false);
 	ui->remove_account_button->setVisible(false);
 	ui->pushButton->setText("Add");
@@ -293,6 +321,65 @@ void AccountPage::open_account_creation_page(){
 }
 
 
+
+/*
+ 1 - все хорошо
+ 0 - есть незаполненные поля
+-1 - неправильное имя
+-2 - неправильный логин
+-3 - логин занят
+-4 - неправильный пароль
+-5 - пароли не совпадают
+*/
+int AccountPage::check_creation() {
+	cmatch result;
+	regex regular_name("^([A-Za-z ]{3,30})");
+	regex regular_login("^([\\w]{5,30})");
+	regex regular_password("^([\\w]{5,30})");
+
+
+	string name = ui->lineEdit_2->text().toStdString();
+	string login = ui->lineEdit_6->text().toStdString();
+	string password = ui->lineEdit_7->text().toStdString();
+	string repeat_password = ui->lineEdit_8->text().toStdString();
+
+	if (name == "" || login == "" || password == "" || repeat_password == "") {
+		return 0;
+	}
+	else if (!regex_match(name.c_str(), result, regular_name)) {
+		return -1;
+	}
+	else  if (!regex_match(login.c_str(), result, regular_login)) {
+		return -2;
+	}
+	else  if (false) { // занятость логина
+		return -3;
+	}
+	else  if (!regex_match(password.c_str(), result, regular_password)) {
+		return -4;
+	}
+	else  if (password != repeat_password) {
+		return -5;
+	}
+	
+
+	return 1;
+}
+
+void AccountPage::show_creation_error(string message, double num_of_line) {
+	const int START_X = 900, START_Y = 135, ADD = 65, WIDTH = 400, HEIGHT = 50;
+	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->editAccountPage);
+	error_message->setObjectName("accountPage_creation_error");
+	error_message->setStyleSheet("color: #f5685d");
+	error_message->setFont(QFont("Ubuntu", 12));
+	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
+	error_message->show();
+}
+
+void AccountPage::clear_creation_error() {
+	qDeleteAll(ui->editAccountPage->findChildren<QLabel*>(QString::fromStdString("accountPage_creation_error")));
+}
+
 void AccountPage::adjust_fonts() {
 	ui->lineEdit_2->setFont(QFont("Ubuntu", 14));
 	ui->lineEdit_6->setFont(QFont("Ubuntu", 14));
@@ -306,5 +393,7 @@ void AccountPage::adjust_fonts() {
 	ui->editAccountPage_title->setFont(QFont("Ubuntu", 14));
 
 }
+
+
 
 

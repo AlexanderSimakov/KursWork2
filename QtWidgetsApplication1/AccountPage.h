@@ -7,6 +7,7 @@
 #include "Account.h"
 #include "Page.h"
 #include "ChoisePageButtons.h"
+#include <regex>
 
 class AccountPage : public QMainWindow, public Page
 {
@@ -62,6 +63,9 @@ private:
 
 	void create_account();
 	void open_account_creation_page();
+	int check_creation();
+	void show_creation_error(string message, double num_of_line);
+	void clear_creation_error();
 
 	void adjust_fonts();
 
