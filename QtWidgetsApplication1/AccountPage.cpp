@@ -168,6 +168,32 @@ Account AccountPage::get_account_by_id(int id) {
 }
 
 void AccountPage::edit_account() {
+	clear_creation_error();
+	int error_code = check_creation();
+	if (error_code == -1) {
+		show_creation_error("Wrong name", 0);
+		return;
+	}
+	else if (error_code == -2) {
+		show_creation_error("Wrong login", 1);
+		return;
+	}
+	if (ui->lineEdit_7->text() != "") {
+		if (error_code == 0) {
+			show_creation_error("All fields should be used", 4.8);
+			return;
+		}
+		else if (error_code == -4) {
+			show_creation_error("Wrong password", 2);
+			return;
+		}
+		else if (error_code == -5) {
+			show_creation_error("Password not same", 3);
+			return;
+		}
+	}
+	
+
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 		
 		Account account = Account();
@@ -191,13 +217,16 @@ void AccountPage::edit_account() {
 		account.set_access(ui->checkBox->isChecked());
 
 		account.update(account_db);
+		start();
 	}
 }
 
 void AccountPage::open_edit_account_page(Account account, bool is_removable, bool is_status_editable, bool is_back_to_accounts) {
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
 	ui->editAccountPage_title->setText("Accout editing");
+	ui->lineEdit_6->setEnabled(false);
 	clear_account_edit_page();
+	clear_creation_error();
 
 	if (is_removable) {
 		ui->remove_account_button->setEnabled(true);
@@ -243,8 +272,10 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 
 	disconnect(ui->remove_account_button, 0, 0, 0);
 	connect(ui->remove_account_button, &QPushButton::clicked, this, [=]() { 
-		QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No);
-		account_db->delete_field("ID = " + ui->lineEdit_9->text().toStdString()); 
+		if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+			account_db->delete_field("ID = " + ui->lineEdit_9->text().toStdString());
+			start();
+		}
 	});
 }
 
@@ -302,6 +333,7 @@ void AccountPage::open_account_creation_page(){
 	clear_creation_error();
 	ui->remove_account_button->setEnabled(false);
 	ui->remove_account_button->setVisible(false);
+	ui->lineEdit_6->setEnabled(true);
 	ui->pushButton->setText("Add");
 
 	disconnect(ui->pushButton, 0, 0, 0);
@@ -319,8 +351,6 @@ void AccountPage::open_account_creation_page(){
 	}
 	ui->lineEdit_9->setText(QString::fromStdString(to_string(min_nonexistent)));
 }
-
-
 
 /*
  1 - все хорошо
@@ -349,17 +379,17 @@ int AccountPage::check_creation() {
 	else if (!regex_match(name.c_str(), result, regular_name)) {
 		return -1;
 	}
-	else  if (!regex_match(login.c_str(), result, regular_login)) {
+	else if (!regex_match(login.c_str(), result, regular_login)) {
 		return -2;
 	}
-	else  if (false) { // занятость логина
-		return -3;
-	}
-	else  if (!regex_match(password.c_str(), result, regular_password)) {
+	else if (!regex_match(password.c_str(), result, regular_password)) {
 		return -4;
 	}
-	else  if (password != repeat_password) {
+	else if (password != repeat_password) {
 		return -5;
+	}
+	else if (account_db->get_text("LOGIN", login, 0) != "") { // занятость логина
+		return -3;
 	}
 	
 
