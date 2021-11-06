@@ -6,7 +6,6 @@
 #include "helpFunctions.h"
 #include "SQLWORK.h"
 #include "constants.h"
-#include "authorization.h"
 #include "Book.h"
 #include <QMessageBox>
 #include <QFileDialog>

@@ -86,7 +86,6 @@
   <ItemGroup>
     <ClCompile Include="Account.cpp" />
     <ClCompile Include="AccountPage.cpp" />
-    <ClCompile Include="authorization.cpp" />
     <ClCompile Include="Book.cpp" />
     <ClCompile Include="BookPage.cpp" />
     <ClCompile Include="ChoisePageButtons.cpp" />
@@ -108,7 +107,6 @@
   <ItemGroup>
     <ClInclude Include="Account.h" />
     <QtMoc Include="AccountPage.h" />
-    <ClInclude Include="authorization.h" />
     <ClInclude Include="Book.h" />
     <QtMoc Include="BookPage.h" />
     <QtMoc Include="ChoisePageButtons.h" />
