@@ -78,39 +78,6 @@ void SQLWork::delete_field(string rule) {
 	do_sql(sql);
 }
 
-// выводит таблицу с введенными столбцами и правиломи
-void SQLWork::show_table(string sql_before_db_name, string sql_after_db_name, vector<string> out_strings, vector<int> columns_in_db, vector<int> lenght_of_columns) {
-	string sql = sql_before_db_name + DATA_BASE_NAME + sql_after_db_name;
-
-	if (!is_table_exists()) {
-		cout << " В таблице отсутствуют записи..." << endl;
-	}
-	else {
-		sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
-
-		for (int i = 0; i < out_strings.size(); i++) {
-			cout << " " << out_strings[i];
-			print_spaces(lenght_of_columns[i] - out_strings[i].size() - 2);
-			cout << "|";
-		}
-		cout << endl;
-
-		int rc;
-		string text;
-		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-			for (int i = 0; i < out_strings.size(); i++) {
-				text = reinterpret_cast<const char*>(sqlite3_column_text(stmt, columns_in_db[i]));
-				cout << " " << text;
-				print_spaces(lenght_of_columns[i] - text.size() - 2);
-				cout << "|";
-			}
-			cout << endl;
-		}
-
-		sqlite3_finalize(stmt);
-	}
-}
-
 vector<string> SQLWork::get_strings(int column) {
 	string sql = "SELECT * FROM " + DATA_BASE_NAME + " ;";
 	vector<string> strings;
@@ -305,13 +272,6 @@ bool SQLWork::do_sql(string sql) {
 	}
 	else {
 		return true;
-	}
-}
-
-// печатает введенное количесвто пробелов
-void SQLWork::print_spaces(int amount) {
-	for (int i = 0; i < amount; i++) {
-		cout << " ";
 	}
 }
 

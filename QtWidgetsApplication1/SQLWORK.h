@@ -24,7 +24,6 @@ public:
 	void update(string fild_for_update, string new_value, string rule);
 	void delete_field(string rule);
 	
-	void show_table(string sql_before_db_name, string sql_after_db_name, vector<string> out_strings, vector<int> num_of_columns, vector<int> lenght_of_columns);
 	vector<string> get_strings(int column = 0);
 	vector<int> get_ints(int column = 0);
 	vector<int> get_ints(int column, string rule);
@@ -37,7 +36,6 @@ public:
 	int get_sum(string column_name, string rule);
 	vector<string> get_unique_fields(string column_name);
 	bool is_table_exists();
-	void print_spaces(int amount);
 
 private:
 	vector<SQL_cell> table_fields;
