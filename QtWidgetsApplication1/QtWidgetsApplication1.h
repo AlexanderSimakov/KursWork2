@@ -3,7 +3,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QAction>
 #include "ui_QtWidgetsApplication1.h"
-#include "helpFunctions.h"
 #include "SQLWORK.h"
 #include "constants.h"
 #include "Book.h"

@@ -100,7 +100,6 @@
     <QtRcc Include="QtWidgetsApplication1.qrc" />
     <QtUic Include="QtWidgetsApplication1.ui" />
     <QtMoc Include="QtWidgetsApplication1.h" />
-    <ClCompile Include="helpFunctions.cpp" />
     <ClCompile Include="QtWidgetsApplication1.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -111,7 +110,6 @@
     <QtMoc Include="BookPage.h" />
     <QtMoc Include="ChoisePageButtons.h" />
     <ClInclude Include="constants.h" />
-    <ClInclude Include="helpFunctions.h" />
     <QtMoc Include="LoginPage.h" />
     <ClInclude Include="Page.h" />
     <ClInclude Include="People.h" />
