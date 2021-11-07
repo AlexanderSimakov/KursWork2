@@ -22,6 +22,7 @@ public:
 	void start();
 
 	void open_edit_account_page(Account account, bool is_removable = true, bool is_status_editable = true, bool is_back_to_accounts = true);
+	void set_current_account(Account* current_account);
 
 private:
 	QWidget* _parent;
@@ -42,6 +43,8 @@ private:
 
 	QPixmap admin_pixmap;
 	QPixmap user_pixmap;
+
+	Account* current_account;
 
 	vector<int> accounts_id;
 
@@ -68,6 +71,7 @@ private:
 	void clear_creation_error();
 
 	void adjust_fonts();
+
 
 };
 

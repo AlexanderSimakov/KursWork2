@@ -230,6 +230,11 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 		ui->remove_account_button->setEnabled(false);
 		ui->remove_account_button->setVisible(false);
 	}
+
+	if (account.get_id() == current_account->get_id()) {
+		ui->remove_account_button->setEnabled(false);
+		ui->remove_account_button->setVisible(false);
+	}
 	
 	if (is_status_editable) {
 		ui->checkBox->setEnabled(true);
@@ -416,6 +421,11 @@ void AccountPage::adjust_fonts() {
 	ui->commandLinkButton->setFont(QFont("Ubuntu", 10));
 	ui->editAccountPage_title->setFont(QFont("Ubuntu", 14));
 
+}
+
+
+void AccountPage::set_current_account(Account* current_account) {
+	this->current_account = current_account;
 }
 
 

@@ -42,6 +42,9 @@ void QtWidgetsApplication1::log_in()
         ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
         open_books_page();
     }
+
+    account_page->set_current_account(&current_account);
+
 }
 
 void QtWidgetsApplication1::back_to_accounts() 
