@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "SQLWORK.h"
+#include "constants.h"
 #include "Page.h"
 
 using namespace std;

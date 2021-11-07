@@ -156,7 +156,7 @@ void PeoplePage::create_name_label(People* people, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 35;
 	QLabel* name = new QLabel(QString::fromStdString(people->get_name()), page);
 	name->setStyleSheet("background: transparent;");
-	name->setFont(QFont("Ubuntu", 10));
+	name->setFont(FONTS::UBUNTU_10);
 	name->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	name->show();
 }
@@ -165,7 +165,7 @@ void PeoplePage::create_phone_label(People* people, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 75;
 	QLabel* phone = new QLabel(QString::fromStdString(people->get_phone()), page);
 	phone->setStyleSheet("background: transparent;");
-	phone->setFont(QFont("Ubuntu", 10));
+	phone->setFont(FONTS::UBUNTU_10);
 	phone->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	phone->show();
 }
@@ -174,7 +174,7 @@ void PeoplePage::create_address_label(People* people, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 115;
 	QLabel* address = new QLabel(QString::fromStdString(people->get_address()), page);
 	address->setStyleSheet("background: transparent;");
-	address->setFont(QFont("Ubuntu", 10));
+	address->setFont(FONTS::UBUNTU_10);
 	address->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	address->show();
 }
@@ -183,7 +183,7 @@ void PeoplePage::create_age_label(People* people, int row, int column) {
 	const int WIDTH = 60, HEIGHT = 30, START_X = 275, START_Y = 35;
 	QLabel* age = new QLabel(QString::fromStdString("Age: " + to_string(people->get_age())), page);
 	age->setStyleSheet("background: transparent;");
-	age->setFont(QFont("Ubuntu", 10));
+	age->setFont(FONTS::UBUNTU_10);
 	age->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	age->show();
 }
@@ -202,7 +202,7 @@ void PeoplePage::create_sex_label(People* people, int row, int column) {
 
 	QLabel* sex = new QLabel(qsex, page);
 	sex->setStyleSheet("background: transparent;");
-	sex->setFont(QFont("Ubuntu", 10));
+	sex->setFont(FONTS::UBUNTU_10);
 	sex->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	sex->show();
 }
@@ -211,7 +211,7 @@ void PeoplePage::create_book_name_label(Book* book, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 175;
 	QLabel* book_name = new QLabel(QString::fromStdString(book->get_name()), page);
 	book_name->setStyleSheet("background: transparent;");
-	book_name->setFont(QFont("Ubuntu", 10));
+	book_name->setFont(FONTS::UBUNTU_10);
 	book_name->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	book_name->show();
 }
@@ -225,7 +225,7 @@ void PeoplePage::create_book_give_date_label(Book* book, int row, int column, bo
 	else
 		book_give_date->setStyleSheet("background: transparent; color: #7fbf52;");
 	
-	book_give_date->setFont(QFont("Ubuntu", 10));
+	book_give_date->setFont(FONTS::UBUNTU_10);
 	book_give_date->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	book_give_date->show();
 }
@@ -239,7 +239,7 @@ void PeoplePage::create_book_return_date_label(Book* book, int row, int column, 
 	else
 		book_return_date->setStyleSheet("background: transparent; color: #7fbf52;");
 
-	book_return_date->setFont(QFont("Ubuntu", 10));
+	book_return_date->setFont(FONTS::UBUNTU_10);
 	book_return_date->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	book_return_date->show();
 }
@@ -248,7 +248,7 @@ void PeoplePage::create_return_button(People people, int row, int column) {
 	const int WIDTH = 62, HEIGHT = 72, START_X = 275, START_Y = 221;
 	QPushButton* return_btn = new QPushButton("Return", page);
 	return_btn->setObjectName(QString("book_return_button"));
-	return_btn->setFont(QFont("Ubuntu", 10));
+	return_btn->setFont(FONTS::UBUNTU_10);
 	return_btn->setStyleSheet("QPushButton#book_return_button{ background: #D69CFF; border: 10px; border-radius: 5px; color: #FFFFFF; } QPushButton#book_return_button:hover{ background: #ddadff; }");
 	return_btn->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	connect(return_btn, &QPushButton::clicked, this, [=]() { return_book(people); });
@@ -259,7 +259,7 @@ void PeoplePage::create_book_button(People people, int row, int column) {
 	const int WIDTH = 62, HEIGHT = 40, START_X = 275, START_Y = 170;
 	QPushButton* return_btn = new QPushButton("Book", page);
 	return_btn->setObjectName(QString("book_show_button"));
-	return_btn->setFont(QFont("Ubuntu", 10));
+	return_btn->setFont(FONTS::UBUNTU_10);
 	return_btn->setStyleSheet("QPushButton#book_show_button{ background: #7ab2ff; border: 10px; border-radius: 5px; color: #FFFFFF; } QPushButton#book_show_button:hover{ background: #9CC5FF; }");
 	return_btn->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	connect(return_btn, &QPushButton::clicked, this, [=]() { open_book_info_page(people);  });

@@ -65,11 +65,11 @@ namespace DB {
 }
 
 namespace FONTS {
-	const QFont Ubuntu_8("Ubuntu", 8);
-	const QFont Ubuntu_10("Ubuntu", 10);
-	const QFont Ubuntu_12("Ubuntu", 12);
-	const QFont Ubuntu_14("Ubuntu", 14);
-	const QFont Ubuntu_16("Ubuntu", 16);
+	const QFont UBUNTU_8("Ubuntu", 8);
+	const QFont UBUNTU_10("Ubuntu", 10);
+	const QFont UBUNTU_12("Ubuntu", 12);
+	const QFont UBUNTU_14("Ubuntu", 14);
+	const QFont UBUNTU_16("Ubuntu", 16);
 }
 
 const int SALT_SIZE = 16;

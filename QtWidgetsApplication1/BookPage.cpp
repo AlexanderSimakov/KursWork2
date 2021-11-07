@@ -81,7 +81,7 @@ void BookPage::show_book(Book book, int row, int column) {
 	name->setObjectName("BookPage_name");
 	name->setStyleSheet(" background: #FFE2B9; border-radius: 10px;");
 	name->setAlignment(Qt::AlignCenter);
-	name->setFont(QFont("Ubuntu", 10));
+	name->setFont(FONTS::UBUNTU_10);
 
 
 	//  --------------- create image label ---------------
@@ -160,7 +160,7 @@ void BookPage::create_add_button() {
 
 	QPushButton* add_button = new QPushButton(QString::fromStdString(BUTTON_TEXT), page);
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
-	add_button->setFont(QFont("Ubuntu", 10));
+	add_button->setFont(FONTS::UBUNTU_10);
 	add_button->setObjectName("BookPage_add_button");
 	add_button->setStyleSheet("QPushButton#BookPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#BookPage_add_button::hover { background: #c1ff96; }");
 	connect(add_button, &QPushButton::clicked, this, 
@@ -174,7 +174,7 @@ void BookPage::create_edit_button(Book book, int num_in_list) {
 	const int WIDTH = 100, HEIGHT = 33;
 	QPushButton* edit_btn = new QPushButton("edit", page);
 	edit_btn->setObjectName(QString("book_edit_button"));
-	edit_btn->setFont(QFont("Ubuntu"));
+	edit_btn->setFont(FONTS::UBUNTU_10);
 	edit_btn->setGeometry(PAGE_WIDTH - WIDTH, HEIGHT + MARGIN + ADD * num_in_list, WIDTH, HEIGHT);
 	connect(edit_btn, &QPushButton::clicked, this, [=]() { open_show_book_page(book); });
 	edit_btn->show();
@@ -574,7 +574,7 @@ void BookPage::show_creation_error(string message, double num_of_line) {
 	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->addBookPage);
 	error_message->setObjectName("BookPage_creation_error");
 	error_message->setStyleSheet("color: #f5685d");
-	error_message->setFont(QFont("Ubuntu", 12));
+	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
 	error_message->show();
 }
@@ -584,7 +584,7 @@ void BookPage::show_give_error(string message, double num_of_line) {
 	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->giveBookPage);
 	error_message->setObjectName("BookPage_give_error");
 	error_message->setStyleSheet("color: #f5685d");
-	error_message->setFont(QFont("Ubuntu", 12));
+	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
 	error_message->show();
 }
@@ -617,42 +617,42 @@ void BookPage::reconnect_create_button() {
 }
 
 void BookPage::adjust_fonts() {
-	ui->name_create_book_line_edit->setFont(QFont("Ubuntu", 12));
-	ui->author_create_book_line_edit->setFont(QFont("Ubuntu", 12));
-	ui->genre_create_book_line_edit->setFont(QFont("Ubuntu", 12));
-	ui->year_create_book_line_edit->setFont(QFont("Ubuntu", 12));
-	ui->pages_create_book_line_edit->setFont(QFont("Ubuntu", 12));
-	ui->img_create_book_line_edit->setFont(QFont("Ubuntu", 12));
-	ui->pushButton_4->setFont(QFont("Ubuntu", 12));
-	ui->content_create_book_line_edit->setFont(QFont("Ubuntu", 12));
-	ui->pushButton_3->setFont(QFont("Ubuntu", 12));
-	ui->commandLinkButton_3->setFont(QFont("Ubuntu", 12));
+	ui->name_create_book_line_edit->setFont(FONTS::UBUNTU_12);
+	ui->author_create_book_line_edit->setFont(FONTS::UBUNTU_12);
+	ui->genre_create_book_line_edit->setFont(FONTS::UBUNTU_12);
+	ui->year_create_book_line_edit->setFont(FONTS::UBUNTU_12);
+	ui->pages_create_book_line_edit->setFont(FONTS::UBUNTU_12);
+	ui->img_create_book_line_edit->setFont(FONTS::UBUNTU_12);
+	ui->pushButton_4->setFont(FONTS::UBUNTU_12);
+	ui->content_create_book_line_edit->setFont(FONTS::UBUNTU_12);
+	ui->pushButton_3->setFont(FONTS::UBUNTU_12);
+	ui->commandLinkButton_3->setFont(FONTS::UBUNTU_12);
 
 	// show book page
-	ui->show_book_name->setFont(QFont("Ubuntu", 14));
-	ui->show_author->setFont(QFont("Ubuntu", 14));
-	ui->show_year->setFont(QFont("Ubuntu", 12));
-	ui->show_pages->setFont(QFont("Ubuntu", 12));
-	ui->show_content->setFont(QFont("Ubuntu", 10));
-	ui->show_user_name->setFont(QFont("Ubuntu", 10));
-	ui->show_date_of_getting->setFont(QFont("Ubuntu", 10));
-	ui->show_date_of_return->setFont(QFont("Ubuntu", 10));
-	ui->show_remove_book_button->setFont(QFont("Ubuntu", 12));
-	ui->show_edit_book_button->setFont(QFont("Ubuntu", 12));
-	ui->show_return_book_button->setFont(QFont("Ubuntu", 12));
-	ui->show_back_to_book_button->setFont(QFont("Ubuntu", 10));
+	ui->show_book_name->setFont(FONTS::UBUNTU_14);
+	ui->show_author->setFont(FONTS::UBUNTU_14);
+	ui->show_year->setFont(FONTS::UBUNTU_12);
+	ui->show_pages->setFont(FONTS::UBUNTU_12);
+	ui->show_content->setFont(FONTS::UBUNTU_12);
+	ui->show_user_name->setFont(FONTS::UBUNTU_10);
+	ui->show_date_of_getting->setFont(FONTS::UBUNTU_10);
+	ui->show_date_of_return->setFont(FONTS::UBUNTU_10);
+	ui->show_remove_book_button->setFont(FONTS::UBUNTU_12);
+	ui->show_edit_book_button->setFont(FONTS::UBUNTU_12);
+	ui->show_return_book_button->setFont(FONTS::UBUNTU_12);
+	ui->show_back_to_book_button->setFont(FONTS::UBUNTU_10);
 
 	// add book page
-	ui->giveBook_book_name_label->setFont(QFont("Ubuntu", 14));
-	ui->giveBook_name_input->setFont(QFont("Ubuntu", 12));
-	ui->giveBook_phone_input->setFont(QFont("Ubuntu", 12));
-	ui->giveBook_address_input->setFont(QFont("Ubuntu", 12));
-	ui->giveBook_age_input->setFont(QFont("Ubuntu", 12));
-	ui->giveBook_sex_input->setFont(QFont("Ubuntu", 12));
-	ui->giveBook_give_date_input->setFont(QFont("Ubuntu", 12));
-	ui->giveBook_return_date_input->setFont(QFont("Ubuntu", 12));
-	ui->giveBook_give_button->setFont(QFont("Ubuntu", 14));
-	ui->giveBook_back_button->setFont(QFont("Ubuntu", 10));
+	ui->giveBook_book_name_label->setFont(FONTS::UBUNTU_14);
+	ui->giveBook_name_input->setFont(FONTS::UBUNTU_12);
+	ui->giveBook_phone_input->setFont(FONTS::UBUNTU_12);
+	ui->giveBook_address_input->setFont(FONTS::UBUNTU_12);
+	ui->giveBook_age_input->setFont(FONTS::UBUNTU_12);
+	ui->giveBook_sex_input->setFont(FONTS::UBUNTU_12);
+	ui->giveBook_give_date_input->setFont(FONTS::UBUNTU_12);
+	ui->giveBook_return_date_input->setFont(FONTS::UBUNTU_12);
+	ui->giveBook_give_button->setFont(FONTS::UBUNTU_14);
+	ui->giveBook_back_button->setFont(FONTS::UBUNTU_10);
 
 }
 

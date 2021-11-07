@@ -51,6 +51,7 @@ void ChoisePageButtons::create_button(int num_in_list, int page_num) {
 	QPushButton* choise_page_button = new QPushButton(QString::fromStdString(to_string(page_num + 1)), page);
 	choise_page_button->setGeometry(START_X + (num_in_list * ADD), START_Y, SIZE, SIZE);
 	choise_page_button->setObjectName("choise_page_button");
+	choise_page_button->setFont(FONTS::UBUNTU_10);
 	if (*current_page == page_num) {
 		choise_page_button->setStyleSheet("QPushButton#choise_page_button { background: #FFE2B9; border-radius: 10px; }");
 	}

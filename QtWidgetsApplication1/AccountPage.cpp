@@ -75,11 +75,11 @@ void AccountPage::show_list() {
 void AccountPage::show_account(Account* account, int row, int column){
 	QLabel* name = new QLabel(QString::fromStdString(account->get_name()));
 	name->setStyleSheet("background: transparent;");
-	name->setFont(QFont("Ubuntu", 10));
+	name->setFont(FONTS::UBUNTU_10);
 
 	QLabel* login = new QLabel(QString::fromStdString(account->get_login()));
 	login->setStyleSheet("background: transparent;");
-	login->setFont(QFont("Ubuntu", 10));
+	login->setFont(FONTS::UBUNTU_10);
 
 	QLabel* image = new QLabel("");
 	QPixmap pixmap;
@@ -137,7 +137,7 @@ void AccountPage::create_add_button() {
 
 	QPushButton* add_button = new QPushButton(QString::fromStdString(BUTTON_TEXT), page);
 	add_button->setObjectName("AccountPage_add_button");
-	add_button->setFont(QFont("Ubuntu", 10));
+	add_button->setFont(FONTS::UBUNTU_10);
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
 	add_button->setStyleSheet("QPushButton#AccountPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#AccountPage_add_button::hover { background: #c1ff96; }");
 	connect(add_button, &QPushButton::clicked, this,
@@ -400,7 +400,7 @@ void AccountPage::show_creation_error(string message, double num_of_line) {
 	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->editAccountPage);
 	error_message->setObjectName("accountPage_creation_error");
 	error_message->setStyleSheet("color: #f5685d");
-	error_message->setFont(QFont("Ubuntu", 12));
+	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
 	error_message->show();
 }
@@ -410,16 +410,16 @@ void AccountPage::clear_creation_error() {
 }
 
 void AccountPage::adjust_fonts() {
-	ui->lineEdit_2->setFont(QFont("Ubuntu", 14));
-	ui->lineEdit_6->setFont(QFont("Ubuntu", 14));
-	ui->lineEdit_7->setFont(QFont("Ubuntu", 14));
-	ui->lineEdit_8->setFont(QFont("Ubuntu", 14));
-	ui->checkBox->setFont(QFont("Ubuntu", 14));
-	ui->checkBox_2->setFont(QFont("Ubuntu", 14));
-	ui->remove_account_button->setFont(QFont("Ubuntu", 14));
-	ui->pushButton->setFont(QFont("Ubuntu", 14));
-	ui->commandLinkButton->setFont(QFont("Ubuntu", 10));
-	ui->editAccountPage_title->setFont(QFont("Ubuntu", 14));
+	ui->lineEdit_2->setFont(FONTS::UBUNTU_14);
+	ui->lineEdit_6->setFont(FONTS::UBUNTU_14);
+	ui->lineEdit_7->setFont(FONTS::UBUNTU_14);
+	ui->lineEdit_8->setFont(FONTS::UBUNTU_14);
+	ui->checkBox->setFont(FONTS::UBUNTU_14);
+	ui->checkBox_2->setFont(FONTS::UBUNTU_14);
+	ui->remove_account_button->setFont(FONTS::UBUNTU_14);
+	ui->pushButton->setFont(FONTS::UBUNTU_14);
+	ui->commandLinkButton->setFont(FONTS::UBUNTU_10);
+	ui->editAccountPage_title->setFont(FONTS::UBUNTU_14);
 
 }
 

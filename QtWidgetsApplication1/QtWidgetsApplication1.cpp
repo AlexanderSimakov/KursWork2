@@ -124,10 +124,10 @@ void QtWidgetsApplication1::mark_accounts_button() {
 }
 
 void QtWidgetsApplication1::adjust_fonts() {
-    ui.choise_books_page->setFont(QFont("Ubuntu", 14));
-    ui.choise_subscriber_page->setFont(QFont("Ubuntu", 14));
-    ui.choise_account_page->setFont(QFont("Ubuntu", 14));
-    ui.adminMainPage_my_account_button->setFont(QFont("Ubuntu", 12));
-    ui.exit_button->setFont(QFont("Ubuntu", 14));
+    ui.choise_books_page->setFont(FONTS::UBUNTU_14);
+    ui.choise_subscriber_page->setFont(FONTS::UBUNTU_14);
+    ui.choise_account_page->setFont(FONTS::UBUNTU_14);
+    ui.adminMainPage_my_account_button->setFont(FONTS::UBUNTU_12);
+    ui.exit_button->setFont(FONTS::UBUNTU_14);
 }
 

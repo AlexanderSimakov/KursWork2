@@ -82,10 +82,10 @@ void LoginPage::clear_password_input() {
 }
 
 void LoginPage::adjust_fonts() {
-	ui->log_in_button->setFont(QFont("Ubuntu", 14));
-	ui->authorization_login_input->setFont(QFont("Ubuntu", 14));
-	ui->authorization_pass_input->setFont(QFont("Ubuntu", 14));
-	ui->login_page_name->setFont(QFont("Ubuntu", 16));
+	ui->log_in_button->setFont(FONTS::UBUNTU_14);
+	ui->authorization_login_input->setFont(FONTS::UBUNTU_14);
+	ui->authorization_pass_input->setFont(FONTS::UBUNTU_14);
+	ui->login_page_name->setFont(FONTS::UBUNTU_16);
 }
 
 void LoginPage::init_error_message() {
@@ -93,7 +93,7 @@ void LoginPage::init_error_message() {
 	error_message->setObjectName("LoginPage_error_message");
 	error_message->setAlignment(Qt::AlignHCenter);
 	error_message->setStyleSheet("color: #f5685d");
-	error_message->setFont(QFont("Ubuntu", 12));
+	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(391, 468, 500, 30);
 }
 
