@@ -1,17 +1,22 @@
 #pragma once
 #include <string>
 
-using namespace std;
 
+namespace ACCOUNTS_DATABASE{
+	const std::string FILENAME = "accounts.db";
+	const std::string NAME = "ACCOUNTS";
+}
 
-const string ACCOUNTS_DATABASE_FILENAME = "accounts.db";
-const string ACCOUNTS_DATABASE_NAME = "ACCOUNTS";
+namespace BOOKS_DATABASE {
+	const std::string FILENAME = "books.db";
+	const std::string NAME = "BOOKS";
+}
 
-const string BOOKS_DATABASE_FILENAME = "books.db";
-const string BOOKS_DATABASE_NAME = "BOOKS";
+namespace PEOPLE_DATABASE {
+	const std::string FILENAME = "people.db";
+	const std::string NAME = "PEOPLE";
+}
 
-const string PEOPLE_DATABASE_FILENAME = "people.db";
-const string PEOPLE_DATABASE_NAME = "PEOPLE";
 
 const int SALT_SIZE = 16;
 

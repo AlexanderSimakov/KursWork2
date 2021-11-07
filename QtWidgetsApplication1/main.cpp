@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     
-    SQLWork accounts_db(ACCOUNTS_DATABASE_FILENAME, ACCOUNTS_DATABASE_NAME);
-    SQLWork books_db(BOOKS_DATABASE_FILENAME, BOOKS_DATABASE_NAME);
-    SQLWork people_db(PEOPLE_DATABASE_FILENAME, PEOPLE_DATABASE_NAME);
+    SQLWork accounts_db(ACCOUNTS_DATABASE::FILENAME, ACCOUNTS_DATABASE::NAME);
+    SQLWork books_db(BOOKS_DATABASE::FILENAME, BOOKS_DATABASE::NAME);
+    SQLWork people_db(PEOPLE_DATABASE::FILENAME, PEOPLE_DATABASE::NAME);
 
 
     init_accounts_db(&accounts_db);
