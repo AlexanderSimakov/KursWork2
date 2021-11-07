@@ -5,7 +5,6 @@
 #include "ui_QtWidgetsApplication1.h"
 #include "SQLWORK.h"
 #include "constants.h"
-#include "Book.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include "BookPage.h"
