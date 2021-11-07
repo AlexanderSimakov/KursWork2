@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     
-    SQLWork accounts_db(ACCOUNTS_DATABASE::FILENAME, ACCOUNTS_DATABASE::NAME);
-    SQLWork books_db(BOOKS_DATABASE::FILENAME, BOOKS_DATABASE::NAME);
-    SQLWork people_db(PEOPLE_DATABASE::FILENAME, PEOPLE_DATABASE::NAME);
+    SQLWork accounts_db(DB::ACCOUNTS::FILENAME, DB::ACCOUNTS::NAME);
+    SQLWork books_db(DB::BOOKS::FILENAME, DB::BOOKS::NAME);
+    SQLWork people_db(DB::PEOPLE::FILENAME, DB::PEOPLE::NAME);
 
 
     init_accounts_db(&accounts_db);
@@ -41,13 +41,13 @@ int main(int argc, char *argv[])
 void init_accounts_db(SQLWork* db) {
     db->open();
     db->create_table_if_not_exists({ 
-                 SQL_cell{ "LOGIN", "TEXT PRIMARY KEY NOT NULL"},
-                 SQL_cell{ "NAME",   "TEXT NOT NULL"},
-                 SQL_cell{ "HASH",   "TEXT NOT NULL"},
-                 SQL_cell{ "SALT",   "TEXT NOT NULL"},
-                 SQL_cell{ "ROLE",   "INT NOT NULL"},
-                 SQL_cell{ "ACCESS", "INT NOT NULL"},
-                 SQL_cell{ "ID", "INT NOT NULL"} });
+                 SQL_cell{ DB::ACCOUNTS::FIELD::LOGIN,  "TEXT PRIMARY KEY NOT NULL"},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::NAME,   "TEXT NOT NULL"},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::HASH,   "TEXT NOT NULL"},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::SALT,   "TEXT NOT NULL"},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::ROLE,   "INT NOT NULL"},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::ACCESS, "INT NOT NULL"},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::ID,     "INT NOT NULL"} });
 
     add_admin_account_if_not_exists(db);
 }
@@ -55,36 +55,36 @@ void init_accounts_db(SQLWork* db) {
 void init_books_db(SQLWork* db) {
     db->open();
     db->create_table_if_not_exists({ 
-                 SQL_cell{ "ID",             "INT PRIMARY KEY NOT NULL"},
-                 SQL_cell{ "NAME",           "TEXT NOT NULL"},
-                 SQL_cell{ "AUTHOR_NAME",    "TEXT NOT NULL"},
-                 SQL_cell{ "GENRE",          "TEXT NOT NULL"},
-                 SQL_cell{ "YEAR",           "INT NOT NULL"},
-                 SQL_cell{ "AMOUNT_OF_PAGE", "INT NOT NULL"},
-                 SQL_cell{ "CONTENT",        "TEXT NOT NULL"},
-                 SQL_cell{ "PATH_TO_IMG",    "TEXT NOT NULL"},
-                 SQL_cell{ "DATE_OF_GIVING", "TEXT NOT NULL"},
-                 SQL_cell{ "DATE_OF_REPEAT", "TEXT NOT NULL"},
-                 SQL_cell{ "ENABLED",        "INT NOT NULL"}
+                 SQL_cell{ DB::BOOKS::FIELD::ID,          "INT PRIMARY KEY NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::NAME,        "TEXT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::AUTHOR,      "TEXT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::GENRE,       "TEXT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::YEAR,        "INT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::PAGES,       "INT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::CONTENT,     "TEXT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::IMG_PATH,    "TEXT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::GIVE_DATE,   "TEXT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::RETURN_DATE, "TEXT NOT NULL"},
+                 SQL_cell{ DB::BOOKS::FIELD::ENABLED,     "INT NOT NULL"}
         });
 }
 
 void init_people_db(SQLWork* db) {
     db->open();
     db->create_table_if_not_exists({
-                 SQL_cell{ "ID",             "INT PRIMARY KEY NOT NULL"},
-                 SQL_cell{ "BOOK_ID",        "TEXT NOT NULL"},
-                 SQL_cell{ "NAME",           "TEXT NOT NULL"},
-                 SQL_cell{ "PHONE",          "TEXT NOT NULL"},
-                 SQL_cell{ "ADDRESS",        "TEXT NOT NULL"},
-                 SQL_cell{ "AGE",            "INT NOT NULL"},
-                 SQL_cell{ "SEX",            "INT NOT NULL"}
+                 SQL_cell{ DB::PEOPLE::FIELD::ID,      "INT PRIMARY KEY NOT NULL"},
+                 SQL_cell{ DB::PEOPLE::FIELD::BOOK_ID, "TEXT NOT NULL"},
+                 SQL_cell{ DB::PEOPLE::FIELD::NAME,    "TEXT NOT NULL"},
+                 SQL_cell{ DB::PEOPLE::FIELD::PHONE,   "TEXT NOT NULL"},
+                 SQL_cell{ DB::PEOPLE::FIELD::ADDRESS, "TEXT NOT NULL"},
+                 SQL_cell{ DB::PEOPLE::FIELD::AGE,     "INT NOT NULL"},
+                 SQL_cell{ DB::PEOPLE::FIELD::SEX,     "INT NOT NULL"}
         });
 }
 
 
 void add_admin_account_if_not_exists(SQLWork* db) {
-    if (db->get_text("LOGIN", "admin", 2) == "") {
+    if (db->get_text(DB::ACCOUNTS::FIELD::LOGIN, "admin", 2) == "") {
 
         const string salt = Account::get_generated_salt();
         const string salted_hash_password = Account::get_generated_hash("admin", salt);
