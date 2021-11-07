@@ -71,13 +71,13 @@ void People::add_in_db(SQLWork* people_db) {
 People People::get_people_by_book_id(SQLWork* people_db, int book_id) {
 	People people;
 
-	people.set_id(people_db->get_int("BOOK_ID", to_string(book_id), 0));
-	people.set_book_id(people_db->get_int("BOOK_ID", to_string(book_id), 1));
-	people.set_name(people_db->get_text("BOOK_ID", to_string(book_id), 2));
-	people.set_phone(people_db->get_text("BOOK_ID", to_string(book_id), 3));
-	people.set_address(people_db->get_text("BOOK_ID", to_string(book_id), 4));
-	people.set_age(people_db->get_int("BOOK_ID", to_string(book_id), 5));
-	people.set_sex(people_db->get_int("BOOK_ID", to_string(book_id), 6));
+	people.set_id(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, to_string(book_id), 0));
+	people.set_book_id(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, to_string(book_id), 1));
+	people.set_name(people_db->get_text(DB::PEOPLE::FIELD::BOOK_ID, to_string(book_id), 2));
+	people.set_phone(people_db->get_text(DB::PEOPLE::FIELD::BOOK_ID, to_string(book_id), 3));
+	people.set_address(people_db->get_text(DB::PEOPLE::FIELD::BOOK_ID, to_string(book_id), 4));
+	people.set_age(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, to_string(book_id), 5));
+	people.set_sex(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, to_string(book_id), 6));
 
 
 	return people;

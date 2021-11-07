@@ -6,6 +6,7 @@
 #include "SQLWORK.h"
 #include "Account.h"
 #include "Page.h"
+#include "constants.h"
 #include "ChoisePageButtons.h"
 #include <regex>
 

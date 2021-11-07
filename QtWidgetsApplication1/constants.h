@@ -66,6 +66,3 @@ namespace DB {
 const int SALT_SIZE = 16;
 
 
-
-
-

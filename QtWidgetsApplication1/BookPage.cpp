@@ -144,12 +144,12 @@ void BookPage::create_choise_page_buttons() {
 
 void BookPage::create_search() {
 	vector<Search> comm;
-	comm.push_back({ "Name", " WHERE NAME GLOB " });
-	comm.push_back({ "Author", " WHERE AUTHOR_NAME GLOB " });
-	comm.push_back({ "Year", " WHERE YEAR GLOB " });
-	comm.push_back({ "Genre", " WHERE GENRE GLOB " });
-	comm.push_back({ "Pages", " WHERE AMOUNT_OF_PAGE GLOB " });
-	comm.push_back({ "Content", " WHERE CONTENT GLOB " });
+	comm.push_back({ "Name", " WHERE " + DB::BOOKS::FIELD::NAME + " GLOB " });
+	comm.push_back({ "Author", " WHERE " + DB::BOOKS::FIELD::AUTHOR + " GLOB " });
+	comm.push_back({ "Year", " WHERE " + DB::BOOKS::FIELD::YEAR + " GLOB " });
+	comm.push_back({ "Genre", " WHERE " + DB::BOOKS::FIELD::GENRE + " GLOB " });
+	comm.push_back({ "Pages", " WHERE " + DB::BOOKS::FIELD::PAGES + " GLOB " });
+	comm.push_back({ "Content", " WHERE " + DB::BOOKS::FIELD::CONTENT + " GLOB " });
 	searching->init(comm, &current_page);
 	searching->show();
 }
@@ -223,7 +223,7 @@ void BookPage::open_show_book_page(Book book) {
 		connect(ui->show_remove_book_button, &QPushButton::clicked, this, [=]() {
 			if (QMessageBox::Yes == QMessageBox::question(this, "Apply Remove", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 				Book _book = book;
-				books_db->delete_field("ID = " + to_string(_book.get_id()));
+				books_db->delete_field( DB::BOOKS::FIELD::ID + " = " + to_string(_book.get_id()));
 				start();
 			}
 			});
@@ -404,7 +404,7 @@ void BookPage::return_book(Book book) {
 
 		People people = People::get_people_by_book_id(people_db, book.get_id());
 
-		people_db->delete_field("ID = " + to_string(people.get_id()));
+		people_db->delete_field(DB::BOOKS::FIELD::ID + " = " + to_string(people.get_id()));
 		start();
 		open_show_book_page(book);
 	}

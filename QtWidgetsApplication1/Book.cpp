@@ -89,17 +89,17 @@ bool Book::get_enabled() {
 }
 
 void Book::update(SQLWork* db) {
-	string rule = " ID = " + to_string(id);
-	db->update("NAME", "'" + name + "'", rule);
-	db->update("AUTHOR_NAME", "'" + author_name + "'", rule);
-	db->update("GENRE", "'" + genre + "'", rule);
-	db->update("YEAR", to_string(year), rule);
-	db->update("AMOUNT_OF_PAGE", to_string(amount_of_page), rule);
-	db->update("CONTENT", "'" + content + "'", rule);
-	db->update("PATH_TO_IMG", "'" + path_to_img + "'", rule);
-	db->update("DATE_OF_GIVING", "'" + date_of_giving + "'", rule);
-	db->update("DATE_OF_REPEAT", "'" + date_of_return + "'", rule);
-	db->update("ENABLED", is_enabled ? "1" : "0", rule);
+	string rule = " " + DB::BOOKS::FIELD::ID + " = " + to_string(id);
+	db->update(DB::BOOKS::FIELD::NAME, "'" + name + "'", rule);
+	db->update(DB::BOOKS::FIELD::AUTHOR, "'" + author_name + "'", rule);
+	db->update(DB::BOOKS::FIELD::GENRE, "'" + genre + "'", rule);
+	db->update(DB::BOOKS::FIELD::YEAR, to_string(year), rule);
+	db->update(DB::BOOKS::FIELD::PAGES, to_string(amount_of_page), rule);
+	db->update(DB::BOOKS::FIELD::CONTENT, "'" + content + "'", rule);
+	db->update(DB::BOOKS::FIELD::IMG_PATH, "'" + path_to_img + "'", rule);
+	db->update(DB::BOOKS::FIELD::GIVE_DATE, "'" + date_of_giving + "'", rule);
+	db->update(DB::BOOKS::FIELD::RETURN_DATE, "'" + date_of_return + "'", rule);
+	db->update(DB::BOOKS::FIELD::ENABLED, is_enabled ? "1" : "0", rule);
 
 }
 
@@ -123,16 +123,16 @@ Book Book::get_book_by_id(SQLWork* db, int id) {
 	Book book;
 
 	book.set_id(id);
-	book.set_name(db->get_text("ID", to_string(id), 1));
-	book.set_author_name(db->get_text("ID", to_string(id), 2));
-	book.set_genre(db->get_text("ID", to_string(id), 3));
-	book.set_year(db->get_int("ID", to_string(id), 4));
-	book.set_amount_of_page(db->get_int("ID", to_string(id), 5));
-	book.set_content(db->get_text("ID", to_string(id), 6));
-	book.set_path_to_img(db->get_text("ID", to_string(id), 7));
-	book.set_date_of_giving(db->get_text("ID", to_string(id), 8));
-	book.set_date_of_return(db->get_text("ID", to_string(id), 9));
-	book.set_enabled(db->get_int("ID", to_string(id), 10));
+	book.set_name(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 1));
+	book.set_author_name(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 2));
+	book.set_genre(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 3));
+	book.set_year(db->get_int(DB::BOOKS::FIELD::ID, to_string(id), 4));
+	book.set_amount_of_page(db->get_int(DB::BOOKS::FIELD::ID, to_string(id), 5));
+	book.set_content(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 6));
+	book.set_path_to_img(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 7));
+	book.set_date_of_giving(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 8));
+	book.set_date_of_return(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 9));
+	book.set_enabled(db->get_int(DB::BOOKS::FIELD::ID, to_string(id), 10));
 
 
 	return book;

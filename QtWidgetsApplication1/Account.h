@@ -2,6 +2,7 @@
 #include <string>
 #include "SQLWORK.h"
 #include "sha256.h"
+#include "constants.h"
 #include <time.h>
 
 using namespace std;

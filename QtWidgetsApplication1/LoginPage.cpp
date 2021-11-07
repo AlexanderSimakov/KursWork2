@@ -30,8 +30,8 @@ Account LoginPage::get_authorized_account() {
 		return account;
 	}
 
-	string db_account_hash = account_db->get_text("LOGIN", login, 2);
-	string db_account_salt = account_db->get_text("LOGIN", login, 3);
+	string db_account_hash = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 2);
+	string db_account_salt = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 3);
 
 	if (!account.is_right_password(db_account_hash, db_account_salt, pass)) {
 		clear_error_message();
@@ -41,18 +41,18 @@ Account LoginPage::get_authorized_account() {
 	}
 	else { 
 		account.set_login(login);
-		account.set_name(account_db->get_text("LOGIN", login, 1));
+		account.set_name(account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 1));
 		account.set_salted_hash_password(db_account_hash);
 		account.set_salt(db_account_salt);
-		account.set_role(account_db->get_int("LOGIN", login, 4));
-		account.set_access(account_db->get_int("LOGIN", login, 5));
-		account.set_id(account_db->get_int("LOGIN", login, 6));
+		account.set_role(account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 4));
+		account.set_access(account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 5));
+		account.set_id(account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 6));
 		return account;
 	}
 }
 
 bool LoginPage::is_account_have_access(string login) {
-	return account_db->get_int("LOGIN", login, 5) == 1;
+	return account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 5) == 1;
 }
 
 string LoginPage::get_login() {

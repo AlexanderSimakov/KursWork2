@@ -4,6 +4,7 @@
 #include "SQLWORK.h"
 #include "SQLWORK.h"
 #include "Account.h"
+#include "constants.h"
 #include <string>
 
 class LoginPage : QMainWindow

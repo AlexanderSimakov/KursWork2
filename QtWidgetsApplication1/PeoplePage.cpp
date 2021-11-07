@@ -113,9 +113,9 @@ void PeoplePage::create_choise_page_buttons() {
 
 void PeoplePage::create_search() {
 	vector<Search> comm;
-	comm.push_back({"Name", " WHERE NAME GLOB "});
-	comm.push_back({"Given", " WHERE DATE_OF_GIVING GLOB " });
-	comm.push_back({"Return", " WHERE DATE_OF_REPEAT GLOB " });
+	comm.push_back({"Name", " WHERE " + DB::BOOKS::FIELD::NAME + " GLOB "});
+	comm.push_back({"Given", " WHERE " + DB::BOOKS::FIELD::GIVE_DATE + " GLOB " });
+	comm.push_back({"Return", " WHERE " + DB::BOOKS::FIELD::RETURN_DATE + " GLOB " });
 	searching->init(comm, &current_page);
 	searching->show();
 }
@@ -300,7 +300,7 @@ void PeoplePage::return_book(People people) {
 		book.set_enabled(true);
 		book.update(book_db);
 
-		people_db->delete_field("ID = " + to_string(people.get_id()));
+		people_db->delete_field(DB::PEOPLE::FIELD::ID + " = " + to_string(people.get_id()));
 		start();
 	}
 }
@@ -309,12 +309,12 @@ People PeoplePage::get_people_by_id(int id) {
 	People people;
 
 	people.set_id(id);
-	people.set_book_id(people_db->get_int("ID", to_string(id), 1));
-	people.set_name(people_db->get_text("ID", to_string(id), 2));
-	people.set_phone(people_db->get_text("ID", to_string(id), 3));
-	people.set_address(people_db->get_text("ID", to_string(id), 4));
-	people.set_age(people_db->get_int("ID", to_string(id), 5));
-	people.set_sex(people_db->get_int("ID", to_string(id), 6));
+	people.set_book_id(people_db->get_int(DB::PEOPLE::FIELD::ID, to_string(id), 1));
+	people.set_name(people_db->get_text(DB::PEOPLE::FIELD::ID, to_string(id), 2));
+	people.set_phone(people_db->get_text(DB::PEOPLE::FIELD::ID, to_string(id), 3));
+	people.set_address(people_db->get_text(DB::PEOPLE::FIELD::ID, to_string(id), 4));
+	people.set_age(people_db->get_int(DB::PEOPLE::FIELD::ID, to_string(id), 5));
+	people.set_sex(people_db->get_int(DB::PEOPLE::FIELD::ID, to_string(id), 6));
 
 	return people;
 }

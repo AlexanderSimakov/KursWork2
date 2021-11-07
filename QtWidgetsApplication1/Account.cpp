@@ -106,13 +106,13 @@ string Account::get_generated_salt() {
 }
 
 void Account::update(SQLWork* accounts_db) {
-	string rule = " ID = " + to_string(id);
-	accounts_db->update("LOGIN", "'" + login + "'", rule);
-	accounts_db->update("NAME", "'" + name + "'", rule);
-	accounts_db->update("HASH", "'" + salted_hash_password + "'", rule);
-	accounts_db->update("SALT", "'" + salt + "'", rule);
-	accounts_db->update("ROLE", to_string(role), rule);
-	accounts_db->update("ACCESS", to_string(access), rule);
+	string rule = " " + DB::ACCOUNTS::FIELD::ID + " = " + to_string(id);
+	accounts_db->update(DB::ACCOUNTS::FIELD::LOGIN, "'" + login + "'", rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::NAME, "'" + name + "'", rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::HASH, "'" + salted_hash_password + "'", rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::SALT, "'" + salt + "'", rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::ROLE, to_string(role), rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::ACCESS, to_string(access), rule);
 }
 
 void Account::add_in_db(SQLWork* accounts_db) {

@@ -9,6 +9,7 @@
 #include "Page.h"
 #include <ctime>
 #include "Searching.h"
+#include "constants.h"
 
 class PeoplePage : public QMainWindow, public Page
 {

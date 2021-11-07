@@ -97,12 +97,12 @@ void QtWidgetsApplication1::open_editing_current_account_page() {
 
 void QtWidgetsApplication1::update_current_account_info() {
     string id = to_string(current_account.get_id());
-    current_account.set_login(accounts_db->get_text("ID", id, 0));
-    current_account.set_name(accounts_db->get_text("ID", id, 1));
-    current_account.set_salted_hash_password(accounts_db->get_text("ID", id, 2));
-    current_account.set_salt(accounts_db->get_text("ID", id, 3));
-    current_account.set_role(accounts_db->get_int("ID", id, 4));
-    current_account.set_access(accounts_db->get_int("ID", id, 5));
+    current_account.set_login(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID , id, 0));
+    current_account.set_name(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID, id, 1));
+    current_account.set_salted_hash_password(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID, id, 2));
+    current_account.set_salt(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID, id, 3));
+    current_account.set_role(accounts_db->get_int(DB::ACCOUNTS::FIELD::ID, id, 4));
+    current_account.set_access(accounts_db->get_int(DB::ACCOUNTS::FIELD::ID, id, 5));
 }
 
 void QtWidgetsApplication1::clear_all_mark_buttons() {

@@ -151,12 +151,12 @@ Account AccountPage::get_account_by_id(int id) {
 	Account account;
 
 	account.set_id(id);
-	account.set_login(account_db->get_text("ID", to_string(id), 0));
-	account.set_name(account_db->get_text("ID", to_string(id), 1));
-	account.set_salted_hash_password(account_db->get_text("ID", to_string(id), 2));
-	account.set_salt(account_db->get_text("ID", to_string(id), 3));
-	account.set_role(account_db->get_int("ID", to_string(id), 4));
-	account.set_access(account_db->get_int("ID", to_string(id), 5));
+	account.set_login(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 0));
+	account.set_name(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 1));
+	account.set_salted_hash_password(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 2));
+	account.set_salt(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 3));
+	account.set_role(account_db->get_int(DB::ACCOUNTS::FIELD::ID, to_string(id), 4));
+	account.set_access(account_db->get_int(DB::ACCOUNTS::FIELD::ID, to_string(id), 5));
 
 	return account;
 }
@@ -194,8 +194,8 @@ void AccountPage::edit_account() {
 		string salt, hash;
 
 		if (ui->lineEdit_7->text().size() == 0) {
-			salt = account_db->get_text("ID", ui->lineEdit_9->text().toStdString(), 3);
-			hash = account_db->get_text("ID", ui->lineEdit_9->text().toStdString(), 2);
+			salt = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text().toStdString(), 3);
+			hash = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text().toStdString(), 2);
 		}
 		else {
 			salt = account.get_generated_salt();
@@ -272,7 +272,7 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 	disconnect(ui->remove_account_button, 0, 0, 0);
 	connect(ui->remove_account_button, &QPushButton::clicked, this, [=]() { 
 		if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
-			account_db->delete_field("ID = " + ui->lineEdit_9->text().toStdString());
+			account_db->delete_field(DB::ACCOUNTS::FIELD::ID + " = " + ui->lineEdit_9->text().toStdString());
 			start();
 		}
 	});

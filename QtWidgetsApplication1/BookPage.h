@@ -9,6 +9,7 @@
 #include "Page.h"
 #include "ChoisePageButtons.h"
 #include "Searching.h"
+#include "constants.h"
 #include <regex>
 #include <ctime>
 
