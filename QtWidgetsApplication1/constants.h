@@ -72,6 +72,25 @@ namespace FONTS {
 	const QFont UBUNTU_16("Ubuntu", 16);
 }
 
+/*
+colors:
+#7ab2ff + blue
+#9CC5FF + light blue
+#FFFFFF + white
+#FFD69C + cream 
+#FFE2B9 + light cream
+transparent 
+#f5685d + red
+#7fbf52 + dark green
+#D69CFF + purple
+#ddadff + light purple
+#AEFF75 + green
+#c1ff96 + light green
+#FF7373 + light red
+#FFF1DE + фон
+
+*/
+
 const int SALT_SIZE = 16;
 
 
