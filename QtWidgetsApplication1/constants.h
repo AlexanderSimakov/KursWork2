@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <QFont>
 
 namespace DB {
 
@@ -61,6 +62,14 @@ namespace DB {
 		const std::string TEXT = "TEXT NOT NULL";
 		const std::string INT = "INT NOT NULL";
 	}
+}
+
+namespace FONTS {
+	const QFont Ubuntu_8("Ubuntu", 8);
+	const QFont Ubuntu_10("Ubuntu", 10);
+	const QFont Ubuntu_12("Ubuntu", 12);
+	const QFont Ubuntu_14("Ubuntu", 14);
+	const QFont Ubuntu_16("Ubuntu", 16);
 }
 
 const int SALT_SIZE = 16;
