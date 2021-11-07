@@ -56,11 +56,6 @@ int People::get_sex() {
 	return sex;
 }
 
-void People::update(SQLWork* people_db) {
-	people_db->delete_field("ID = " + to_string(id));
-	add_in_db(people_db);
-}
-
 void People::add_in_db(SQLWork* people_db) {
 	people_db->push_back({
 			to_string(id),

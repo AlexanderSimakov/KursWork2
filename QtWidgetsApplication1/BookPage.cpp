@@ -39,7 +39,6 @@ void BookPage::update_books_id() {
 }
 
 void BookPage::clear_page() {
-	//qDeleteAll(page->findChildren<QWidget*>());
 	clear_book_list();
 	searching->delete_widgets();
 	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("BookPage_add_button")));
@@ -166,7 +165,6 @@ void BookPage::create_add_button() {
 	add_button->setStyleSheet("QPushButton#BookPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#BookPage_add_button::hover { background: #c1ff96; }");
 	connect(add_button, &QPushButton::clicked, this, 
 		[=]() {
-
 			open_book_creation_page();
 		});
 	add_button->show();

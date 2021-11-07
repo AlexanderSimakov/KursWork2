@@ -89,8 +89,18 @@ bool Book::get_enabled() {
 }
 
 void Book::update(SQLWork* db) {
-	db->delete_field("ID = " + to_string(id));
-	add_in_db(db);
+	string rule = " ID = " + to_string(id);
+	db->update("NAME", "'" + name + "'", rule);
+	db->update("AUTHOR_NAME", "'" + author_name + "'", rule);
+	db->update("GENRE", "'" + genre + "'", rule);
+	db->update("YEAR", to_string(year), rule);
+	db->update("AMOUNT_OF_PAGE", to_string(amount_of_page), rule);
+	db->update("CONTENT", "'" + content + "'", rule);
+	db->update("PATH_TO_IMG", "'" + path_to_img + "'", rule);
+	db->update("DATE_OF_GIVING", "'" + date_of_giving + "'", rule);
+	db->update("DATE_OF_REPEAT", "'" + date_of_return + "'", rule);
+	db->update("ENABLED", is_enabled ? "1" : "0", rule);
+
 }
 
 void Book::add_in_db(SQLWork* db) {
