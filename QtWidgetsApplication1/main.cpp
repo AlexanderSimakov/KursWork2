@@ -41,13 +41,14 @@ int main(int argc, char *argv[])
 void init_accounts_db(SQLWork* db) {
     db->open();
     db->create_table_if_not_exists({ 
-                 SQL_cell{ DB::ACCOUNTS::FIELD::LOGIN,  "TEXT PRIMARY KEY NOT NULL"},
-                 SQL_cell{ DB::ACCOUNTS::FIELD::NAME,   "TEXT NOT NULL"},
-                 SQL_cell{ DB::ACCOUNTS::FIELD::HASH,   "TEXT NOT NULL"},
-                 SQL_cell{ DB::ACCOUNTS::FIELD::SALT,   "TEXT NOT NULL"},
-                 SQL_cell{ DB::ACCOUNTS::FIELD::ROLE,   "INT NOT NULL"},
-                 SQL_cell{ DB::ACCOUNTS::FIELD::ACCESS, "INT NOT NULL"},
-                 SQL_cell{ DB::ACCOUNTS::FIELD::ID,     "INT NOT NULL"} });
+                 SQL_cell{ DB::ACCOUNTS::FIELD::LOGIN,  DB::FIELD_SETTING::TEXT_PRIMARY},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::NAME,   DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::HASH,   DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::SALT,   DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::ROLE,   DB::FIELD_SETTING::INT},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::ACCESS, DB::FIELD_SETTING::INT},
+                 SQL_cell{ DB::ACCOUNTS::FIELD::ID,     DB::FIELD_SETTING::INT} 
+        });
 
     add_admin_account_if_not_exists(db);
 }
@@ -55,30 +56,30 @@ void init_accounts_db(SQLWork* db) {
 void init_books_db(SQLWork* db) {
     db->open();
     db->create_table_if_not_exists({ 
-                 SQL_cell{ DB::BOOKS::FIELD::ID,          "INT PRIMARY KEY NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::NAME,        "TEXT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::AUTHOR,      "TEXT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::GENRE,       "TEXT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::YEAR,        "INT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::PAGES,       "INT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::CONTENT,     "TEXT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::IMG_PATH,    "TEXT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::GIVE_DATE,   "TEXT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::RETURN_DATE, "TEXT NOT NULL"},
-                 SQL_cell{ DB::BOOKS::FIELD::ENABLED,     "INT NOT NULL"}
+                 SQL_cell{ DB::BOOKS::FIELD::ID,          DB::FIELD_SETTING::INT_PRIMARY},
+                 SQL_cell{ DB::BOOKS::FIELD::NAME,        DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::BOOKS::FIELD::AUTHOR,      DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::BOOKS::FIELD::GENRE,       DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::BOOKS::FIELD::YEAR,        DB::FIELD_SETTING::INT},
+                 SQL_cell{ DB::BOOKS::FIELD::PAGES,       DB::FIELD_SETTING::INT},
+                 SQL_cell{ DB::BOOKS::FIELD::CONTENT,     DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::BOOKS::FIELD::IMG_PATH,    DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::BOOKS::FIELD::GIVE_DATE,   DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::BOOKS::FIELD::RETURN_DATE, DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::BOOKS::FIELD::ENABLED,     DB::FIELD_SETTING::INT}
         });
 }
 
 void init_people_db(SQLWork* db) {
     db->open();
     db->create_table_if_not_exists({
-                 SQL_cell{ DB::PEOPLE::FIELD::ID,      "INT PRIMARY KEY NOT NULL"},
-                 SQL_cell{ DB::PEOPLE::FIELD::BOOK_ID, "TEXT NOT NULL"},
-                 SQL_cell{ DB::PEOPLE::FIELD::NAME,    "TEXT NOT NULL"},
-                 SQL_cell{ DB::PEOPLE::FIELD::PHONE,   "TEXT NOT NULL"},
-                 SQL_cell{ DB::PEOPLE::FIELD::ADDRESS, "TEXT NOT NULL"},
-                 SQL_cell{ DB::PEOPLE::FIELD::AGE,     "INT NOT NULL"},
-                 SQL_cell{ DB::PEOPLE::FIELD::SEX,     "INT NOT NULL"}
+                 SQL_cell{ DB::PEOPLE::FIELD::ID,      DB::FIELD_SETTING::INT_PRIMARY},
+                 SQL_cell{ DB::PEOPLE::FIELD::BOOK_ID, DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::PEOPLE::FIELD::NAME,    DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::PEOPLE::FIELD::PHONE,   DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::PEOPLE::FIELD::ADDRESS, DB::FIELD_SETTING::TEXT},
+                 SQL_cell{ DB::PEOPLE::FIELD::AGE,     DB::FIELD_SETTING::INT},
+                 SQL_cell{ DB::PEOPLE::FIELD::SEX,     DB::FIELD_SETTING::INT}
         });
 }
 

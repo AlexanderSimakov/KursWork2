@@ -54,6 +54,13 @@ namespace DB {
 		}
 
 	}
+
+	namespace FIELD_SETTING {
+		const std::string TEXT_PRIMARY = "TEXT PRIMARY KEY NOT NULL";
+		const std::string INT_PRIMARY = "INT PRIMARY KEY NOT NULL";
+		const std::string TEXT = "TEXT NOT NULL";
+		const std::string INT = "INT NOT NULL";
+	}
 }
 
 const int SALT_SIZE = 16;
