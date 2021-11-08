@@ -11,8 +11,8 @@
 using namespace std;
 
 struct Search {
-	string name;
-	string command;
+	QString name;
+	QString command;
 };
 
 class Searching : public QMainWindow

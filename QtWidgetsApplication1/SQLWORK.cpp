@@ -2,7 +2,7 @@
 #include "SQLWORK.h"
 
 // конструктор, инициализируюший название базы данных и название файла базы данных
-SQLWork::SQLWork(const string FILE_NAME, const string DATA_BASE_NAME) 
+SQLWork::SQLWork(const QString FILE_NAME, const QString DATA_BASE_NAME) 
 	: FILE_NAME(FILE_NAME),  DATA_BASE_NAME(DATA_BASE_NAME){ }
 
 // создает таблицу в базе данных, если она не создана до этого
@@ -12,8 +12,8 @@ void SQLWork::create_table_if_not_exists(vector<SQL_cell> table_fields) {
 }
 
 // генерирует sql команду для создания базы данных и возвращает ее
-string SQLWork::get_created_table_sql_command() {
-	string sql = " CREATE TABLE IF NOT EXISTS " + DATA_BASE_NAME + " ( ";
+QString SQLWork::get_created_table_sql_command() {
+	QString sql = " CREATE TABLE IF NOT EXISTS " + DATA_BASE_NAME + " ( ";
 
 	for (int i = 0; i < table_fields.size(); i++) {
 		sql += table_fields[i].NAME + " " + table_fields[i].TYPE;
@@ -27,7 +27,7 @@ string SQLWork::get_created_table_sql_command() {
 
 // открывает базу данных
 void SQLWork::open() {
-	if (sqlite3_open(FILE_NAME.c_str(), &dataBase)) {
+	if (sqlite3_open(FILE_NAME.toStdString().c_str(), &dataBase)) {
 		cout << "Ошибка открытия/создания БД:" << sqlite3_errmsg(dataBase);
 	}
 }
@@ -40,14 +40,14 @@ void SQLWork::close() {
 }
 
 // вставляет поле в конец таблицы
-void SQLWork::push_back(vector<string> field) {
-	string sql = get_push_back_sql(field);
+void SQLWork::push_back(vector<QString> field) {
+	QString sql = get_push_back_sql(field);
 	do_sql(sql);
 }
 
 // генерирует команду вставки в конец таблицы
-string SQLWork::get_push_back_sql(vector<string> field) {
-	string sql = "INSERT INTO " + DATA_BASE_NAME + " ( ";
+QString SQLWork::get_push_back_sql(vector<QString> field) {
+	QString sql = "INSERT INTO " + DATA_BASE_NAME + " ( ";
 	for (int i = 0; i < table_fields.size(); i++) {
 		sql += table_fields[i].NAME;
 		if (i != table_fields.size() - 1) sql += ",";
@@ -67,26 +67,26 @@ string SQLWork::get_push_back_sql(vector<string> field) {
 }
 
 // обновляет поле на новое значение по введенному правилу sql
-void SQLWork::update(string fild_in_db, string new_value, string rule) {
-	string sql = "UPDATE " + DATA_BASE_NAME + " set " + fild_in_db + " = " + new_value + " where " + rule + " ;";
+void SQLWork::update(QString fild_in_db, QString new_value, QString rule) {
+	QString sql = "UPDATE " + DATA_BASE_NAME + " set " + fild_in_db + " = " + new_value + " where " + rule + " ;";
 	do_sql(sql);
 }
 
 // удаляет поле по введенному правилу sql
-void SQLWork::delete_field(string rule) {
-	string sql = "DELETE from " + DATA_BASE_NAME + " where " + rule + " ;";
+void SQLWork::delete_field(QString rule) {
+	QString sql = "DELETE from " + DATA_BASE_NAME + " where " + rule + " ;";
 	do_sql(sql);
 }
 
-vector<string> SQLWork::get_strings(int column) {
-	string sql = "SELECT * FROM " + DATA_BASE_NAME + " ;";
-	vector<string> strings;
+vector<QString> SQLWork::get_strings(int column) {
+	QString sql = "SELECT * FROM " + DATA_BASE_NAME + " ;";
+	vector<QString> strings;
 	
 	if (!is_table_exists()) {
 		cout << " В таблице отсутствуют записи..." << endl;
 	}
 	else {
-		sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 		int rc;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -100,14 +100,14 @@ vector<string> SQLWork::get_strings(int column) {
 }
 
 vector<int> SQLWork::get_ints(int column) {
-	string sql = "SELECT * FROM " + DATA_BASE_NAME + " ;";
+	QString sql = "SELECT * FROM " + DATA_BASE_NAME + " ;";
 	vector<int> ints;
 
 	if (!is_table_exists()) {
 		cout << " В таблице отсутствуют записи..." << endl;
 	}
 	else {
-		sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 		int rc;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -120,15 +120,15 @@ vector<int> SQLWork::get_ints(int column) {
 	return ints;
 }
 
-vector<int> SQLWork::get_ints(int column, string rule) {
-	string sql = "SELECT * FROM " + DATA_BASE_NAME + " " + rule + " ;";
+vector<int> SQLWork::get_ints(int column, QString rule) {
+	QString sql = "SELECT * FROM " + DATA_BASE_NAME + " " + rule + " ;";
 	vector<int> ints;
 
 	if (!is_table_exists()) {
 		cout << " В таблице отсутствуют записи..." << endl;
 	}
 	else {
-		sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 		int rc;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -142,21 +142,21 @@ vector<int> SQLWork::get_ints(int column, string rule) {
 }
 
 // возвращает уникальные значения введенного столбца
-vector<string> SQLWork::get_unique_fields(string column_name) {
-	string sql = "SELECT DISTINCT " + column_name + " FROM " + DATA_BASE_NAME + " ;";
+vector<QString> SQLWork::get_unique_fields(QString column_name) {
+	QString sql = "SELECT DISTINCT " + column_name + " FROM " + DATA_BASE_NAME + " ;";
 	int amount = get_count_unique_fieds(column_name);
-	vector<string> fields;
+	vector<QString> fields;
 
 	if (!is_table_exists()) {
 		return {};
 	}
 	else {
-		sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 		int rc;
-		string text;
+		QString text;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-			text = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+			text = QString::fromStdString(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
 			fields.push_back(text);
 		}
 
@@ -173,9 +173,9 @@ bool SQLWork::is_table_exists() {
 
 // возвращает количество ячеек в базе данных
 int SQLWork::get_count() {
-	string sql = "SELECT Count(*) FROM " + DATA_BASE_NAME + ";";
+	QString sql = "SELECT Count(*) FROM " + DATA_BASE_NAME + ";";
 
-	sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -187,10 +187,10 @@ int SQLWork::get_count() {
 }
 
 // возвращает количество ячеек в базе данных по введенному правилу
-int SQLWork::get_count(string rule) {
-	string sql = "SELECT Count(*) FROM " + DATA_BASE_NAME + rule + ";";
+int SQLWork::get_count(QString rule) {
+	QString sql = "SELECT Count(*) FROM " + DATA_BASE_NAME + rule + ";";
 
-	sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -202,10 +202,10 @@ int SQLWork::get_count(string rule) {
 }
 
 // возвращает количество уникальных значений в введенном столбце
-int SQLWork::get_count_unique_fieds(string column_name) {
-	string sql = "SELECT Count(DISTINCT " + column_name + " ) FROM " + DATA_BASE_NAME + " ;";
+int SQLWork::get_count_unique_fieds(QString column_name) {
+	QString sql = "SELECT Count(DISTINCT " + column_name + " ) FROM " + DATA_BASE_NAME + " ;";
 
-	sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -217,10 +217,10 @@ int SQLWork::get_count_unique_fieds(string column_name) {
 }
 
 // возвращает сумму значений в введенном столбце
-int SQLWork::get_sum(string column_name, string rule) {
-	string sql = "SELECT SUM( " + column_name + " ) FROM " + DATA_BASE_NAME + rule +  ";";
+int SQLWork::get_sum(QString column_name, QString rule) {
+	QString sql = "SELECT SUM( " + column_name + " ) FROM " + DATA_BASE_NAME + rule +  ";";
 
-	sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -232,10 +232,10 @@ int SQLWork::get_sum(string column_name, string rule) {
 }
 
 // возвращает значение int, с номером num_of_value, когда находит field_for_search в поле db_field
-int SQLWork::get_int(string db_field, string field_for_search, int num_of_value) {
-	string sql = "SELECT * FROM " + DATA_BASE_NAME + " WHERE " + db_field + " GLOB '" + field_for_search + "';";
+int SQLWork::get_int(QString db_field, QString field_for_search, int num_of_value) {
+	QString sql = "SELECT * FROM " + DATA_BASE_NAME + " WHERE " + db_field + " GLOB '" + field_for_search + "';";
 
-	sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -247,10 +247,10 @@ int SQLWork::get_int(string db_field, string field_for_search, int num_of_value)
 }
 
 // возвращает значение string, с номером num_of_value, когда находит field_for_search в поле db_field
-string SQLWork::get_text(string db_field, string field_for_search, int num_of_value) {
-	string text, sql = "SELECT * FROM " + DATA_BASE_NAME + " WHERE " + db_field + " GLOB '" + field_for_search + "';";
+QString SQLWork::get_text(QString db_field, QString field_for_search, int num_of_value) {
+	QString text, sql = "SELECT * FROM " + DATA_BASE_NAME + " WHERE " + db_field + " GLOB '" + field_for_search + "';";
 
-	sqlite3_prepare_v2(dataBase, sql.c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 	int rc;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -262,9 +262,9 @@ string SQLWork::get_text(string db_field, string field_for_search, int num_of_va
 }
 
 // выполняет переданную sql команду
-bool SQLWork::do_sql(string sql) {
+bool SQLWork::do_sql(QString sql) {
 	char* error = 0;
-	if (sqlite3_exec(dataBase, sql.c_str(), 0, 0, &error))
+	if (sqlite3_exec(dataBase, sql.toStdString().c_str(), 0, 0, &error))
 	{
 		cout << "Ошибка БД: " << error << endl;
 		sqlite3_free(error);

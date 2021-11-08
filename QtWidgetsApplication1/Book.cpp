@@ -4,15 +4,15 @@ void Book::set_id(int id) {
 	this->id = id;
 }
 
-void Book::set_name(string name) {
+void Book::set_name(QString name) {
 	this->name = name;
 }
 
-void Book::set_author_name(string author_name) {
+void Book::set_author_name(QString author_name) {
 	this->author_name = author_name;
 }
 
-void Book::set_genre(string genre) {
+void Book::set_genre(QString genre) {
 	this->genre = genre;
 }
 
@@ -24,19 +24,19 @@ void Book::set_amount_of_page(int amount_of_page) {
 	this->amount_of_page = amount_of_page;
 }
 
-void Book::set_content(string content) {
+void Book::set_content(QString content) {
 	this->content = content;
 }
 
-void Book::set_path_to_img(string path_to_img) {
+void Book::set_path_to_img(QString path_to_img) {
 	this->path_to_img = path_to_img;
 }
 
-void Book::set_date_of_giving(string date_of_giving) {
+void Book::set_date_of_giving(QString date_of_giving) {
 	this->date_of_giving = date_of_giving;
 }
 
-void Book::set_date_of_return(string date_of_return) {
+void Book::set_date_of_return(QString date_of_return) {
 	this->date_of_return = date_of_return;
 }
 
@@ -48,15 +48,15 @@ int Book::get_id() {
 	return id;
 }
 
-string Book::get_name() {
+QString Book::get_name() {
 	return name;
 }
 
-string Book::get_author_name() {
+QString Book::get_author_name() {
 	return author_name;
 }
 
-string Book::get_genre() {
+QString Book::get_genre() {
 	return genre;
 }
 
@@ -68,19 +68,19 @@ int Book::get_amount_of_page() {
 	return amount_of_page;
 }
 
-string Book::get_content() {
+QString Book::get_content() {
 	return content;
 }
 
-string Book::get_path_to_img() {
+QString Book::get_path_to_img() {
 	return path_to_img;
 }
 
-string Book::get_date_of_giving() {
+QString Book::get_date_of_giving() {
 	return date_of_giving;
 }
 
-string Book::get_date_of_return() {
+QString Book::get_date_of_return() {
 	return date_of_return;
 }
 
@@ -89,12 +89,12 @@ bool Book::get_enabled() {
 }
 
 void Book::update(SQLWork* db) {
-	string rule = " " + DB::BOOKS::FIELD::ID + " = " + to_string(id);
+	QString rule = " " + DB::BOOKS::FIELD::ID + " = " + QString::fromStdString(to_string(id));
 	db->update(DB::BOOKS::FIELD::NAME, "'" + name + "'", rule);
 	db->update(DB::BOOKS::FIELD::AUTHOR, "'" + author_name + "'", rule);
 	db->update(DB::BOOKS::FIELD::GENRE, "'" + genre + "'", rule);
-	db->update(DB::BOOKS::FIELD::YEAR, to_string(year), rule);
-	db->update(DB::BOOKS::FIELD::PAGES, to_string(amount_of_page), rule);
+	db->update(DB::BOOKS::FIELD::YEAR, QString::fromStdString(to_string(year)), rule);
+	db->update(DB::BOOKS::FIELD::PAGES, QString::fromStdString(to_string(amount_of_page)), rule);
 	db->update(DB::BOOKS::FIELD::CONTENT, "'" + content + "'", rule);
 	db->update(DB::BOOKS::FIELD::IMG_PATH, "'" + path_to_img + "'", rule);
 	db->update(DB::BOOKS::FIELD::GIVE_DATE, "'" + date_of_giving + "'", rule);
@@ -105,12 +105,12 @@ void Book::update(SQLWork* db) {
 
 void Book::add_in_db(SQLWork* db) {
 	db->push_back({
-			to_string(id),
+			QString::fromStdString(to_string(id)),
 			"'" + name + "'",
 			"'" + author_name + "'",
 			"'" + genre + "'",
-			to_string(year),
-			to_string(amount_of_page),
+			QString::fromStdString(to_string(year)),
+			QString::fromStdString(to_string(amount_of_page)),
 			"'" + content + "'",
 			"'" + path_to_img + "'",
 			"'" + date_of_giving + "'",
@@ -122,17 +122,19 @@ void Book::add_in_db(SQLWork* db) {
 Book Book::get_book_by_id(SQLWork* db, int id) {
 	Book book;
 
+	QString q_id = QString::fromStdString(to_string(id));
+
 	book.set_id(id);
-	book.set_name(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 1));
-	book.set_author_name(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 2));
-	book.set_genre(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 3));
-	book.set_year(db->get_int(DB::BOOKS::FIELD::ID, to_string(id), 4));
-	book.set_amount_of_page(db->get_int(DB::BOOKS::FIELD::ID, to_string(id), 5));
-	book.set_content(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 6));
-	book.set_path_to_img(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 7));
-	book.set_date_of_giving(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 8));
-	book.set_date_of_return(db->get_text(DB::BOOKS::FIELD::ID, to_string(id), 9));
-	book.set_enabled(db->get_int(DB::BOOKS::FIELD::ID, to_string(id), 10));
+	book.set_name(db->get_text(DB::BOOKS::FIELD::ID, q_id, 1));
+	book.set_author_name(db->get_text(DB::BOOKS::FIELD::ID, q_id, 2));
+	book.set_genre(db->get_text(DB::BOOKS::FIELD::ID, q_id, 3));
+	book.set_year(db->get_int(DB::BOOKS::FIELD::ID, q_id, 4));
+	book.set_amount_of_page(db->get_int(DB::BOOKS::FIELD::ID, q_id, 5));
+	book.set_content(db->get_text(DB::BOOKS::FIELD::ID, q_id, 6));
+	book.set_path_to_img(db->get_text(DB::BOOKS::FIELD::ID, q_id, 7));
+	book.set_date_of_giving(db->get_text(DB::BOOKS::FIELD::ID, q_id, 8));
+	book.set_date_of_return(db->get_text(DB::BOOKS::FIELD::ID, q_id, 9));
+	book.set_enabled(db->get_int(DB::BOOKS::FIELD::ID, q_id, 10));
 
 
 	return book;

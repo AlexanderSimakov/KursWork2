@@ -2,6 +2,7 @@
 #include <string>
 #include "SQLWORK.h"
 #include "constants.h"
+#include <QString>
 
 using namespace std;
 
@@ -11,29 +12,29 @@ class Book
 public:
 
 	void set_id(int id);
-	void set_name(string name);
-	void set_author_name(string author_name);
-	void set_genre(string genre);
+	void set_name(QString name);
+	void set_author_name(QString author_name);
+	void set_genre(QString genre);
 	void set_year(int year);
 	void set_amount_of_page(int amount_of_page);
-	void set_content(string content);
-	void set_path_to_img(string path_to_img);
+	void set_content(QString content);
+	void set_path_to_img(QString path_to_img);
 	
-	void set_date_of_giving(string date_of_giving);
-	void set_date_of_return(string date_of_return);
+	void set_date_of_giving(QString date_of_giving);
+	void set_date_of_return(QString date_of_return);
 	void set_enabled(bool is_enable);
 
 	int get_id();
-	string get_name();
-	string get_author_name();
-	string get_genre();
+	QString get_name();
+	QString get_author_name();
+	QString get_genre();
 	int get_year();
 	int get_amount_of_page();
-	string get_content();
-	string get_path_to_img();
+	QString get_content();
+	QString get_path_to_img();
 
-	string get_date_of_giving();
-	string get_date_of_return();
+	QString get_date_of_giving();
+	QString get_date_of_return();
 	bool get_enabled();
 
 
@@ -47,16 +48,16 @@ private:
 	
 
 	int id = 0;
-	string name = "";
-	string author_name = "";
-	string genre = "";
+	QString name = "";
+	QString author_name = "";
+	QString genre = "";
 	int year = 0;
 	int amount_of_page = 0;
-	string content = "";
-	string path_to_img = "";
+	QString content = "";
+	QString path_to_img = "";
 
-	string date_of_giving = "-";
-	string date_of_return = "-";
+	QString date_of_giving = "-";
+	QString date_of_return = "-";
 	bool is_enabled = true;
 
 

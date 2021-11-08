@@ -4,19 +4,19 @@ void Account::set_id(int id) {
 	this->id = id;
 }
 
-void Account::set_name(string name) {
+void Account::set_name(QString name) {
 	this->name = name;
 }
 
-void Account::set_login(string login) {
+void Account::set_login(QString login) {
 	this->login = login;
 }
 
-void Account::set_salted_hash_password(string salted_hash_password) {
+void Account::set_salted_hash_password(QString salted_hash_password) {
 	this->salted_hash_password = salted_hash_password;
 }
 
-void Account::set_salt(string salt) {
+void Account::set_salt(QString salt) {
 	this->salt = salt;
 }
 
@@ -32,19 +32,19 @@ int Account::get_id() {
 	return id;
 }
 
-string Account::get_name() {
+QString Account::get_name() {
 	return name;
 }
 
-string Account::get_login() {
+QString Account::get_login() {
 	return login;
 }
 
-string Account::get_salted_hash_password() {
+QString Account::get_salted_hash_password() {
 	return salted_hash_password;
 }
 
-string Account::get_salt() {
+QString Account::get_salt() {
 	return salt;
 }
 
@@ -56,26 +56,26 @@ bool Account::get_access() {
 	return access;
 }
 
-string Account::get_password(string true_hash, string true_salt, string password) {
+QString Account::get_password(QString true_hash, QString true_salt, QString password) {
 	if (true_hash != get_generated_hash(password, true_salt)) // неправильный логин или пароль
 		return "-1";
 	else  // все хорошо
 		return password;
 }
 
-bool Account::is_right_password(string true_hash, string true_salt, string password) {
+bool Account::is_right_password(QString true_hash, QString true_salt, QString password) {
 	if (true_hash != get_generated_hash(password, true_salt)) // неправильный логин или пароль
 		return false;
 	else
 		return true;
 }
 
-string Account::get_generated_hash(string line, string salt) {
-	return sha1(sha1(line + salt) + sha1(line));
+QString Account::get_generated_hash(QString line, QString salt) {
+	return QString::fromStdString(sha1(sha1(line.toStdString() + salt.toStdString()) + sha1(line.toStdString())));
 }
 
-string Account::get_symbols_for_salt() {
-	string symbols;
+QString Account::get_symbols_for_salt() {
+	QString symbols;
 	symbols.reserve(SYMBOLS_SIZE);
 
 	char little_letter = 'a';
@@ -90,12 +90,12 @@ string Account::get_symbols_for_salt() {
 	return symbols;
 }
 
-string Account::get_generated_salt() {
-	string symbols = get_symbols_for_salt();
+QString Account::get_generated_salt() {
+	QString symbols = get_symbols_for_salt();
 
 	srand(time(NULL));
 
-	string salt;
+	QString salt;
 	salt.reserve(SALT_SIZE);
 
 	for (int i = 0; i < SALT_SIZE; i++) {
@@ -106,13 +106,13 @@ string Account::get_generated_salt() {
 }
 
 void Account::update(SQLWork* accounts_db) {
-	string rule = " " + DB::ACCOUNTS::FIELD::ID + " = " + to_string(id);
+	QString rule = " " + DB::ACCOUNTS::FIELD::ID + " = " + QString::fromStdString(to_string(id));
 	accounts_db->update(DB::ACCOUNTS::FIELD::LOGIN, "'" + login + "'", rule);
 	accounts_db->update(DB::ACCOUNTS::FIELD::NAME, "'" + name + "'", rule);
 	accounts_db->update(DB::ACCOUNTS::FIELD::HASH, "'" + salted_hash_password + "'", rule);
 	accounts_db->update(DB::ACCOUNTS::FIELD::SALT, "'" + salt + "'", rule);
-	accounts_db->update(DB::ACCOUNTS::FIELD::ROLE, to_string(role), rule);
-	accounts_db->update(DB::ACCOUNTS::FIELD::ACCESS, to_string(access), rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::ROLE, QString::fromStdString(to_string(role)), rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::ACCESS, QString::fromStdString(to_string(access)), rule);
 }
 
 void Account::add_in_db(SQLWork* accounts_db) {
@@ -121,9 +121,9 @@ void Account::add_in_db(SQLWork* accounts_db) {
 			"'" + name + "'",
 			"'" + salted_hash_password + "'",
 			"'" + salt + "'",
-			to_string(role),
-			to_string(access),
-			to_string(id)
+			QString::fromStdString(to_string(role)),
+			QString::fromStdString(to_string(access)),
+			QString::fromStdString(to_string(id))
 		});
 }
 

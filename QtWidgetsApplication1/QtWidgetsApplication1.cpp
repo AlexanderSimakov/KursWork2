@@ -66,7 +66,7 @@ void QtWidgetsApplication1::open_books_page() {
     mark_books_button();
     login_page->clear_error_message();
     login_page->clear_password_input();
-    ui.adminMainPage_my_account_button->setText(QString::fromStdString(current_account.get_name()));
+    ui.adminMainPage_my_account_button->setText(current_account.get_name());
     ui.stackedWidget->setCurrentWidget(ui.adminMainPage);
     ui.stackedWidget_2->setCurrentWidget(ui.page_3);
     book_page->start();
@@ -96,7 +96,7 @@ void QtWidgetsApplication1::open_editing_current_account_page() {
 }
 
 void QtWidgetsApplication1::update_current_account_info() {
-    string id = to_string(current_account.get_id());
+    QString id = QString::fromStdString(to_string(current_account.get_id()));
     current_account.set_login(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID , id, 0));
     current_account.set_name(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID, id, 1));
     current_account.set_salted_hash_password(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID, id, 2));

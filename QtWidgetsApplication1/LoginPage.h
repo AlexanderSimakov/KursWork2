@@ -31,10 +31,10 @@ private:
 	void init_error_message();
 	void adjust_fonts();
 
-	bool is_account_have_access(string login);
-	string get_login();
-	string get_password();
-	void show_error_message(string text);
+	bool is_account_have_access(QString login);
+	QString get_login();
+	QString get_password();
+	void show_error_message(QString text);
 
 };
 

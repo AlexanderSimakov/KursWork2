@@ -7,9 +7,9 @@ Searching::Searching(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, QWidge
 }
 
 void Searching::delete_widgets() {
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("Search_button")));
-	qDeleteAll(page->findChildren<QLineEdit*>(QString::fromStdString("Search_field")));
-	qDeleteAll(page->findChildren<QComboBox*>(QString::fromStdString("Search_method")));
+	qDeleteAll(page->findChildren<QPushButton*>("Search_button"));
+	qDeleteAll(page->findChildren<QLineEdit*>("Search_field"));
+	qDeleteAll(page->findChildren<QComboBox*>("Search_method"));
 }
 
 void Searching::init(vector<Search> search_commands, int* current_page) {
@@ -52,8 +52,8 @@ void Searching::create_search_button() {
 	connect(button, &QPushButton::clicked, this,
 		[=]() {
 			*current_page = 0;
-			string current_command = search_commands[combo_box->currentIndex()].command;
-			id = db->get_ints(0, current_command + " '" + lineEdit->text().toStdString() + "' ");
+			QString current_command = search_commands[combo_box->currentIndex()].command;
+			id = db->get_ints(0, current_command + " '" + lineEdit->text() + "' ");
 			_page.update_window();
 		});
 }
@@ -79,7 +79,7 @@ void Searching::crete_search_choise_method_button() {
 		STYLE::BORDER::RADIUS_10 +
 		STYLE::PADDING::LEFT_10);
 	for (int i = 0; i < search_commands.size(); i++) {
-		combo_box->addItem(search_commands[i].name.c_str());
+		combo_box->addItem(search_commands[i].name);
 	}
 	combo_box->setGeometry(X, Y, WIDTH, HEIGHT);
 }

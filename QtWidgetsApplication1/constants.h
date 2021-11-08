@@ -6,62 +6,62 @@
 namespace DB {
 
 	namespace ACCOUNTS {
-		const std::string FILENAME = "accounts.db";
-		const std::string NAME = "ACCOUNTS";
+		const QString FILENAME = "accounts.db";
+		const QString NAME = "ACCOUNTS";
 
 		namespace FIELD {
-			const std::string LOGIN = "LOGIN";
-			const std::string NAME = "NAME";
-			const std::string HASH = "HASH";
-			const std::string SALT = "SALT";
-			const std::string ROLE = "ROLE";
-			const std::string ACCESS = "ACCESS";
-			const std::string ID = "ID";
+			const QString LOGIN = "LOGIN";
+			const QString NAME = "NAME";
+			const QString HASH = "HASH";
+			const QString SALT = "SALT";
+			const QString ROLE = "ROLE";
+			const QString ACCESS = "ACCESS";
+			const QString ID = "ID";
 		}
 
 	}
 
 	namespace BOOKS {
-		const std::string FILENAME = "books.db";
-		const std::string NAME = "BOOKS";
+		const QString FILENAME = "books.db";
+		const QString NAME = "BOOKS";
 
 		namespace FIELD {
-			const std::string ID = "ID";
-			const std::string NAME = "NAME";
-			const std::string AUTHOR = "AUTHOR_NAME";
-			const std::string GENRE = "GENRE";
-			const std::string YEAR = "YEAR";
-			const std::string PAGES = "AMOUNT_OF_PAGE";
-			const std::string CONTENT = "CONTENT";
-			const std::string IMG_PATH = "PATH_TO_IMG";
-			const std::string GIVE_DATE = "DATE_OF_GIVING";
-			const std::string RETURN_DATE = "DATE_OF_REPEAT";
-			const std::string ENABLED = "ENABLED";
+			const QString ID = "ID";
+			const QString NAME = "NAME";
+			const QString AUTHOR = "AUTHOR_NAME";
+			const QString GENRE = "GENRE";
+			const QString YEAR = "YEAR";
+			const QString PAGES = "AMOUNT_OF_PAGE";
+			const QString CONTENT = "CONTENT";
+			const QString IMG_PATH = "PATH_TO_IMG";
+			const QString GIVE_DATE = "DATE_OF_GIVING";
+			const QString RETURN_DATE = "DATE_OF_REPEAT";
+			const QString ENABLED = "ENABLED";
 		}
 
 	}
 
 	namespace PEOPLE {
-		const std::string FILENAME = "people.db";
-		const std::string NAME = "PEOPLE";
+		const QString FILENAME = "people.db";
+		const QString NAME = "PEOPLE";
 
 		namespace FIELD {
-			const std::string ID = "ID";
-			const std::string BOOK_ID = "BOOK_ID";
-			const std::string NAME = "NAME";
-			const std::string PHONE = "PHONE";
-			const std::string ADDRESS = "ADDRESS";
-			const std::string AGE = "AGE";
-			const std::string SEX = "SEX";
+			const QString ID = "ID";
+			const QString BOOK_ID = "BOOK_ID";
+			const QString NAME = "NAME";
+			const QString PHONE = "PHONE";
+			const QString ADDRESS = "ADDRESS";
+			const QString AGE = "AGE";
+			const QString SEX = "SEX";
 		}
 
 	}
 
 	namespace FIELD_SETTING {
-		const std::string TEXT_PRIMARY = "TEXT PRIMARY KEY NOT NULL";
-		const std::string INT_PRIMARY = "INT PRIMARY KEY NOT NULL";
-		const std::string TEXT = "TEXT NOT NULL";
-		const std::string INT = "INT NOT NULL";
+		const QString TEXT_PRIMARY = "TEXT PRIMARY KEY NOT NULL";
+		const QString INT_PRIMARY = "INT PRIMARY KEY NOT NULL";
+		const QString TEXT = "TEXT NOT NULL";
+		const QString INT = "INT NOT NULL";
 	}
 }
 

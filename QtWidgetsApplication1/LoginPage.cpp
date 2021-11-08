@@ -16,8 +16,8 @@ void LoginPage::open() {
 
 Account LoginPage::get_authorized_account() {
 	Account account;
-	string login = get_login();
-	string pass = get_password();
+	QString login = get_login();
+	QString pass = get_password();
 
 	if (login.size() == 0 || pass.size() == 0) {
 		clear_error_message();
@@ -30,8 +30,8 @@ Account LoginPage::get_authorized_account() {
 		return account;
 	}
 
-	string db_account_hash = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 2);
-	string db_account_salt = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 3);
+	QString db_account_hash = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 2);
+	QString db_account_salt = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 3);
 
 	if (!account.is_right_password(db_account_hash, db_account_salt, pass)) {
 		clear_error_message();
@@ -51,21 +51,21 @@ Account LoginPage::get_authorized_account() {
 	}
 }
 
-bool LoginPage::is_account_have_access(string login) {
+bool LoginPage::is_account_have_access(QString login) {
 	return account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 5) == 1;
 }
 
-string LoginPage::get_login() {
-	return ui->authorization_login_input->text().toStdString();
+QString LoginPage::get_login() {
+	return ui->authorization_login_input->text();
 }
 
-string LoginPage::get_password() {
-	return ui->authorization_pass_input->text().toStdString();
+QString LoginPage::get_password() {
+	return ui->authorization_pass_input->text();
 }
 
-void LoginPage::show_error_message(string text) {
+void LoginPage::show_error_message(QString text) {
 	init_error_message();
-	error_message->setText(QString::fromStdString(text));
+	error_message->setText(text);
 	error_message->show();
 }
 
@@ -89,7 +89,7 @@ void LoginPage::adjust_fonts() {
 }
 
 void LoginPage::init_error_message() {
-	error_message = new QLabel(QString::fromStdString(""), page);
+	error_message = new QLabel("", page);
 	error_message->setObjectName("LoginPage_error_message");
 	error_message->setAlignment(Qt::AlignHCenter);
 	error_message->setStyleSheet(STYLE::COLOR::RED);

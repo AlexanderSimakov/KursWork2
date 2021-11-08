@@ -9,10 +9,10 @@ AccountPage::AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQ
 
 	adjust_fonts();
 
-	admin_pixmap = QPixmap(QString::fromStdString("admin.png"));
+	admin_pixmap = QPixmap("admin.png");
 	admin_pixmap = admin_pixmap.scaled(QSize(62, 62), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-	user_pixmap = QPixmap(QString::fromStdString("user.png"));
+	user_pixmap = QPixmap("user.png");
 	user_pixmap = user_pixmap.scaled(QSize(62, 52), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 }
 
@@ -31,12 +31,12 @@ void AccountPage::update_accounts_id() {
 
 void AccountPage::clear_page() {
 	clear_account_list();
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("AccountPage_add_button")));
+	qDeleteAll(page->findChildren<QPushButton*>("AccountPage_add_button"));
 }
 
 void AccountPage::clear_account_list() {
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("choise_page_button")));
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("accountPage_button")));
+	qDeleteAll(page->findChildren<QPushButton*>("choise_page_button"));
+	qDeleteAll(page->findChildren<QPushButton*>("accountPage_button"));
 }
 
 void AccountPage::clear_account_edit_page() {
@@ -73,11 +73,11 @@ void AccountPage::show_list() {
 }
 
 void AccountPage::show_account(Account* account, int row, int column){
-	QLabel* name = new QLabel(QString::fromStdString(account->get_name()));
+	QLabel* name = new QLabel(account->get_name());
 	name->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	name->setFont(FONTS::UBUNTU_10);
 
-	QLabel* login = new QLabel(QString::fromStdString(account->get_login()));
+	QLabel* login = new QLabel(account->get_login());
 	login->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	login->setFont(FONTS::UBUNTU_10);
 
@@ -136,9 +136,9 @@ void AccountPage::create_choise_page_buttons() {
 
 void AccountPage::create_add_button() {
 	const int X = 920, Y = 650, WIDTH = 145, HEIGHT = 40;
-	const string BUTTON_TEXT = "Add new";
+	const QString BUTTON_TEXT = "Add new";
 
-	QPushButton* add_button = new QPushButton(QString::fromStdString(BUTTON_TEXT), page);
+	QPushButton* add_button = new QPushButton(BUTTON_TEXT, page);
 	add_button->setObjectName("AccountPage_add_button");
 	add_button->setFont(FONTS::UBUNTU_10);
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
@@ -156,13 +156,15 @@ void AccountPage::create_add_button() {
 Account AccountPage::get_account_by_id(int id) {
 	Account account;
 
+	QString q_id = QString::fromStdString(to_string(id));
+
 	account.set_id(id);
-	account.set_login(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 0));
-	account.set_name(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 1));
-	account.set_salted_hash_password(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 2));
-	account.set_salt(account_db->get_text(DB::ACCOUNTS::FIELD::ID, to_string(id), 3));
-	account.set_role(account_db->get_int(DB::ACCOUNTS::FIELD::ID, to_string(id), 4));
-	account.set_access(account_db->get_int(DB::ACCOUNTS::FIELD::ID, to_string(id), 5));
+	account.set_login(account_db->get_text(DB::ACCOUNTS::FIELD::ID, q_id, 0));
+	account.set_name(account_db->get_text(DB::ACCOUNTS::FIELD::ID, q_id, 1));
+	account.set_salted_hash_password(account_db->get_text(DB::ACCOUNTS::FIELD::ID, q_id, 2));
+	account.set_salt(account_db->get_text(DB::ACCOUNTS::FIELD::ID, q_id, 3));
+	account.set_role(account_db->get_int(DB::ACCOUNTS::FIELD::ID, q_id, 4));
+	account.set_access(account_db->get_int(DB::ACCOUNTS::FIELD::ID, q_id, 5));
 
 	return account;
 }
@@ -197,20 +199,20 @@ void AccountPage::edit_account() {
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 		
 		Account account = Account();
-		string salt, hash;
+		QString salt, hash;
 
 		if (ui->lineEdit_7->text().size() == 0) {
-			salt = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text().toStdString(), 3);
-			hash = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text().toStdString(), 2);
+			salt = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text(), 3);
+			hash = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text(), 2);
 		}
 		else {
 			salt = account.get_generated_salt();
-			hash = account.get_generated_hash(ui->lineEdit_7->text().toStdString(), salt);
+			hash = account.get_generated_hash(ui->lineEdit_7->text(), salt);
 		}
 
 		account.set_id(ui->lineEdit_9->text().toInt());
-		account.set_login(ui->lineEdit_6->text().toStdString());
-		account.set_name(ui->lineEdit_2->text().toStdString());
+		account.set_login(ui->lineEdit_6->text());
+		account.set_name(ui->lineEdit_2->text());
 		account.set_salted_hash_password(hash);
 		account.set_salt(salt);
 		account.set_role(ui->checkBox_2->isChecked());
@@ -270,15 +272,15 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 
 
 	ui->lineEdit_9->setText(QString::fromStdString(to_string(account.get_id())));
-	ui->lineEdit_2->setText(QString::fromStdString(account.get_name()));
-	ui->lineEdit_6->setText(QString::fromStdString(account.get_login()));
+	ui->lineEdit_2->setText(account.get_name());
+	ui->lineEdit_6->setText(account.get_login());
 	ui->checkBox->setChecked(account.get_access());
 	ui->checkBox_2->setChecked(account.get_role());
 
 	disconnect(ui->remove_account_button, 0, 0, 0);
 	connect(ui->remove_account_button, &QPushButton::clicked, this, [=]() { 
 		if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
-			account_db->delete_field(DB::ACCOUNTS::FIELD::ID + " = " + ui->lineEdit_9->text().toStdString());
+			account_db->delete_field(DB::ACCOUNTS::FIELD::ID + " = " + ui->lineEdit_9->text());
 			start();
 		}
 	});
@@ -315,12 +317,12 @@ void AccountPage::create_account() {
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 		Account account = Account();
 
-		string salt = account.get_generated_salt();
-		string hash = account.get_generated_hash(ui->lineEdit_7->text().toStdString(), salt);
+		QString salt = account.get_generated_salt();
+		QString hash = account.get_generated_hash(ui->lineEdit_7->text(), salt);
 
 		account.set_id(ui->lineEdit_9->text().toInt());
-		account.set_login(ui->lineEdit_6->text().toStdString());
-		account.set_name(ui->lineEdit_2->text().toStdString());
+		account.set_login(ui->lineEdit_6->text());
+		account.set_name(ui->lineEdit_2->text());
 		account.set_salted_hash_password(hash);
 		account.set_salt(salt);
 		account.set_role(ui->checkBox_2->isChecked());
@@ -393,7 +395,7 @@ int AccountPage::check_creation() {
 	else if (password != repeat_password) {
 		return -5;
 	}
-	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 0) != "") { // занятость логина
+	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, QString::fromStdString(login), 0) != "") { // занятость логина
 		return -3;
 	}
 	
@@ -401,9 +403,9 @@ int AccountPage::check_creation() {
 	return 1;
 }
 
-void AccountPage::show_creation_error(string message, double num_of_line) {
+void AccountPage::show_creation_error(QString message, double num_of_line) {
 	const int START_X = 900, START_Y = 135, ADD = 65, WIDTH = 400, HEIGHT = 50;
-	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->editAccountPage);
+	QLabel* error_message = new QLabel(message, ui->editAccountPage);
 	error_message->setObjectName("accountPage_creation_error");
 	error_message->setStyleSheet(STYLE::COLOR::RED);
 	error_message->setFont(FONTS::UBUNTU_12);
@@ -412,7 +414,7 @@ void AccountPage::show_creation_error(string message, double num_of_line) {
 }
 
 void AccountPage::clear_creation_error() {
-	qDeleteAll(ui->editAccountPage->findChildren<QLabel*>(QString::fromStdString("accountPage_creation_error")));
+	qDeleteAll(ui->editAccountPage->findChildren<QLabel*>("accountPage_creation_error"));
 }
 
 void AccountPage::adjust_fonts() {

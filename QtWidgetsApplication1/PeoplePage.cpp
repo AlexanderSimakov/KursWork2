@@ -71,28 +71,28 @@ void PeoplePage::show_people(People* people, int row, int column) {
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
 
-	string day;
-	string month;
+	QString day;
+	QString month;
 
 	int day_i = ltm->tm_mday;
 	if (day_i < 10)
-		day = "0" + to_string(day_i);
+		day = "0" + QString::fromStdString(to_string(day_i));
 	else
-		day = to_string(day_i);
+		day = QString::fromStdString(to_string(day_i));
 
 	int month_i = 1 + ltm->tm_mon;
 	if (month_i < 10)
-		month = "0" + to_string(month_i);
+		month = "0" + QString::fromStdString(to_string(month_i));
 	else
-		month = to_string(month_i);
+		month = QString::fromStdString(to_string(month_i));
 
-	string year = to_string(1900 + ltm->tm_year);
+	QString year = QString::fromStdString(to_string(1900 + ltm->tm_year));
 
 
 	Book book = Book::get_book_by_id(book_db, people->get_book_id());
 	bool is_overdue = false;
-	string current_data = day + "." + month + "." + year;
-	string date_of_return = book.get_date_of_return();
+	QString current_data = day + "." + month + "." + year;
+	QString date_of_return = book.get_date_of_return();
 	for (int i = current_data.size() - 1; i >= 0; i--) {
 		if (current_data[i] > date_of_return[i]) {
 			is_overdue = true;
@@ -156,7 +156,7 @@ void PeoplePage::create_back_book_info_label(int row, int column) {
 
 void PeoplePage::create_name_label(People* people, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 35;
-	QLabel* name = new QLabel(QString::fromStdString(people->get_name()), page);
+	QLabel* name = new QLabel(people->get_name(), page);
 	name->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	name->setFont(FONTS::UBUNTU_10);
 	name->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
@@ -165,7 +165,7 @@ void PeoplePage::create_name_label(People* people, int row, int column) {
 
 void PeoplePage::create_phone_label(People* people, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 75;
-	QLabel* phone = new QLabel(QString::fromStdString(people->get_phone()), page);
+	QLabel* phone = new QLabel(people->get_phone(), page);
 	phone->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	phone->setFont(FONTS::UBUNTU_10);
 	phone->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
@@ -174,7 +174,7 @@ void PeoplePage::create_phone_label(People* people, int row, int column) {
 
 void PeoplePage::create_address_label(People* people, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 115;
-	QLabel* address = new QLabel(QString::fromStdString(people->get_address()), page);
+	QLabel* address = new QLabel(people->get_address(), page);
 	address->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	address->setFont(FONTS::UBUNTU_10);
 	address->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
@@ -211,7 +211,7 @@ void PeoplePage::create_sex_label(People* people, int row, int column) {
 
 void PeoplePage::create_book_name_label(Book* book, int row, int column) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 175;
-	QLabel* book_name = new QLabel(QString::fromStdString(book->get_name()), page);
+	QLabel* book_name = new QLabel(book->get_name(), page);
 	book_name->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	book_name->setFont(FONTS::UBUNTU_10);
 	book_name->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
@@ -220,7 +220,7 @@ void PeoplePage::create_book_name_label(Book* book, int row, int column) {
 
 void PeoplePage::create_book_give_date_label(Book* book, int row, int column, bool is_overdue) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 215;
-	QLabel* book_give_date = new QLabel(QString::fromStdString(book->get_date_of_giving()), page);
+	QLabel* book_give_date = new QLabel(book->get_date_of_giving(), page);
 	
 	if (is_overdue)
 		book_give_date->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT + STYLE::COLOR::RED);
@@ -234,7 +234,7 @@ void PeoplePage::create_book_give_date_label(Book* book, int row, int column, bo
 
 void PeoplePage::create_book_return_date_label(Book* book, int row, int column, bool is_overdue) {
 	const int WIDTH = 180, HEIGHT = 30, START_X = 35, START_Y = 255;
-	QLabel* book_return_date = new QLabel(QString::fromStdString(book->get_date_of_return()), page);
+	QLabel* book_return_date = new QLabel(book->get_date_of_return(), page);
 
 	if (is_overdue)
 		book_return_date->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT + STYLE::COLOR::RED);
@@ -249,7 +249,7 @@ void PeoplePage::create_book_return_date_label(Book* book, int row, int column, 
 void PeoplePage::create_return_button(People people, int row, int column) {
 	const int WIDTH = 62, HEIGHT = 72, START_X = 275, START_Y = 221;
 	QPushButton* return_btn = new QPushButton("Return", page);
-	return_btn->setObjectName(QString("book_return_button"));
+	return_btn->setObjectName("book_return_button");
 	return_btn->setFont(FONTS::UBUNTU_10);
 	
 	return_btn->setStyleSheet("QPushButton#book_return_button{ " + STYLE::BACKGROUNG::PURPLE + 
@@ -264,7 +264,7 @@ void PeoplePage::create_return_button(People people, int row, int column) {
 void PeoplePage::create_book_button(People people, int row, int column) {
 	const int WIDTH = 62, HEIGHT = 40, START_X = 275, START_Y = 170;
 	QPushButton* return_btn = new QPushButton("Book", page);
-	return_btn->setObjectName(QString("book_show_button"));
+	return_btn->setObjectName("book_show_button");
 	return_btn->setFont(FONTS::UBUNTU_10);
 
 	return_btn->setStyleSheet("QPushButton#book_show_button{ " + STYLE::BACKGROUNG::BLUE +
@@ -281,16 +281,16 @@ void PeoplePage::open_book_info_page(People people) {
 
 	Book book = Book::get_book_by_id(book_db, people.get_book_id());
 
-	QPixmap pixmap = QPixmap(QString::fromStdString(book.get_path_to_img()));
+	QPixmap pixmap = QPixmap(book.get_path_to_img());
 	pixmap = pixmap.scaled(QSize(326, 326), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	ui->show_image->setAlignment(Qt::AlignCenter);
 	ui->show_image->setPixmap(pixmap);
 
-	ui->show_book_name->setText(QString::fromStdString(book.get_name()));
-	ui->show_author->setText(QString::fromStdString(book.get_author_name()));
+	ui->show_book_name->setText(book.get_name());
+	ui->show_author->setText(book.get_author_name());
 	ui->show_year->setText(QString::fromStdString(to_string(book.get_year())));
 	ui->show_pages->setText(QString::fromStdString(to_string(book.get_amount_of_page())));
-	ui->show_content->setText(QString::fromStdString(book.get_content()));
+	ui->show_content->setText(book.get_content());
 
 	ui->show_remove_book_button->setEnabled(false);
 	ui->show_remove_book_button->setVisible(false);
@@ -310,7 +310,7 @@ void PeoplePage::return_book(People people) {
 		book.set_enabled(true);
 		book.update(book_db);
 
-		people_db->delete_field(DB::PEOPLE::FIELD::ID + " = " + to_string(people.get_id()));
+		people_db->delete_field(DB::PEOPLE::FIELD::ID + " = " + QString::fromStdString(to_string(people.get_id())));
 		start();
 	}
 }
@@ -318,13 +318,15 @@ void PeoplePage::return_book(People people) {
 People PeoplePage::get_people_by_id(int id) {
 	People people;
 
+	QString q_id = QString::fromStdString(to_string(id));
+
 	people.set_id(id);
-	people.set_book_id(people_db->get_int(DB::PEOPLE::FIELD::ID, to_string(id), 1));
-	people.set_name(people_db->get_text(DB::PEOPLE::FIELD::ID, to_string(id), 2));
-	people.set_phone(people_db->get_text(DB::PEOPLE::FIELD::ID, to_string(id), 3));
-	people.set_address(people_db->get_text(DB::PEOPLE::FIELD::ID, to_string(id), 4));
-	people.set_age(people_db->get_int(DB::PEOPLE::FIELD::ID, to_string(id), 5));
-	people.set_sex(people_db->get_int(DB::PEOPLE::FIELD::ID, to_string(id), 6));
+	people.set_book_id(people_db->get_int(DB::PEOPLE::FIELD::ID, q_id, 1));
+	people.set_name(people_db->get_text(DB::PEOPLE::FIELD::ID, q_id, 2));
+	people.set_phone(people_db->get_text(DB::PEOPLE::FIELD::ID, q_id, 3));
+	people.set_address(people_db->get_text(DB::PEOPLE::FIELD::ID, q_id, 4));
+	people.set_age(people_db->get_int(DB::PEOPLE::FIELD::ID, q_id, 5));
+	people.set_sex(people_db->get_int(DB::PEOPLE::FIELD::ID, q_id, 6));
 
 	return people;
 }

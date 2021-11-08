@@ -87,8 +87,8 @@ void init_people_db(SQLWork* db) {
 void add_admin_account_if_not_exists(SQLWork* db) {
     if (db->get_text(DB::ACCOUNTS::FIELD::LOGIN, "admin", 2) == "") {
 
-        const string salt = Account::get_generated_salt();
-        const string salted_hash_password = Account::get_generated_hash("admin", salt);
+        const QString salt = Account::get_generated_salt();
+        const QString salted_hash_password = Account::get_generated_hash("admin", salt);
 
         db->push_back({ "'admin'", "'Admin'", "'" + salted_hash_password + "'", "'" + salt + "'", "1", "1", "1" });
     }

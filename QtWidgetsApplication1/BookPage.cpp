@@ -41,13 +41,13 @@ void BookPage::update_books_id() {
 void BookPage::clear_page() {
 	clear_book_list();
 	searching->delete_widgets();
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("BookPage_add_button")));
+	qDeleteAll(page->findChildren<QPushButton*>("BookPage_add_button"));
 }
 
 void BookPage::clear_book_list() {
 	qDeleteAll(page->findChildren<QLabel*>());
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("choise_page_button")));
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("BookPage_btn")));
+	qDeleteAll(page->findChildren<QPushButton*>("choise_page_button"));
+	qDeleteAll(page->findChildren<QPushButton*>("BookPage_btn"));
 }
 
 void BookPage::show_list(){
@@ -77,7 +77,7 @@ void BookPage::show_book(Book book, int row, int column) {
 	const int WIDTH = 340, HEIGHT = 300, START_X = 10, START_Y = 13;
 
 	//  --------------- create name label ----------------
-	QLabel* name = new QLabel(QString::fromStdString(book.get_name()), page);
+	QLabel* name = new QLabel(book.get_name(), page);
 	name->setObjectName("BookPage_name");
 	name->setStyleSheet(STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::RADIUS_10);
 	name->setAlignment(Qt::AlignCenter);
@@ -91,7 +91,7 @@ void BookPage::show_book(Book book, int row, int column) {
 	QPixmap target = QPixmap(QSize(320, 240));
     target.fill(Qt::transparent);
 
-    QPixmap p = QPixmap(QString::fromStdString(book.get_path_to_img()));
+    QPixmap p = QPixmap(book.get_path_to_img());
     p = p.scaled(QSize(320, 240), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QPainter painter (&target);
@@ -166,9 +166,9 @@ void BookPage::create_search() {
 
 void BookPage::create_add_button() {
 	const int X = 920, Y = 650, WIDTH = 145, HEIGHT = 40;
-	const string BUTTON_TEXT = "Add new";
+	const QString BUTTON_TEXT = "Add new";
 
-	QPushButton* add_button = new QPushButton(QString::fromStdString(BUTTON_TEXT), page);
+	QPushButton* add_button = new QPushButton(BUTTON_TEXT, page);
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
 	add_button->setFont(FONTS::UBUNTU_10);
 	add_button->setObjectName("BookPage_add_button");
@@ -188,7 +188,7 @@ void BookPage::create_add_button() {
 void BookPage::create_edit_button(Book book, int num_in_list) {
 	const int WIDTH = 100, HEIGHT = 33;
 	QPushButton* edit_btn = new QPushButton("edit", page);
-	edit_btn->setObjectName(QString("book_edit_button"));
+	edit_btn->setObjectName("book_edit_button");
 	edit_btn->setFont(FONTS::UBUNTU_10);
 	edit_btn->setGeometry(PAGE_WIDTH - WIDTH, HEIGHT + MARGIN + ADD * num_in_list, WIDTH, HEIGHT);
 	connect(edit_btn, &QPushButton::clicked, this, [=]() { open_show_book_page(book); });
@@ -198,11 +198,11 @@ void BookPage::create_edit_button(Book book, int num_in_list) {
 void BookPage::open_show_book_page(Book book) {
 	ui->stackedWidget_2->setCurrentWidget(ui->showBookPage);
 
-	ui->show_book_name->setText(QString::fromStdString(book.get_name()));
-	ui->show_author->setText(QString::fromStdString(book.get_author_name()));
+	ui->show_book_name->setText(book.get_name());
+	ui->show_author->setText(book.get_author_name());
 	ui->show_year->setText(QString::fromStdString(to_string(book.get_year())));
 	ui->show_pages->setText(QString::fromStdString(to_string(book.get_amount_of_page())));
-	ui->show_content->setText(QString::fromStdString(book.get_content()));
+	ui->show_content->setText(book.get_content());
 
 
 	//  --------------- create image label ---------------
@@ -211,7 +211,7 @@ void BookPage::open_show_book_page(Book book) {
 	QPixmap target = QPixmap(QSize(326, 326));
 	target.fill(Qt::transparent);
 
-	QPixmap p = QPixmap(QString::fromStdString(book.get_path_to_img()));
+	QPixmap p = QPixmap(book.get_path_to_img());
 	p = p.scaled(QSize(326, 326), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 	QPainter painter(&target);
@@ -238,7 +238,7 @@ void BookPage::open_show_book_page(Book book) {
 		connect(ui->show_remove_book_button, &QPushButton::clicked, this, [=]() {
 			if (QMessageBox::Yes == QMessageBox::question(this, "Apply Remove", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 				Book _book = book;
-				books_db->delete_field( DB::BOOKS::FIELD::ID + " = " + to_string(_book.get_id()));
+				books_db->delete_field( DB::BOOKS::FIELD::ID + " = " + QString::fromStdString(to_string(_book.get_id())));
 				start();
 			}
 			});
@@ -287,9 +287,9 @@ void BookPage::open_show_book_page(Book book) {
 		ui->show_user_name->setVisible(true);
 		ui->show_date_of_getting->setVisible(true);
 		ui->show_date_of_return->setVisible(true);
-		ui->show_user_name->setText(QString::fromStdString(people.get_name()));
-		ui->show_date_of_getting->setText(QString::fromStdString(book.get_date_of_giving()));
-		ui->show_date_of_return->setText(QString::fromStdString(book.get_date_of_return()));
+		ui->show_user_name->setText(people.get_name());
+		ui->show_date_of_getting->setText(book.get_date_of_giving());
+		ui->show_date_of_return->setText(book.get_date_of_return());
 	}
 	else {
 		ui->show_back_user->setVisible(false);
@@ -303,7 +303,7 @@ void BookPage::open_show_book_page(Book book) {
 
 void BookPage::open_give_book_page(Book book) {
 	ui->stackedWidget_2->setCurrentWidget(ui->giveBookPage);
-	ui->giveBook_book_name_label->setText(QString::fromStdString(book.get_name()));
+	ui->giveBook_book_name_label->setText(book.get_name());
 
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
@@ -394,14 +394,14 @@ void BookPage::give_book(Book book) {
 
 		people.set_id(min_nonexistent);
 		people.set_book_id(book.get_id());
-		people.set_name(ui->giveBook_name_input->text().toStdString());
-		people.set_phone(ui->giveBook_phone_input->text().toStdString());
-		people.set_address(ui->giveBook_address_input->text().toStdString());
+		people.set_name(ui->giveBook_name_input->text());
+		people.set_phone(ui->giveBook_phone_input->text());
+		people.set_address(ui->giveBook_address_input->text());
 		people.set_age(ui->giveBook_age_input->text().toInt());
 		people.set_sex(ui->giveBook_sex_input->currentIndex());
 
-		book.set_date_of_giving(ui->giveBook_give_date_input->text().toStdString());
-		book.set_date_of_return(ui->giveBook_return_date_input->text().toStdString());
+		book.set_date_of_giving(ui->giveBook_give_date_input->text());
+		book.set_date_of_return(ui->giveBook_return_date_input->text());
 		book.set_enabled(false);
 
 		people.add_in_db(people_db);
@@ -419,7 +419,7 @@ void BookPage::return_book(Book book) {
 
 		People people = People::get_people_by_book_id(people_db, book.get_id());
 
-		people_db->delete_field(DB::BOOKS::FIELD::ID + " = " + to_string(people.get_id()));
+		people_db->delete_field(DB::BOOKS::FIELD::ID + " = " + QString::fromStdString(to_string(people.get_id())));
 		start();
 		open_show_book_page(book);
 	}
@@ -432,13 +432,13 @@ void BookPage::open_edit_book_page(Book book) {
 
 	ui->pushButton_3->setText("Edit book");
 	
-	ui->name_create_book_line_edit->setText(QString::fromStdString(book.get_name()));
-	ui->author_create_book_line_edit->setText(QString::fromStdString(book.get_author_name()));
-	ui->genre_create_book_line_edit->setCurrentText(QString::fromStdString(book.get_genre()));
+	ui->name_create_book_line_edit->setText(book.get_name());
+	ui->author_create_book_line_edit->setText(book.get_author_name());
+	ui->genre_create_book_line_edit->setCurrentText(book.get_genre());
 	ui->year_create_book_line_edit->setText(QString::fromStdString(to_string(book.get_year())));
 	ui->pages_create_book_line_edit->setText(QString::fromStdString(to_string(book.get_amount_of_page())));
-	ui->img_create_book_line_edit->setText(QString::fromStdString(book.get_path_to_img()));
-	ui->content_create_book_line_edit->setText(QString::fromStdString(book.get_content()));
+	ui->img_create_book_line_edit->setText(book.get_path_to_img());
+	ui->content_create_book_line_edit->setText(book.get_content());
 	ui->id_create_book_line_edit->setText(QString::fromStdString(to_string(book.get_id())));
 
 	disconnect(ui->pushButton_3, 0, 0, 0);
@@ -473,13 +473,13 @@ void BookPage::edit_book() {
 		Book book = Book();
 
 		book.set_id(ui->id_create_book_line_edit->text().toInt());
-		book.set_name(ui->name_create_book_line_edit->text().toStdString());
-		book.set_author_name(ui->author_create_book_line_edit->text().toStdString());
-		book.set_genre(ui->genre_create_book_line_edit->currentText().toStdString());
+		book.set_name(ui->name_create_book_line_edit->text());
+		book.set_author_name(ui->author_create_book_line_edit->text());
+		book.set_genre(ui->genre_create_book_line_edit->currentText());
 		book.set_year(ui->year_create_book_line_edit->text().toInt());
 		book.set_amount_of_page(ui->pages_create_book_line_edit->text().toInt());
-		book.set_content(ui->content_create_book_line_edit->toPlainText().toStdString());
-		book.set_path_to_img(ui->img_create_book_line_edit->text().toStdString());
+		book.set_content(ui->content_create_book_line_edit->toPlainText());
+		book.set_path_to_img(ui->img_create_book_line_edit->text());
 		book.set_date_of_giving("");
 		book.set_date_of_return("");
 		book.set_enabled(true);
@@ -538,13 +538,13 @@ void BookPage::create_book() {
 		Book book;
 
 		book.set_id(ui->id_create_book_line_edit->text().toInt());
-		book.set_name(ui->name_create_book_line_edit->text().toStdString());
-		book.set_author_name(ui->author_create_book_line_edit->text().toStdString());
-		book.set_genre(ui->genre_create_book_line_edit->currentText().toStdString());
+		book.set_name(ui->name_create_book_line_edit->text());
+		book.set_author_name(ui->author_create_book_line_edit->text());
+		book.set_genre(ui->genre_create_book_line_edit->currentText());
 		book.set_year(ui->year_create_book_line_edit->text().toInt());
 		book.set_amount_of_page(ui->pages_create_book_line_edit->text().toInt());
-		book.set_content(ui->content_create_book_line_edit->toPlainText().toStdString());
-		book.set_path_to_img(ui->img_create_book_line_edit->text().toStdString());
+		book.set_content(ui->content_create_book_line_edit->toPlainText());
+		book.set_path_to_img(ui->img_create_book_line_edit->text());
 		book.set_date_of_giving("");
 		book.set_date_of_return("");
 		book.set_enabled(true);
@@ -584,9 +584,9 @@ int BookPage::check_creation() {
 	return 1;
 }
 
-void BookPage::show_creation_error(string message, double num_of_line) {
+void BookPage::show_creation_error(QString message, double num_of_line) {
 	const int START_X = 900, START_Y = 35, ADD = 65, WIDTH = 400, HEIGHT = 50;
-	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->addBookPage);
+	QLabel* error_message = new QLabel(message, ui->addBookPage);
 	error_message->setObjectName("BookPage_creation_error");
 	error_message->setStyleSheet(STYLE::COLOR::RED);
 	error_message->setFont(FONTS::UBUNTU_12);
@@ -594,9 +594,9 @@ void BookPage::show_creation_error(string message, double num_of_line) {
 	error_message->show();
 }
 
-void BookPage::show_give_error(string message, double num_of_line) {
+void BookPage::show_give_error(QString message, double num_of_line) {
 	const int START_X = 490, START_Y = 110, ADD = 70, WIDTH = 400, HEIGHT = 50;
-	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->giveBookPage);
+	QLabel* error_message = new QLabel(message, ui->giveBookPage);
 	error_message->setObjectName("BookPage_give_error");
 	error_message->setStyleSheet(STYLE::COLOR::RED);
 	error_message->setFont(FONTS::UBUNTU_12);
@@ -605,11 +605,11 @@ void BookPage::show_give_error(string message, double num_of_line) {
 }
 
 void BookPage::clear_creation_error() {
-	qDeleteAll(ui->addBookPage->findChildren<QLabel*>(QString::fromStdString("BookPage_creation_error")));
+	qDeleteAll(ui->addBookPage->findChildren<QLabel*>("BookPage_creation_error"));
 }
 
 void BookPage::clear_give_error() {
-	qDeleteAll(ui->giveBookPage->findChildren<QLabel*>(QString::fromStdString("BookPage_give_error")));
+	qDeleteAll(ui->giveBookPage->findChildren<QLabel*>("BookPage_give_error"));
 }
 
 void BookPage::clear_creation_fields() {
