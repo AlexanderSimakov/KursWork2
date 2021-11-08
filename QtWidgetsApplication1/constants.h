@@ -72,24 +72,27 @@ namespace FONTS {
 	const QFont UBUNTU_16("Ubuntu", 16);
 }
 
-/*
-colors:
-#7ab2ff + blue
-#9CC5FF + light blue
-#FFFFFF + white
-#FFD69C + cream 
-#FFE2B9 + light cream
-transparent 
-#f5685d + red
-#7fbf52 + dark green
-#D69CFF + purple
-#ddadff + light purple
-#AEFF75 + green
-#c1ff96 + light green
-#FF7373 + light red
-#FFF1DE + фон
 
-*/
+
+
+namespace COLORS {
+	const string BLUE = "#7AB2FF";
+	const string LIGHT_BLUE = "#9CC5FF";
+	const string WHITE = "#FFFFFF";
+	const string CREAM = "#FFD69C";
+	const string LIGHT_CREAM = "#FFE2B9";
+	const string TRANSPARENT = "transparent";
+	const string RED = "#F5685D";
+	const string DARK_GREEN = "#7FBF52";
+	const string PURPLE = "#D69CFF";
+	const string LIGHT_PURPLE = "#DDADFF";
+	const string GREEN = "#AEFF75";
+	const string LIGHT_GREEN = "#C1FF96";
+	const string LIGHT_RED = "#FF7373";
+	const string BACK = "#FFF1DE";
+}
+
+
 
 const int SALT_SIZE = 16;
 
