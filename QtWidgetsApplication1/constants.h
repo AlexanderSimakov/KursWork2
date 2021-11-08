@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <QFont>
+#include <QString>
 
 namespace DB {
 
@@ -76,23 +77,48 @@ namespace FONTS {
 
 
 namespace COLORS {
-	const string BLUE = "#7AB2FF";
-	const string LIGHT_BLUE = "#9CC5FF";
-	const string WHITE = "#FFFFFF";
-	const string CREAM = "#FFD69C";
-	const string LIGHT_CREAM = "#FFE2B9";
-	const string TRANSPARENT = "transparent";
-	const string RED = "#F5685D";
-	const string DARK_GREEN = "#7FBF52";
-	const string PURPLE = "#D69CFF";
-	const string LIGHT_PURPLE = "#DDADFF";
-	const string GREEN = "#AEFF75";
-	const string LIGHT_GREEN = "#C1FF96";
-	const string LIGHT_RED = "#FF7373";
-	const string BACK = "#FFF1DE";
+	const QString BLUE = "#7AB2FF";
+	const QString LIGHT_BLUE ="#9CC5FF";
+	const QString WHITE = "#FFFFFF";
+	const QString CREAM = "#FFD69C";
+	const QString LIGHT_CREAM = "#FFE2B9";
+	const QString TRANSPARENT = "transparent";
+	const QString RED = "#F5685D";
+	const QString DARK_GREEN = "#7FBF52";
+	const QString PURPLE = "#D69CFF";
+	const QString LIGHT_PURPLE = "#DDADFF";
+	const QString GREEN = "#AEFF75";
+	const QString LIGHT_GREEN = "#C1FF96";
+	const QString LIGHT_RED = "#FF7373";
+	const QString BACK = "#FFF1DE";
 }
 
+namespace STYLE {
 
+	namespace COLOR {
+		const QString RED = "color: #F5685D; ";
+	}
+
+	namespace BACKGROUNG {
+		const QString TRANSPARENT = "background: transparent; ";
+		const QString GREEN = "background: #AEFF75; ";
+		const QString LIGHT_RED = "background: #FF7373; ";
+		const QString CREAM = "background-color: #FFD69C; ";
+		const QString LIGHT_CREAM = "background: #FFE2B9; ";
+		const QString LIGHT_GREEN = "background: #C1FF96; ";
+	}
+
+	namespace BORDER {
+		const QString RADIUS_10 = "border-radius: 10px; ";
+		const QString RADIUS_20 = "border-radius: 20px; ";
+		const QString RADIUS_30 = "border-radius: 30px; ";
+		const QString SOLID = "border-style: solid; ";
+
+	}
+
+	
+
+}
 
 const int SALT_SIZE = 16;
 

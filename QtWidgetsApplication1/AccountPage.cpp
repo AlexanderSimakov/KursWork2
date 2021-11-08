@@ -74,11 +74,11 @@ void AccountPage::show_list() {
 
 void AccountPage::show_account(Account* account, int row, int column){
 	QLabel* name = new QLabel(QString::fromStdString(account->get_name()));
-	name->setStyleSheet("background: transparent;");
+	name->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	name->setFont(FONTS::UBUNTU_10);
 
 	QLabel* login = new QLabel(QString::fromStdString(account->get_login()));
-	login->setStyleSheet("background: transparent;");
+	login->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	login->setFont(FONTS::UBUNTU_10);
 
 	QLabel* image = new QLabel("");
@@ -89,16 +89,16 @@ void AccountPage::show_account(Account* account, int row, int column){
 	if (account->get_role() == 1) {
 		pixmap = admin_pixmap;
 		if (account->get_access()) 
-			image->setStyleSheet("background: #AEFF75; border-radius: 20px;");
+			image->setStyleSheet(STYLE::BACKGROUNG::GREEN + STYLE::BORDER::RADIUS_20);
 		else
-			image->setStyleSheet("background: #FF7373; border-radius: 20px;");
+			image->setStyleSheet(STYLE::BACKGROUNG::LIGHT_RED + STYLE::BORDER::RADIUS_20);
 	}
 	else {
 		pixmap = user_pixmap;
 		if (account->get_access())
-			image->setStyleSheet("background: #AEFF75; border-radius: 30px;");
+			image->setStyleSheet(STYLE::BACKGROUNG::GREEN + STYLE::BORDER::RADIUS_30);
 		else
-			image->setStyleSheet("background: #FF7373; border-radius: 30px;");
+			image->setStyleSheet(STYLE::BACKGROUNG::LIGHT_RED + STYLE::BORDER::RADIUS_30);
 	}
 
 	image->setPixmap(pixmap);
@@ -108,10 +108,13 @@ void AccountPage::show_account(Account* account, int row, int column){
 	button->setGeometry(15 + ADD_X * row, 10 + ADD_Y * column, 255, 90);
 	button->setObjectName("accountPage_button");
 	button->setLayout(grid_layout);
-	button->setStyleSheet("QPushButton#accountPage_button{ background-color: #FFD69C; border-style: solid; border-width: 2px; border-radius: 10px; }"
+	button->setStyleSheet("QPushButton#accountPage_button{ " + 
+		STYLE::BACKGROUNG::CREAM + STYLE::BORDER::SOLID + 
+		"border-width: 2px; " + STYLE::BORDER::RADIUS_10 + " }"
 		" \n "
-		"QPushButton#accountPage_button:hover{ background: #FFE2B9; }");
+		"QPushButton#accountPage_button:hover{ " + STYLE::BACKGROUNG::LIGHT_CREAM + "}");
 	
+
 	grid_layout->addWidget(name, 0, 0);
 	grid_layout->addWidget(login, 1, 0);
 	grid_layout->addWidget(image, 0, 1, 0, 2, Qt::AlignRight);
@@ -139,7 +142,10 @@ void AccountPage::create_add_button() {
 	add_button->setObjectName("AccountPage_add_button");
 	add_button->setFont(FONTS::UBUNTU_10);
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
-	add_button->setStyleSheet("QPushButton#AccountPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#AccountPage_add_button::hover { background: #c1ff96; }");
+	add_button->setStyleSheet("QPushButton#AccountPage_add_button { " +
+		STYLE::BACKGROUNG::GREEN + STYLE::BORDER::RADIUS_10 + " } " +
+		" \n " +
+		"QPushButton#AccountPage_add_button::hover { " + STYLE::BACKGROUNG::LIGHT_GREEN +" }");
 	connect(add_button, &QPushButton::clicked, this,
 		[=]() {
 			open_account_creation_page();
@@ -399,7 +405,7 @@ void AccountPage::show_creation_error(string message, double num_of_line) {
 	const int START_X = 900, START_Y = 135, ADD = 65, WIDTH = 400, HEIGHT = 50;
 	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->editAccountPage);
 	error_message->setObjectName("accountPage_creation_error");
-	error_message->setStyleSheet("color: #f5685d");
+	error_message->setStyleSheet(STYLE::COLOR::RED);
 	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
 	error_message->show();
