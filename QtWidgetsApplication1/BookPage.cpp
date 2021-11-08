@@ -79,14 +79,14 @@ void BookPage::show_book(Book book, int row, int column) {
 	//  --------------- create name label ----------------
 	QLabel* name = new QLabel(QString::fromStdString(book.get_name()), page);
 	name->setObjectName("BookPage_name");
-	name->setStyleSheet(" background: #FFE2B9; border-radius: 10px;");
+	name->setStyleSheet(STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::RADIUS_10);
 	name->setAlignment(Qt::AlignCenter);
 	name->setFont(FONTS::UBUNTU_10);
 
 
 	//  --------------- create image label ---------------
 	QLabel* image = new QLabel("", page);
-	image->setStyleSheet("background: transparent;");
+	image->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 
 	QPixmap target = QPixmap(QSize(320, 240));
     target.fill(Qt::transparent);
@@ -116,14 +116,24 @@ void BookPage::show_book(Book book, int row, int column) {
 	button->setLayout(new QGridLayout);
 	button->setObjectName("BookPage_btn");
 	if (book.get_enabled()) {
-		button->setStyleSheet("QPushButton#BookPage_btn{ background-color: #FFD69C; border-style: solid; border-width: 2px; border-radius: 10px; border-color: #7fbf52 }"
+		button->setStyleSheet("QPushButton#BookPage_btn{ " +
+			STYLE::BACKGROUNG::CREAM +
+			STYLE::BORDER::SOLID +
+			STYLE::BORDER::WIDTH::_2 +
+			STYLE::BORDER::RADIUS_10 +
+			STYLE::BORDER::DARK_GREEN + " } "
 			" \n "
-			"QPushButton#BookPage_btn:hover{ background: #FFE2B9; }");
+			"QPushButton#BookPage_btn:hover{ " + STYLE::BACKGROUNG::LIGHT_CREAM + " }");
 	}
 	else {
-		button->setStyleSheet("QPushButton#BookPage_btn{ background-color: #FFD69C; border-style: solid; border-width: 2px; border-radius: 10px; border-color: #f5685d }"
-			" \n "
-			"QPushButton#BookPage_btn:hover{ background: #FFE2B9; }");
+		button->setStyleSheet("QPushButton#BookPage_btn{ " +
+			STYLE::BACKGROUNG::CREAM +
+			STYLE::BORDER::SOLID +
+			STYLE::BORDER::WIDTH::_2 +
+			STYLE::BORDER::RADIUS_10 +
+			STYLE::BORDER::RED + " } " +
+			" \n " +
+			"QPushButton#BookPage_btn:hover{ " + STYLE::BACKGROUNG::LIGHT_CREAM + " }");
 	}
 	
 
@@ -162,7 +172,12 @@ void BookPage::create_add_button() {
 	add_button->setGeometry(X, Y, WIDTH, HEIGHT);
 	add_button->setFont(FONTS::UBUNTU_10);
 	add_button->setObjectName("BookPage_add_button");
-	add_button->setStyleSheet("QPushButton#BookPage_add_button { background: #AEFF75; border-radius: 10px; } QPushButton#BookPage_add_button::hover { background: #c1ff96; }");
+
+	add_button->setStyleSheet("QPushButton#BookPage_add_button { " +
+		STYLE::BACKGROUNG::GREEN +
+		STYLE::BORDER::RADIUS_10 + " } " +
+		"QPushButton#BookPage_add_button::hover { " + STYLE::BACKGROUNG::LIGHT_GREEN + " }");
+	
 	connect(add_button, &QPushButton::clicked, this, 
 		[=]() {
 			open_book_creation_page();
@@ -573,7 +588,7 @@ void BookPage::show_creation_error(string message, double num_of_line) {
 	const int START_X = 900, START_Y = 35, ADD = 65, WIDTH = 400, HEIGHT = 50;
 	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->addBookPage);
 	error_message->setObjectName("BookPage_creation_error");
-	error_message->setStyleSheet("color: #f5685d");
+	error_message->setStyleSheet(STYLE::COLOR::RED);
 	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
 	error_message->show();
@@ -583,7 +598,7 @@ void BookPage::show_give_error(string message, double num_of_line) {
 	const int START_X = 490, START_Y = 110, ADD = 70, WIDTH = 400, HEIGHT = 50;
 	QLabel* error_message = new QLabel(QString::fromStdString(message), ui->giveBookPage);
 	error_message->setObjectName("BookPage_give_error");
-	error_message->setStyleSheet("color: #f5685d");
+	error_message->setStyleSheet(STYLE::COLOR::RED);
 	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
 	error_message->show();

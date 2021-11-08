@@ -393,7 +393,7 @@ int AccountPage::check_creation() {
 	else if (password != repeat_password) {
 		return -5;
 	}
-	else if (account_db->get_text("LOGIN", login, 0) != "") { // занятость логина
+	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 0) != "") { // занятость логина
 		return -3;
 	}
 	

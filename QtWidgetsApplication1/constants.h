@@ -97,6 +97,8 @@ namespace STYLE {
 
 	namespace COLOR {
 		const QString RED = "color: #F5685D; ";
+		const QString WHITE = "color: #FFFFFF; ";
+		const QString DARK_GREEN = "color: #7fbf52; ";
 	}
 
 	namespace BACKGROUNG {
@@ -106,14 +108,38 @@ namespace STYLE {
 		const QString CREAM = "background-color: #FFD69C; ";
 		const QString LIGHT_CREAM = "background: #FFE2B9; ";
 		const QString LIGHT_GREEN = "background: #C1FF96; ";
+		const QString BLUE = "background: #7AB2FF; ";
+		const QString LIGHT_BLUE = "background: #9CC5FF; ";
+		const QString PURPLE = "background: #D69CFF; ";
+		const QString LIGHT_PURPLR = "background: #DDADFF; ";
+
 	}
 
 	namespace BORDER {
+		const QString RADIUS_5 = "border-radius: 5px; ";
 		const QString RADIUS_10 = "border-radius: 10px; ";
 		const QString RADIUS_20 = "border-radius: 20px; ";
 		const QString RADIUS_30 = "border-radius: 30px; ";
+		const QString SIZE_10 = "border: 10px; ";
+		const QString SIZE_2 = "border: 2px; ";
 		const QString SOLID = "border-style: solid; ";
+		const QString LITE_CREAM = "border-color: #FFE2B9; ";
+		const QString DARK_GREEN = "border-color: #7FBF52; ";
+		const QString RED = "border-color: #F5685D; ";
 
+
+		namespace WIDTH {
+			const QString _2 = "border-width: 2px; ";
+		}
+	}
+
+	namespace ALIGN {
+		const QString RIGHT = "text-align: right; ";
+	}
+
+	namespace PADDING {
+		const QString RIGHT_10 = "padding-right: 10px; ";
+		const QString LEFT_10 = "padding-left: 10px; ";
 	}
 
 	

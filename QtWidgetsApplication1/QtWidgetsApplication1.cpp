@@ -106,21 +106,33 @@ void QtWidgetsApplication1::update_current_account_info() {
 }
 
 void QtWidgetsApplication1::clear_all_mark_buttons() {
-    ui.choise_books_page->setStyleSheet("QPushButton#choise_books_page{ background: #FFD69C; border: 10px; } QPushButton#choise_books_page:hover{ background: #FFE2B9; }");
-    ui.choise_subscriber_page->setStyleSheet("QPushButton#choise_subscriber_page{ background: #FFD69C; border: 10px; } QPushButton#choise_subscriber_page:hover{ background: #FFE2B9; }");
-    ui.choise_account_page->setStyleSheet("QPushButton#choise_account_page{ background: #FFD69C; border: 10px; } QPushButton#choise_account_page:hover{ background: #FFE2B9; }");
+    QString STD_BUTTON_STYLE = STYLE::BACKGROUNG::CREAM + STYLE::BORDER::SIZE_10;
+    ui.choise_books_page->setStyleSheet("QPushButton#choise_books_page{ " + STD_BUTTON_STYLE +" } "
+        "QPushButton#choise_books_page:hover{ " + STYLE::BACKGROUNG::LIGHT_CREAM + " }");
+
+    ui.choise_subscriber_page->setStyleSheet("QPushButton#choise_subscriber_page{ " + STD_BUTTON_STYLE + " } "
+        "QPushButton#choise_subscriber_page:hover{ " + STYLE::BACKGROUNG::LIGHT_CREAM + " }");
+
+    ui.choise_account_page->setStyleSheet("QPushButton#choise_account_page{ " + STD_BUTTON_STYLE + " } "
+        "QPushButton#choise_account_page:hover{ " + STYLE::BACKGROUNG::LIGHT_CREAM + " }");
 }
 
 void QtWidgetsApplication1::mark_books_button() {
-    ui.choise_books_page->setStyleSheet("QPushButton#choise_books_page{ background: #FFE2B9; border: 10px; } ");
+    ui.choise_books_page->setStyleSheet("QPushButton#choise_books_page{ " +
+        STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::SIZE_10 +
+        " } ");
 }
 
 void QtWidgetsApplication1::mark_subscriber_button() {
-    ui.choise_subscriber_page->setStyleSheet("QPushButton#choise_subscriber_page{ background: #FFE2B9; border: 10px; } ");
+    ui.choise_subscriber_page->setStyleSheet("QPushButton#choise_subscriber_page{ " +
+        STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::SIZE_10 +
+        " } ");
 }
 
 void QtWidgetsApplication1::mark_accounts_button() {
-    ui.choise_account_page->setStyleSheet("QPushButton#choise_account_page{ background: #FFE2B9; border: 10px; } ");
+    ui.choise_account_page->setStyleSheet("QPushButton#choise_account_page{ " + 
+        STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::SIZE_10 +
+        " } ");
 }
 
 void QtWidgetsApplication1::adjust_fonts() {

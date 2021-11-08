@@ -92,7 +92,7 @@ void LoginPage::init_error_message() {
 	error_message = new QLabel(QString::fromStdString(""), page);
 	error_message->setObjectName("LoginPage_error_message");
 	error_message->setAlignment(Qt::AlignHCenter);
-	error_message->setStyleSheet("color: #f5685d");
+	error_message->setStyleSheet(STYLE::COLOR::RED);
 	error_message->setFont(FONTS::UBUNTU_12);
 	error_message->setGeometry(391, 468, 500, 30);
 }

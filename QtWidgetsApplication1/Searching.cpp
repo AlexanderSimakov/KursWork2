@@ -39,7 +39,15 @@ void Searching::create_search_button() {
 	button = new QPushButton("Search", page);
 	button->setObjectName("Search_button");
 	button->setFont(FONTS::UBUNTU_10);
-	button->setStyleSheet("QPushButton#Search_button{ background: #7ab2ff; border: 10px; border-radius: 10px; text-align: right; padding-right: 10px; color: #FFFFFF; } QPushButton#Search_button:hover{ background: #9CC5FF; }");
+	button->setStyleSheet("QPushButton#Search_button{ " +
+		STYLE::BACKGROUNG::BLUE + 
+		STYLE::BORDER::SIZE_10 +
+		STYLE::BORDER::RADIUS_10 +
+		STYLE::ALIGN::RIGHT +
+		STYLE::PADDING::RIGHT_10 +
+		STYLE::COLOR::WHITE + " } " + 
+		" \n " +
+		"QPushButton#Search_button:hover{ " + STYLE::BACKGROUNG::LIGHT_BLUE + " }");
 	button->setGeometry(X, Y, WIDTH, HEIGHT);
 	connect(button, &QPushButton::clicked, this,
 		[=]() {
@@ -55,7 +63,9 @@ void Searching::create_search_field() {
 	lineEdit = new QLineEdit(page);
 	lineEdit->setObjectName("Search_field");
 	lineEdit->setFont(FONTS::UBUNTU_10);
-	lineEdit->setStyleSheet("border: 2px; box-sizing: border-box; background: #FFD69C; padding-left: 10px; ");
+	lineEdit->setStyleSheet(STYLE::BORDER::SIZE_2 +
+		STYLE::BACKGROUNG::CREAM +
+		STYLE::PADDING::LEFT_10);
 	lineEdit->setGeometry(X, Y, WIDTH, HEIGHT);
 }
 
@@ -64,7 +74,10 @@ void Searching::crete_search_choise_method_button() {
 	combo_box = new QComboBox(page);
 	combo_box->setObjectName("Search_method");
 	combo_box->setFont(QFont(FONTS::UBUNTU_10));
-	combo_box->setStyleSheet("border: 2px; box-sizing: border-box; background: #FFD69C; border-radius: 10px; padding-left: 10px; ");
+	combo_box->setStyleSheet(STYLE::BORDER::SIZE_2 +
+		STYLE::BACKGROUNG::CREAM +
+		STYLE::BORDER::RADIUS_10 +
+		STYLE::PADDING::LEFT_10);
 	for (int i = 0; i < search_commands.size(); i++) {
 		combo_box->addItem(search_commands[i].name.c_str());
 	}

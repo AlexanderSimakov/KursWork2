@@ -53,10 +53,13 @@ void ChoisePageButtons::create_button(int num_in_list, int page_num) {
 	choise_page_button->setObjectName("choise_page_button");
 	choise_page_button->setFont(FONTS::UBUNTU_10);
 	if (*current_page == page_num) {
-		choise_page_button->setStyleSheet("QPushButton#choise_page_button { background: #FFE2B9; border-radius: 10px; }");
+		choise_page_button->setStyleSheet("QPushButton#choise_page_button { " +
+			STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::RADIUS_10 + " }");
 	}
 	else {
-		choise_page_button->setStyleSheet("QPushButton#choise_page_button { background: #FFD69C; border-radius: 10px; } QPushButton#choise_page_button::hover { background: #FFE2B9; }");
+		choise_page_button->setStyleSheet("QPushButton#choise_page_button { " +
+			STYLE::BACKGROUNG::CREAM + STYLE::BORDER::RADIUS_10 + "} " +
+			"QPushButton#choise_page_button::hover { " + STYLE::BACKGROUNG::LIGHT_CREAM + " }");
 	}
 	choise_page_button->show();
 	connect(choise_page_button, &QPushButton::clicked, this,
@@ -69,7 +72,7 @@ void ChoisePageButtons::create_button(int num_in_list, int page_num) {
 
 void ChoisePageButtons::create_line(int num_in_list) {
 	QLabel* line = new QLabel("", page);
-	line->setStyleSheet("background: #FFD69C");
+	line->setStyleSheet(STYLE::BACKGROUNG::CREAM);
 	line->setGeometry(START_X + (num_in_list * ADD), START_Y + SIZE / 2 - 1, SIZE, 3);
 
 	line->show();
