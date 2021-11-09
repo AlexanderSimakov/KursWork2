@@ -369,28 +369,23 @@ void AccountPage::open_account_creation_page(){
 -5 - пароли не совпадают
 */
 int AccountPage::check_creation() {
-	cmatch result;
-	regex regular_name("^([A-Za-z ]{3,30})");
-	regex regular_login("^([\\w]{5,30})");
-	regex regular_password("^([\\w]{5,30})");
-
-
 	QString name = ui->lineEdit_2->text();
 	QString login = ui->lineEdit_6->text();
 	QString password = ui->lineEdit_7->text();
 	QString repeat_password = ui->lineEdit_8->text();
 
+	Check check({ {name, -1, "^([a-za-z ]{3,30})"}, 
+		{login, -2, "^([\\w]{5,30})"}, 
+		{password, -4, "^([\\w]{5,30})"} });
+
+	
 	if (Check::is_empty({ name, login, password, repeat_password })) {
 		return 0;
 	}
-	else if (!Check::is_math("^([A-Za-z ]{3,30})", name)) {
-		return -1;
-	}
-	else if (!Check::is_math(login, "^([\\w]{5,30})")){
-		return -2;
-	}
-	else if (!Check::is_math(password, "^([\\w]{5,30})")){
-		return -4;
+
+	int err = check.check_all();
+	if (err != 1) {
+		return err;
 	}
 	else if (password != repeat_password) {
 		return -5;
