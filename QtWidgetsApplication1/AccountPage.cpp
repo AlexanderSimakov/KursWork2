@@ -380,16 +380,16 @@ int AccountPage::check_creation() {
 	QString password = ui->lineEdit_7->text();
 	QString repeat_password = ui->lineEdit_8->text();
 
-	if (name == "" || login == "" || password == "" || repeat_password == "") {
+	if (Check::is_empty({ name, login, password, repeat_password })) {
 		return 0;
 	}
-	else if (!regex_match(name.toUtf8().constBegin(), result, regular_name)) {
+	else if (!Check::is_math("^([A-Za-z ]{3,30})", name)) {
 		return -1;
 	}
-	else if (!regex_match(login.toUtf8().constBegin(), result, regular_login)) {
+	else if (!Check::is_math(login, "^([\\w]{5,30})")){
 		return -2;
 	}
-	else if (!regex_match(password.toUtf8().constBegin(), result, regular_password)) {
+	else if (!Check::is_math(password, "^([\\w]{5,30})")){
 		return -4;
 	}
 	else if (password != repeat_password) {
@@ -398,7 +398,6 @@ int AccountPage::check_creation() {
 	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 0) != "") { // занятость логина
 		return -3;
 	}
-	
 
 	return 1;
 }

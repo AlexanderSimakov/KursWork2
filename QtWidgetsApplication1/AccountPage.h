@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include "ui_QtWidgetsApplication1.h"
 #include "SQLWORK.h"
+#include "Check.h"
 #include "Account.h"
 #include "Page.h"
 #include "constants.h"

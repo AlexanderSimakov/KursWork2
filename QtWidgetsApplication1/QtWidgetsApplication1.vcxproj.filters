@@ -79,6 +79,9 @@
     <ClCompile Include="Searching.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Check.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sha256.h">
@@ -103,6 +106,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Page.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Check.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

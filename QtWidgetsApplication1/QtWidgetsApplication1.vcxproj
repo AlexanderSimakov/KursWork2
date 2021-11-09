@@ -88,6 +88,7 @@
     <ClCompile Include="AccountPage.cpp" />
     <ClCompile Include="Book.cpp" />
     <ClCompile Include="BookPage.cpp" />
+    <ClCompile Include="Check.cpp" />
     <ClCompile Include="ChoisePageButtons.cpp" />
     <ClCompile Include="LoginPage.cpp" />
     <ClCompile Include="Page.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="Book.h" />
     <QtMoc Include="BookPage.h" />
     <QtMoc Include="ChoisePageButtons.h" />
+    <ClInclude Include="Check.h" />
     <ClInclude Include="constants.h" />
     <QtMoc Include="LoginPage.h" />
     <ClInclude Include="Page.h" />
