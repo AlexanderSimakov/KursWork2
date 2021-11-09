@@ -27,7 +27,7 @@ QString SQLWork::get_created_table_sql_command() {
 
 // открывает базу данных
 void SQLWork::open() {
-	if (sqlite3_open(FILE_NAME.toStdString().c_str(), &dataBase)) {
+	if (sqlite3_open(FILE_NAME.toUtf8().constData(), &dataBase)) {
 		cout << "Ошибка открытия/создания БД:" << sqlite3_errmsg(dataBase);
 	}
 }
@@ -86,7 +86,7 @@ vector<QString> SQLWork::get_strings(int column) {
 		cout << " В таблице отсутствуют записи..." << endl;
 	}
 	else {
-		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+		sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 		int rc;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -107,7 +107,7 @@ vector<int> SQLWork::get_ints(int column) {
 		cout << " В таблице отсутствуют записи..." << endl;
 	}
 	else {
-		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+		sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 		int rc;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -128,7 +128,7 @@ vector<int> SQLWork::get_ints(int column, QString rule) {
 		cout << " В таблице отсутствуют записи..." << endl;
 	}
 	else {
-		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+		sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 		int rc;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -154,10 +154,8 @@ vector<QString> SQLWork::get_unique_fields(QString column_name) {
 		sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
 
 		int rc;
-		QString text;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-			text = QString::fromStdString(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
-			fields.push_back(text);
+			fields.push_back(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
 		}
 
 		sqlite3_finalize(stmt);
@@ -175,7 +173,7 @@ bool SQLWork::is_table_exists() {
 int SQLWork::get_count() {
 	QString sql = "SELECT Count(*) FROM " + DATA_BASE_NAME + ";";
 
-	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -190,7 +188,7 @@ int SQLWork::get_count() {
 int SQLWork::get_count(QString rule) {
 	QString sql = "SELECT Count(*) FROM " + DATA_BASE_NAME + rule + ";";
 
-	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -205,7 +203,7 @@ int SQLWork::get_count(QString rule) {
 int SQLWork::get_count_unique_fieds(QString column_name) {
 	QString sql = "SELECT Count(DISTINCT " + column_name + " ) FROM " + DATA_BASE_NAME + " ;";
 
-	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -220,7 +218,7 @@ int SQLWork::get_count_unique_fieds(QString column_name) {
 int SQLWork::get_sum(QString column_name, QString rule) {
 	QString sql = "SELECT SUM( " + column_name + " ) FROM " + DATA_BASE_NAME + rule +  ";";
 
-	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -235,7 +233,7 @@ int SQLWork::get_sum(QString column_name, QString rule) {
 int SQLWork::get_int(QString db_field, QString field_for_search, int num_of_value) {
 	QString sql = "SELECT * FROM " + DATA_BASE_NAME + " WHERE " + db_field + " GLOB '" + field_for_search + "';";
 
-	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 	int rc, value = 0;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
@@ -250,7 +248,7 @@ int SQLWork::get_int(QString db_field, QString field_for_search, int num_of_valu
 QString SQLWork::get_text(QString db_field, QString field_for_search, int num_of_value) {
 	QString text, sql = "SELECT * FROM " + DATA_BASE_NAME + " WHERE " + db_field + " GLOB '" + field_for_search + "';";
 
-	sqlite3_prepare_v2(dataBase, sql.toStdString().c_str(), -1, &stmt, NULL);
+	sqlite3_prepare_v2(dataBase, sql.toUtf8().constData(), -1, &stmt, NULL);
 
 	int rc;
 	if ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {

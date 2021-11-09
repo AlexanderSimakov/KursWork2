@@ -58,20 +58,20 @@ int People::get_sex() {
 
 void People::add_in_db(SQLWork* people_db) {
 	people_db->push_back({
-			QString::fromStdString(to_string(id)),
-			QString::fromStdString(to_string(book_id)),
+			QString::number(id),
+			QString::number(book_id),
 			"'" + name + "'",
 			"'" + phone + "'",
 			"'" + address + "'",
-			QString::fromStdString(to_string(age)),
-			QString::fromStdString(to_string(sex))
+			QString::number(age),
+			QString::number(sex)
 		});
 }
 
 People People::get_people_by_book_id(SQLWork* people_db, int book_id) {
 	People people;
 
-	QString q_book_id = QString::fromStdString(to_string(book_id));
+	QString q_book_id = QString::number(book_id);
 
 	people.set_id(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, q_book_id, 0));
 	people.set_book_id(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, q_book_id, 1));
@@ -80,7 +80,6 @@ People People::get_people_by_book_id(SQLWork* people_db, int book_id) {
 	people.set_address(people_db->get_text(DB::PEOPLE::FIELD::BOOK_ID, q_book_id, 4));
 	people.set_age(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, q_book_id, 5));
 	people.set_sex(people_db->get_int(DB::PEOPLE::FIELD::BOOK_ID, q_book_id, 6));
-
 
 	return people;
 }

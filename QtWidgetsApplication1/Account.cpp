@@ -106,13 +106,13 @@ QString Account::get_generated_salt() {
 }
 
 void Account::update(SQLWork* accounts_db) {
-	QString rule = " " + DB::ACCOUNTS::FIELD::ID + " = " + QString::fromStdString(to_string(id));
+	QString rule = " " + DB::ACCOUNTS::FIELD::ID + " = " + QString::number(id);
 	accounts_db->update(DB::ACCOUNTS::FIELD::LOGIN, "'" + login + "'", rule);
 	accounts_db->update(DB::ACCOUNTS::FIELD::NAME, "'" + name + "'", rule);
 	accounts_db->update(DB::ACCOUNTS::FIELD::HASH, "'" + salted_hash_password + "'", rule);
 	accounts_db->update(DB::ACCOUNTS::FIELD::SALT, "'" + salt + "'", rule);
-	accounts_db->update(DB::ACCOUNTS::FIELD::ROLE, QString::fromStdString(to_string(role)), rule);
-	accounts_db->update(DB::ACCOUNTS::FIELD::ACCESS, QString::fromStdString(to_string(access)), rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::ROLE, QString::number(role), rule);
+	accounts_db->update(DB::ACCOUNTS::FIELD::ACCESS, QString::number(access), rule);
 }
 
 void Account::add_in_db(SQLWork* accounts_db) {
@@ -121,9 +121,9 @@ void Account::add_in_db(SQLWork* accounts_db) {
 			"'" + name + "'",
 			"'" + salted_hash_password + "'",
 			"'" + salt + "'",
-			QString::fromStdString(to_string(role)),
-			QString::fromStdString(to_string(access)),
-			QString::fromStdString(to_string(id))
+			QString::number(role),
+			QString::number(access),
+			QString::number(id)
 		});
 }
 

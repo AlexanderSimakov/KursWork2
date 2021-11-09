@@ -200,8 +200,8 @@ void BookPage::open_show_book_page(Book book) {
 
 	ui->show_book_name->setText(book.get_name());
 	ui->show_author->setText(book.get_author_name());
-	ui->show_year->setText(QString::fromStdString(to_string(book.get_year())));
-	ui->show_pages->setText(QString::fromStdString(to_string(book.get_amount_of_page())));
+	ui->show_year->setText(QString::number(book.get_year()));
+	ui->show_pages->setText(QString::number(book.get_amount_of_page()));
 	ui->show_content->setText(book.get_content());
 
 
@@ -313,17 +313,17 @@ void BookPage::open_give_book_page(Book book) {
 
 	int day_i = ltm->tm_mday;
 	if (day_i < 10) 
-		day = QString(QString::fromStdString("0" + to_string(day_i)));
+		day = "0" + QString::number(day_i);
 	else 
-		day = QString(QString::fromStdString(to_string(day_i)));
+		day = QString::number(day_i);
 
 	int month_i = 1 + ltm->tm_mon;
 	if (month_i < 10)
-		month = QString(QString::fromStdString("0" + to_string(month_i)));
+		month = "0" + QString::number(month_i);
 	else
-		month = QString(QString::fromStdString(to_string(month_i)));
+		month = QString::number(month_i);
 
-	QString year(QString::fromStdString(to_string(1900 + ltm->tm_year)));
+	QString year(QString::number(1900 + ltm->tm_year));
 
 
 
@@ -419,7 +419,7 @@ void BookPage::return_book(Book book) {
 
 		People people = People::get_people_by_book_id(people_db, book.get_id());
 
-		people_db->delete_field(DB::BOOKS::FIELD::ID + " = " + QString::fromStdString(to_string(people.get_id())));
+		people_db->delete_field(DB::BOOKS::FIELD::ID + " = " + QString::number(people.get_id()));
 		start();
 		open_show_book_page(book);
 	}
@@ -435,11 +435,11 @@ void BookPage::open_edit_book_page(Book book) {
 	ui->name_create_book_line_edit->setText(book.get_name());
 	ui->author_create_book_line_edit->setText(book.get_author_name());
 	ui->genre_create_book_line_edit->setCurrentText(book.get_genre());
-	ui->year_create_book_line_edit->setText(QString::fromStdString(to_string(book.get_year())));
-	ui->pages_create_book_line_edit->setText(QString::fromStdString(to_string(book.get_amount_of_page())));
+	ui->year_create_book_line_edit->setText(QString::number(book.get_year()));
+	ui->pages_create_book_line_edit->setText(QString::number(book.get_amount_of_page()));
 	ui->img_create_book_line_edit->setText(book.get_path_to_img());
 	ui->content_create_book_line_edit->setText(book.get_content());
-	ui->id_create_book_line_edit->setText(QString::fromStdString(to_string(book.get_id())));
+	ui->id_create_book_line_edit->setText(QString::number(book.get_id()));
 
 	disconnect(ui->pushButton_3, 0, 0, 0);
 	connect(ui->pushButton_3, &QPushButton::clicked, this, [=]() {
@@ -509,7 +509,7 @@ void BookPage::open_book_creation_page() {
 		}
 	}
 
-	ui->id_create_book_line_edit->setText(QString::fromStdString(to_string(min_nonexistent)));
+	ui->id_create_book_line_edit->setText(QString::number(min_nonexistent));
 	ui->id_create_book_line_edit->setEnabled(false);
 
 	disconnect(ui->commandLinkButton_3, 0, 0, 0);
@@ -564,8 +564,8 @@ int BookPage::check_creation() {
 	cmatch result;
 	regex regular_year("([1-9])([0-9]{0,3})"); 
 	regex regular_pages("([1-9])([0-9]{0,3})");
-	string year = ui->year_create_book_line_edit->text().toStdString();
-	string pages = ui->pages_create_book_line_edit->text().toStdString();
+	QString year = ui->year_create_book_line_edit->text();
+	QString pages = ui->pages_create_book_line_edit->text();
 
 	if (ui->name_create_book_line_edit->text() == "" ||
 		ui->author_create_book_line_edit->text() == "" ||
@@ -574,10 +574,10 @@ int BookPage::check_creation() {
 		ui->content_create_book_line_edit->toPlainText().toStdString() == "") {
 		return 0;
 	}
-	else if (!regex_match(year.c_str(), result, regular_year)) {
+	else if (!regex_match(year.toUtf8().constData(), result, regular_year)) {
 		return -1;
 	}
-	else  if (!regex_match(pages.c_str(), result, regular_pages)) {
+	else  if (!regex_match(pages.toUtf8().constData(), result, regular_pages)) {
 		return -2;
 	}
 
@@ -692,32 +692,32 @@ int BookPage::check_giving() {
 	regex regular_return_date("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[012])\\.([1-9]([0-9]){2,3})");
 
 
-	string name = ui->giveBook_name_input->text().toStdString();
-	string phone = ui->giveBook_phone_input->text().toStdString();
-	string address = ui->giveBook_address_input->text().toStdString();
-	string age = ui->giveBook_age_input->text().toStdString();
-	string date_of_giving = ui->giveBook_give_date_input->text().toStdString();
-	string date_of_return = ui->giveBook_return_date_input->text().toStdString();
+	QString name = ui->giveBook_name_input->text();
+	QString phone = ui->giveBook_phone_input->text();
+	QString address = ui->giveBook_address_input->text();
+	QString age = ui->giveBook_age_input->text();
+	QString date_of_giving = ui->giveBook_give_date_input->text();
+	QString date_of_return = ui->giveBook_return_date_input->text();
 
 	if (name == "" || phone == "" || address == "" || age == "" || date_of_giving == "" || date_of_return == "") {
 		return 0;
 	}
-	else if (!regex_match(name.c_str(), result, regular_name)) {
+	else if (!regex_match(name.toUtf8().constData(), result, regular_name)) {
 		return -1;
 	}
-	else  if (!regex_match(phone.c_str(), result, regular_phone)) {
+	else  if (!regex_match(phone.toUtf8().constData(), result, regular_phone)) {
 		return -2;
 	}
-	else  if (!regex_match(address.c_str(), result, regular_address)) {
+	else  if (!regex_match(address.toUtf8().constData(), result, regular_address)) {
 		return -3;
 	}
-	else  if (!regex_match(age.c_str(), result, regular_age)) {
+	else  if (!regex_match(age.toUtf8().constData(), result, regular_age)) {
 		return -4;
 	}
-	else  if (!regex_match(date_of_giving.c_str(), result, regular_give_date)) {
+	else  if (!regex_match(date_of_giving.toUtf8().constData(), result, regular_give_date)) {
 		return -5;
 	}
-	else  if (!regex_match(date_of_return.c_str(), result, regular_return_date)) {
+	else  if (!regex_match(date_of_return.toUtf8().constData(), result, regular_return_date)) {
 		return -6;
 	}
 	else{

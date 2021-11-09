@@ -48,7 +48,7 @@ void ChoisePageButtons::show() {
 }
 
 void ChoisePageButtons::create_button(int num_in_list, int page_num) {
-	QPushButton* choise_page_button = new QPushButton(QString::fromStdString(to_string(page_num + 1)), page);
+	QPushButton* choise_page_button = new QPushButton(QString::number(page_num + 1), page);
 	choise_page_button->setGeometry(START_X + (num_in_list * ADD), START_Y, SIZE, SIZE);
 	choise_page_button->setObjectName("choise_page_button");
 	choise_page_button->setFont(FONTS::UBUNTU_10);
@@ -79,5 +79,5 @@ void ChoisePageButtons::create_line(int num_in_list) {
 }
 
 void ChoisePageButtons::delete_buttons() {
-	qDeleteAll(page->findChildren<QPushButton*>(QString::fromStdString("choise_page_button")));
+	qDeleteAll(page->findChildren<QPushButton*>("choise_page_button"));
 }

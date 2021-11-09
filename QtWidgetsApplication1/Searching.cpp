@@ -73,7 +73,7 @@ void Searching::crete_search_choise_method_button() {
 	const int X = 370, Y = 650, WIDTH = 100, HEIGHT = 40;
 	combo_box = new QComboBox(page);
 	combo_box->setObjectName("Search_method");
-	combo_box->setFont(QFont(FONTS::UBUNTU_10));
+	combo_box->setFont(FONTS::UBUNTU_10);
 	combo_box->setStyleSheet(STYLE::BORDER::SIZE_2 +
 		STYLE::BACKGROUNG::CREAM +
 		STYLE::BORDER::RADIUS_10 +

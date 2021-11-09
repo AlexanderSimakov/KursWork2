@@ -356,7 +356,7 @@ void AccountPage::open_account_creation_page(){
 			min_nonexistent++;
 		}
 	}
-	ui->lineEdit_9->setText(QString::fromStdString(to_string(min_nonexistent)));
+	ui->lineEdit_9->setText(QString::number(min_nonexistent));
 }
 
 /*
@@ -375,27 +375,27 @@ int AccountPage::check_creation() {
 	regex regular_password("^([\\w]{5,30})");
 
 
-	string name = ui->lineEdit_2->text().toStdString();
-	string login = ui->lineEdit_6->text().toStdString();
-	string password = ui->lineEdit_7->text().toStdString();
-	string repeat_password = ui->lineEdit_8->text().toStdString();
+	QString name = ui->lineEdit_2->text();
+	QString login = ui->lineEdit_6->text();
+	QString password = ui->lineEdit_7->text();
+	QString repeat_password = ui->lineEdit_8->text();
 
 	if (name == "" || login == "" || password == "" || repeat_password == "") {
 		return 0;
 	}
-	else if (!regex_match(name.c_str(), result, regular_name)) {
+	else if (!regex_match(name.toUtf8().constBegin(), result, regular_name)) {
 		return -1;
 	}
-	else if (!regex_match(login.c_str(), result, regular_login)) {
+	else if (!regex_match(login.toUtf8().constBegin(), result, regular_login)) {
 		return -2;
 	}
-	else if (!regex_match(password.c_str(), result, regular_password)) {
+	else if (!regex_match(password.toUtf8().constBegin(), result, regular_password)) {
 		return -4;
 	}
 	else if (password != repeat_password) {
 		return -5;
 	}
-	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, QString::fromStdString(login), 0) != "") { // занятость логина
+	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 0) != "") { // занятость логина
 		return -3;
 	}
 	

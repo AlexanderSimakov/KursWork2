@@ -96,7 +96,7 @@ void QtWidgetsApplication1::open_editing_current_account_page() {
 }
 
 void QtWidgetsApplication1::update_current_account_info() {
-    QString id = QString::fromStdString(to_string(current_account.get_id()));
+    QString id = QString::number(current_account.get_id());
     current_account.set_login(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID , id, 0));
     current_account.set_name(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID, id, 1));
     current_account.set_salted_hash_password(accounts_db->get_text(DB::ACCOUNTS::FIELD::ID, id, 2));

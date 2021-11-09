@@ -89,12 +89,12 @@ bool Book::get_enabled() {
 }
 
 void Book::update(SQLWork* db) {
-	QString rule = " " + DB::BOOKS::FIELD::ID + " = " + QString::fromStdString(to_string(id));
+	QString rule = " " + DB::BOOKS::FIELD::ID + " = " + QString::number(id);
 	db->update(DB::BOOKS::FIELD::NAME, "'" + name + "'", rule);
 	db->update(DB::BOOKS::FIELD::AUTHOR, "'" + author_name + "'", rule);
 	db->update(DB::BOOKS::FIELD::GENRE, "'" + genre + "'", rule);
-	db->update(DB::BOOKS::FIELD::YEAR, QString::fromStdString(to_string(year)), rule);
-	db->update(DB::BOOKS::FIELD::PAGES, QString::fromStdString(to_string(amount_of_page)), rule);
+	db->update(DB::BOOKS::FIELD::YEAR, QString::number(year), rule);
+	db->update(DB::BOOKS::FIELD::PAGES, QString::number(amount_of_page), rule);
 	db->update(DB::BOOKS::FIELD::CONTENT, "'" + content + "'", rule);
 	db->update(DB::BOOKS::FIELD::IMG_PATH, "'" + path_to_img + "'", rule);
 	db->update(DB::BOOKS::FIELD::GIVE_DATE, "'" + date_of_giving + "'", rule);
@@ -105,12 +105,12 @@ void Book::update(SQLWork* db) {
 
 void Book::add_in_db(SQLWork* db) {
 	db->push_back({
-			QString::fromStdString(to_string(id)),
+			QString::number(id),
 			"'" + name + "'",
 			"'" + author_name + "'",
 			"'" + genre + "'",
-			QString::fromStdString(to_string(year)),
-			QString::fromStdString(to_string(amount_of_page)),
+			QString::number(year),
+			QString::number(amount_of_page),
 			"'" + content + "'",
 			"'" + path_to_img + "'",
 			"'" + date_of_giving + "'",
@@ -122,7 +122,7 @@ void Book::add_in_db(SQLWork* db) {
 Book Book::get_book_by_id(SQLWork* db, int id) {
 	Book book;
 
-	QString q_id = QString::fromStdString(to_string(id));
+	QString q_id = QString::number(id);
 
 	book.set_id(id);
 	book.set_name(db->get_text(DB::BOOKS::FIELD::ID, q_id, 1));

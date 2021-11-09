@@ -76,17 +76,17 @@ void PeoplePage::show_people(People* people, int row, int column) {
 
 	int day_i = ltm->tm_mday;
 	if (day_i < 10)
-		day = "0" + QString::fromStdString(to_string(day_i));
+		day = "0" + QString::number(day_i);
 	else
-		day = QString::fromStdString(to_string(day_i));
+		day = QString::number(day_i);
 
 	int month_i = 1 + ltm->tm_mon;
 	if (month_i < 10)
-		month = "0" + QString::fromStdString(to_string(month_i));
+		month = "0" + QString::number(month_i);
 	else
-		month = QString::fromStdString(to_string(month_i));
+		month = QString::number(month_i);
 
-	QString year = QString::fromStdString(to_string(1900 + ltm->tm_year));
+	QString year = QString::number(1900 + ltm->tm_year);
 
 
 	Book book = Book::get_book_by_id(book_db, people->get_book_id());
@@ -183,7 +183,7 @@ void PeoplePage::create_address_label(People* people, int row, int column) {
 
 void PeoplePage::create_age_label(People* people, int row, int column) {
 	const int WIDTH = 60, HEIGHT = 30, START_X = 275, START_Y = 35;
-	QLabel* age = new QLabel(QString::fromStdString("Age: " + to_string(people->get_age())), page);
+	QLabel* age = new QLabel("Age: " + QString::number(people->get_age()), page);
 	age->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	age->setFont(FONTS::UBUNTU_10);
 	age->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
@@ -288,8 +288,8 @@ void PeoplePage::open_book_info_page(People people) {
 
 	ui->show_book_name->setText(book.get_name());
 	ui->show_author->setText(book.get_author_name());
-	ui->show_year->setText(QString::fromStdString(to_string(book.get_year())));
-	ui->show_pages->setText(QString::fromStdString(to_string(book.get_amount_of_page())));
+	ui->show_year->setText(QString::number(book.get_year()));
+	ui->show_pages->setText(QString::number(book.get_amount_of_page()));
 	ui->show_content->setText(book.get_content());
 
 	ui->show_remove_book_button->setEnabled(false);
@@ -318,7 +318,7 @@ void PeoplePage::return_book(People people) {
 People PeoplePage::get_people_by_id(int id) {
 	People people;
 
-	QString q_id = QString::fromStdString(to_string(id));
+	QString q_id = QString::number(id);
 
 	people.set_id(id);
 	people.set_book_id(people_db->get_int(DB::PEOPLE::FIELD::ID, q_id, 1));
