@@ -36,3 +36,24 @@ bool Check::is_empty(vector<QString> lines) {
 	return false;
 }
 
+QCheck::QCheck(Ui::QtWidgetsApplication1Class* ui, QWidget* page) {
+	this->ui = ui;
+	this->page = page;
+}
+
+void QCheck::show_error_message(QString text, const int X, const int Y, const int WIDTH, const int HEIGHT) {
+	error_label = new QLabel(text, page);
+	error_label->setObjectName(ERROR_MESSAGE_NAME);
+	error_label->setStyleSheet(STYLE::COLOR::RED);
+	error_label->setFont(FONTS::UBUNTU_12);
+	error_label->setGeometry(X, Y, WIDTH, HEIGHT);
+	error_label->show();
+}
+
+void QCheck::clear_error_message() {
+	qDeleteAll(ui->editAccountPage->findChildren<QLabel*>(ERROR_MESSAGE_NAME));
+}
+
+
+
+

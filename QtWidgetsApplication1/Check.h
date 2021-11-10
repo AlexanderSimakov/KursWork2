@@ -1,5 +1,8 @@
 #pragma once
+#include "ui_QtWidgetsApplication1.h"
+#include <QtWidgets/QMainWindow>
 #include <QString>
+#include "constants.h"
 #include "regex"
 
 using namespace std;
@@ -42,4 +45,26 @@ private:
 
 
 };
+
+
+class QCheck {
+public:
+	QCheck(Ui::QtWidgetsApplication1Class* ui, QWidget* page);
+
+	void show_error_message(QString text, const int X, const int Y, const int WIDTH, const int HEIGHT);
+	void clear_error_message();
+
+private:
+	const QString ERROR_MESSAGE_NAME = "error_message";
+	Ui::QtWidgetsApplication1Class* ui;
+	QLabel* error_label;
+	QWidget* page;
+
+
+};
+
+
+
+
+
 
