@@ -1,15 +1,13 @@
 #pragma once
 #include <QtWidgets/QMainWindow>
-#include <QMessageBox>
-#include <QFileDialog>
-#include "ui_QtWidgetsApplication1.h"
-#include "SQLWORK.h"
-#include "Check.h"
-#include "Account.h"
-#include "Page.h"
-#include "constants.h"
-#include "ChoisePageButtons.h"
 #include <regex>
+#include "ui_QtWidgetsApplication1.h"
+#include "ChoisePageButtons.h"
+#include "SQLWORK.h"
+#include "Page.h"
+#include "Account.h"
+#include "constants.h"
+#include "Check.h"
 
 class AccountPage : public QMainWindow, public Page
 {
@@ -32,22 +30,15 @@ private:
 	QWidget* page;
 	SQLWork* account_db;
 
-	
-
 	const int NUMBER_OF_ACCOUNTS_ON_PAGE = 24;
-	const int ADD = 50;
 	const int ADD_X = 265;
 	const int ADD_Y = 100;
-	const int MARGIN = 10;
-	const int PAGE_WIDTH;
-	const int PAGE_HEIGHT;
 	int current_page = 0;
 
 	QPixmap admin_pixmap;
 	QPixmap user_pixmap;
 
 	Account* current_account;
-
 	vector<int> accounts_id;
 
 	void update_accounts_id();
@@ -58,6 +49,10 @@ private:
 
 	void show_list();
 	void show_account(Account* account, int row, int column);
+
+	QLabel* get_name_label(QString name);
+	QLabel* get_login_label(QString name);
+	QLabel* get_image_label(const int ROLE, const int ACCESS);
 
 	void create_choise_page_buttons();
 	void create_add_button();
@@ -73,7 +68,6 @@ private:
 	void clear_creation_error();
 
 	void adjust_fonts();
-
-
+	void init_pixmaps();
 };
 

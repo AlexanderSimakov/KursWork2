@@ -1,45 +1,47 @@
 #include "AccountPage.h"
 
 AccountPage::AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* account_db)
-	: QMainWindow(parent), PAGE_WIDTH(ui->page_3->width()), PAGE_HEIGHT(ui->page_3->height()) {
+	: QMainWindow(parent)
+{
 	this->ui = ui;
 	this->page = ui->page_2;
 	this->account_db = account_db;
 	this->_parent = parent;
 
 	adjust_fonts();
-
-	admin_pixmap = QPixmap("admin.png");
-	admin_pixmap = admin_pixmap.scaled(QSize(62, 62), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-
-	user_pixmap = QPixmap("user.png");
-	user_pixmap = user_pixmap.scaled(QSize(62, 52), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	init_pixmaps();
 }
 
-void AccountPage::start() {
+void AccountPage::start()
+{
 	ui->stackedWidget->setCurrentWidget(ui->adminMainPage);
-	ui->stackedWidget_2->setCurrentWidget(ui->page_2);
+	ui->stackedWidget_2->setCurrentWidget(page);
+
 	update_accounts_id();
 	clear_page();
 	create_add_button();
 	show_list();
 }
 
-void AccountPage::update_accounts_id() {
+void AccountPage::update_accounts_id()
+{
 	accounts_id = account_db->get_ints(6);
 }
 
-void AccountPage::clear_page() {
+void AccountPage::clear_page()
+{
 	clear_account_list();
 	qDeleteAll(page->findChildren<QPushButton*>("AccountPage_add_button"));
 }
 
-void AccountPage::clear_account_list() {
+void AccountPage::clear_account_list()
+{
 	qDeleteAll(page->findChildren<QPushButton*>("choise_page_button"));
 	qDeleteAll(page->findChildren<QPushButton*>("accountPage_button"));
 }
 
-void AccountPage::clear_account_edit_page() {
+void AccountPage::clear_account_edit_page()
+{
 	ui->lineEdit_9->setText("");
 	ui->lineEdit_2->setText("");
 	ui->lineEdit_6->setText("");
@@ -49,7 +51,8 @@ void AccountPage::clear_account_edit_page() {
 	ui->checkBox_2->setChecked(false);
 }
 
-void AccountPage::show_list() {
+void AccountPage::show_list()
+{
 	clear_account_list();
 	create_choise_page_buttons();
 
@@ -62,9 +65,11 @@ void AccountPage::show_list() {
 		accounts_end_at = accounts_id.size();
 
 	int j = 0, k = 0, n = 1;
-	for (int i = 0; i < accounts_end_at - accounts_start_at; i++) {
+	for (int i = 0; i < accounts_end_at - accounts_start_at; i++)
+	{
 		show_account(&get_account_by_id(accounts_id[i + accounts_start_at]), j, k);
-		if (j == 3) {
+		if (j == 3)
+		{
 			j = -1;
 			k++;
 		}
@@ -72,37 +77,12 @@ void AccountPage::show_list() {
 	}
 }
 
-void AccountPage::show_account(Account* account, int row, int column){
-	QLabel* name = new QLabel(account->get_name());
-	name->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
-	name->setFont(FONTS::UBUNTU_10);
-
-	QLabel* login = new QLabel(account->get_login());
-	login->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
-	login->setFont(FONTS::UBUNTU_10);
-
-	QLabel* image = new QLabel("");
-	QPixmap pixmap;
-	image->setFixedSize(62, 60);
-	image->setAlignment(Qt::AlignHCenter);
-
-	if (account->get_role() == 1) {
-		pixmap = admin_pixmap;
-		if (account->get_access()) 
-			image->setStyleSheet(STYLE::BACKGROUNG::GREEN + STYLE::BORDER::RADIUS_20);
-		else
-			image->setStyleSheet(STYLE::BACKGROUNG::LIGHT_RED + STYLE::BORDER::RADIUS_20);
-	}
-	else {
-		pixmap = user_pixmap;
-		if (account->get_access())
-			image->setStyleSheet(STYLE::BACKGROUNG::GREEN + STYLE::BORDER::RADIUS_30);
-		else
-			image->setStyleSheet(STYLE::BACKGROUNG::LIGHT_RED + STYLE::BORDER::RADIUS_30);
-	}
-
-	image->setPixmap(pixmap);
-
+void AccountPage::show_account(Account* account, int row, int column)
+{
+	QLabel* name = get_name_label(account->get_name());
+	QLabel* login = get_login_label(account->get_login());
+	QLabel* image = get_image_label(account->get_role(), account->get_access());
+	
 	QPushButton* button = new QPushButton(page);
 	QGridLayout* grid_layout = new QGridLayout();
 	button->setGeometry(15 + ADD_X * row, 10 + ADD_Y * column, 255, 90);
@@ -110,7 +90,7 @@ void AccountPage::show_account(Account* account, int row, int column){
 	button->setLayout(grid_layout);
 	button->setStyleSheet("QPushButton#accountPage_button{ " + 
 		STYLE::BACKGROUNG::CREAM + STYLE::BORDER::SOLID + 
-		"border-width: 2px; " + STYLE::BORDER::RADIUS_10 + " }"
+		STYLE::BORDER::WIDTH::_2 + STYLE::BORDER::RADIUS_10 + " }"
 		" \n "
 		"QPushButton#accountPage_button:hover{ " + STYLE::BACKGROUNG::LIGHT_CREAM + "}");
 	
@@ -128,13 +108,59 @@ void AccountPage::show_account(Account* account, int row, int column){
 	button->show();
 }
 
-void AccountPage::create_choise_page_buttons() {
+QLabel* AccountPage::get_name_label(QString name)
+{
+	QLabel* name_label = new QLabel(name);
+	name_label->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
+	name_label->setFont(FONTS::UBUNTU_10);
+	return name_label;
+}
+
+QLabel* AccountPage::get_login_label(QString name)
+{
+	QLabel* login_label = new QLabel(name);
+	login_label->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
+	login_label->setFont(FONTS::UBUNTU_10);
+	return login_label;
+}
+
+void AccountPage::create_choise_page_buttons()
+{
 	ChoisePageButtons* choise_page_buttons = new ChoisePageButtons(_parent, ui, page, NUMBER_OF_ACCOUNTS_ON_PAGE, &current_page, *this);
 	choise_page_buttons->set_number_of_elements(account_db->get_count());
 	choise_page_buttons->show();
 }
 
-void AccountPage::create_add_button() {
+QLabel* AccountPage::get_image_label(const int ROLE, const int ACCESS) 
+{
+	QLabel* image = new QLabel();
+	QPixmap pixmap;
+	image->setFixedSize(62, 60);
+	image->setAlignment(Qt::AlignHCenter);
+
+	if (ROLE == 1)
+	{
+		pixmap = admin_pixmap;
+		if (ACCESS) 
+			image->setStyleSheet(STYLE::BACKGROUNG::GREEN + STYLE::BORDER::RADIUS_20);
+		else
+			image->setStyleSheet(STYLE::BACKGROUNG::LIGHT_RED + STYLE::BORDER::RADIUS_20);
+	}
+	else 
+	{
+		pixmap = user_pixmap;
+		if (ACCESS)
+			image->setStyleSheet(STYLE::BACKGROUNG::GREEN + STYLE::BORDER::RADIUS_30);
+		else
+			image->setStyleSheet(STYLE::BACKGROUNG::LIGHT_RED + STYLE::BORDER::RADIUS_30);
+	}
+
+	image->setPixmap(pixmap);
+	return image;
+}
+
+void AccountPage::create_add_button()
+{
 	const int X = 920, Y = 650, WIDTH = 145, HEIGHT = 40;
 	const QString BUTTON_TEXT = "Add new";
 
@@ -153,10 +179,10 @@ void AccountPage::create_add_button() {
 	add_button->show();
 }
 
-Account AccountPage::get_account_by_id(int id) {
+Account AccountPage::get_account_by_id(int id)
+{
 	Account account;
-
-	QString q_id = QString::fromStdString(to_string(id));
+	QString q_id = QString::number(id);
 
 	account.set_id(id);
 	account.set_login(account_db->get_text(DB::ACCOUNTS::FIELD::ID, q_id, 0));
@@ -169,43 +195,40 @@ Account AccountPage::get_account_by_id(int id) {
 	return account;
 }
 
-void AccountPage::edit_account() {
+void AccountPage::edit_account()
+{
 	clear_creation_error();
 	int error_code = check_creation();
-	if (error_code == -1) {
-		show_creation_error("Wrong name", 0);
-		return;
-	}
-	else if (error_code == -2) {
-		show_creation_error("Wrong login", 1);
-		return;
-	}
-	if (ui->lineEdit_7->text() != "") {
-		if (error_code == 0) {
-			show_creation_error("All fields should be used", 4.8);
-			return;
-		}
-		else if (error_code == -4) {
-			show_creation_error("Wrong password", 2);
-			return;
-		}
-		else if (error_code == -5) {
-			show_creation_error("Password not same", 3);
-			return;
-		}
+	
+	if (error_code == -1)
+		return show_creation_error("Wrong name", 0);
+	else if (error_code == -2)
+		return show_creation_error("Wrong login", 1);
+	
+	if (ui->lineEdit_7->text() != "")
+	{
+		if (error_code == 0)
+			return show_creation_error("All fields should be used", 4.8);
+		else if (error_code == -4)
+			return show_creation_error("Wrong password", 2);
+		else if (error_code == -5)
+			return show_creation_error("Password not same", 3);
 	}
 	
 
-	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No))
+	{
 		
 		Account account = Account();
 		QString salt, hash;
 
-		if (ui->lineEdit_7->text().size() == 0) {
+		if (ui->lineEdit_7->text().size() == 0)
+		{
 			salt = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text(), 3);
 			hash = account_db->get_text(DB::ACCOUNTS::FIELD::ID, ui->lineEdit_9->text(), 2);
 		}
-		else {
+		else
+		{
 			salt = account.get_generated_salt();
 			hash = account.get_generated_hash(ui->lineEdit_7->text(), salt);
 		}
@@ -230,46 +253,48 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 	clear_account_edit_page();
 	clear_creation_error();
 
-	if (is_removable) {
+	if (is_removable)
+	{
 		ui->remove_account_button->setEnabled(true);
 		ui->remove_account_button->setVisible(true);
 	}
-	else {
+	else
+	{
 		ui->remove_account_button->setEnabled(false);
 		ui->remove_account_button->setVisible(false);
 	}
 
-	if (account.get_id() == current_account->get_id()) {
+	if (account.get_id() == current_account->get_id())
+	{
 		ui->remove_account_button->setEnabled(false);
 		ui->remove_account_button->setVisible(false);
 	}
 	
-	if (is_status_editable) {
+	if (is_status_editable)
+	{
 		ui->checkBox->setEnabled(true);
 		ui->checkBox->setVisible(true);
 		ui->checkBox_2->setEnabled(true);
 		ui->checkBox_2->setVisible(true);
 	}
-	else {
+	else
+	{
 		ui->checkBox->setEnabled(false);
 		ui->checkBox->setVisible(false);
 		ui->checkBox_2->setEnabled(false);
 		ui->checkBox_2->setVisible(false);
 	}
 
-	if (is_back_to_accounts) {
+	if (is_back_to_accounts)
 		connect(ui->commandLinkButton, SIGNAL(clicked()), _parent, SLOT(back_to_accounts()));
-	}
-	else {
+	else
 		connect(ui->commandLinkButton, SIGNAL(clicked()), _parent, SLOT(open_books_page()));
-	}
 
 
 	ui->pushButton->setText("Apply");
 
 	disconnect(ui->pushButton, 0, 0, 0);
 	connect(ui->pushButton, &QPushButton::clicked, this, [=]() { edit_account(); });
-
 
 	ui->lineEdit_9->setText(QString::fromStdString(to_string(account.get_id())));
 	ui->lineEdit_2->setText(account.get_name());
@@ -278,7 +303,8 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 	ui->checkBox_2->setChecked(account.get_role());
 
 	disconnect(ui->remove_account_button, 0, 0, 0);
-	connect(ui->remove_account_button, &QPushButton::clicked, this, [=]() { 
+	connect(ui->remove_account_button, &QPushButton::clicked, this, 
+		[=]() { 
 		if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
 			account_db->delete_field(DB::ACCOUNTS::FIELD::ID + " = " + ui->lineEdit_9->text());
 			start();
@@ -286,35 +312,32 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 	});
 }
 
-void AccountPage::create_account() {
+void AccountPage::create_account()
+{
 	clear_creation_error();
 	int error_code = check_creation();
-	if (error_code == 0) {
-		show_creation_error("All fields should be used", 4.8);
-		return;
-	}
-	else if (error_code == -1) {
-		show_creation_error("Wrong name", 0);
-		return;
-	}
-	else if (error_code == -2) {
-		show_creation_error("Wrong login", 1);
-		return;
-	}
-	else if (error_code == -3) {
-		show_creation_error("login already used", 1);
-		return;
-	}
-	else if (error_code == -4) {
-		show_creation_error("Wrong password", 2);
-		return;
-	}
-	else if (error_code == -5) {
-		show_creation_error("Password not same", 3);
-		return;
-	}
+	
+	if (error_code == 0)
+		return show_creation_error("All fields should be used", 4.8);
+	
+	else if (error_code == -1)
+		return show_creation_error("Wrong name", 0);
+	
+	else if (error_code == -2)
+		return show_creation_error("Wrong login", 1);
+	
+	else if (error_code == -3)
+		return show_creation_error("login already used", 1);
+	
+	else if (error_code == -4)
+		return show_creation_error("Wrong password", 2);
 
-	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+	else if (error_code == -5)
+		return show_creation_error("Password not same", 3);
+
+
+	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No))
+	{
 		Account account = Account();
 
 		QString salt = account.get_generated_salt();
@@ -333,7 +356,8 @@ void AccountPage::create_account() {
 	}
 }
 
-void AccountPage::open_account_creation_page(){
+void AccountPage::open_account_creation_page()
+{
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
 	ui->editAccountPage_title->setText("Accout creation");
 	clear_account_edit_page();
@@ -348,9 +372,12 @@ void AccountPage::open_account_creation_page(){
 
 	int min_nonexistent = 1;
 
-	if (accounts_id.size() != 0) {
-		for (int i = 0; i < *max_element(accounts_id.begin(), accounts_id.end()) + 2; i++) {
-			if (accounts_id.end() == std::find(accounts_id.begin(), accounts_id.end(), min_nonexistent)) {
+	if (accounts_id.size() != 0)
+	{
+		for (int i = 0; i < *max_element(accounts_id.begin(), accounts_id.end()) + 2; i++)
+		{
+			if (accounts_id.end() == std::find(accounts_id.begin(), accounts_id.end(), min_nonexistent))
+			{
 				break;
 			}
 			min_nonexistent++;
@@ -379,25 +406,25 @@ int AccountPage::check_creation() {
 		{password, -4, "^([\\w]{5,30})"} });
 
 	
-	if (Check::is_empty({ name, login, password, repeat_password })) {
+	if (Check::is_empty({ name, login, password, repeat_password })) 
 		return 0;
-	}
 
 	int err = check.check_all();
-	if (err != 1) {
+
+	if (err != 1) 
 		return err;
-	}
-	else if (password != repeat_password) {
+	
+	else if (password != repeat_password) 
 		return -5;
-	}
-	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 0) != "") { // занятость логина
+	
+	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 0) != "")
 		return -3;
-	}
 
 	return 1;
 }
 
-void AccountPage::show_creation_error(QString message, double num_of_line) {
+void AccountPage::show_creation_error(QString message, double num_of_line)
+{
 	const int START_X = 900, START_Y = 135, ADD = 65, WIDTH = 400, HEIGHT = 50;
 	QLabel* error_message = new QLabel(message, ui->editAccountPage);
 	error_message->setObjectName("accountPage_creation_error");
@@ -407,11 +434,13 @@ void AccountPage::show_creation_error(QString message, double num_of_line) {
 	error_message->show();
 }
 
-void AccountPage::clear_creation_error() {
+void AccountPage::clear_creation_error() 
+{
 	qDeleteAll(ui->editAccountPage->findChildren<QLabel*>("accountPage_creation_error"));
 }
 
-void AccountPage::adjust_fonts() {
+void AccountPage::adjust_fonts() 
+{
 	ui->lineEdit_2->setFont(FONTS::UBUNTU_14);
 	ui->lineEdit_6->setFont(FONTS::UBUNTU_14);
 	ui->lineEdit_7->setFont(FONTS::UBUNTU_14);
@@ -422,11 +451,21 @@ void AccountPage::adjust_fonts() {
 	ui->pushButton->setFont(FONTS::UBUNTU_14);
 	ui->commandLinkButton->setFont(FONTS::UBUNTU_10);
 	ui->editAccountPage_title->setFont(FONTS::UBUNTU_14);
-
 }
 
 
-void AccountPage::set_current_account(Account* current_account) {
+void AccountPage::init_pixmaps() 
+{
+	admin_pixmap = QPixmap("admin.png");
+	user_pixmap = QPixmap("user.png");
+
+	admin_pixmap = admin_pixmap.scaled(QSize(62, 62), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	user_pixmap = user_pixmap.scaled(QSize(62, 52), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);	
+}
+
+
+void AccountPage::set_current_account(Account* current_account)
+{
 	this->current_account = current_account;
 }
 
