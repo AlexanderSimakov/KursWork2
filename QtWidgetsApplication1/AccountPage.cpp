@@ -8,8 +8,14 @@ AccountPage::AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQ
 	this->account_db = account_db;
 	this->_parent = parent;
 
+	_check = new QCheck(ui, ui->editAccountPage);
+
 	adjust_fonts();
 	init_pixmaps();
+}
+
+void AccountPage::update_window() {
+		show_list();
 }
 
 void AccountPage::start()
@@ -197,28 +203,30 @@ Account AccountPage::get_account_by_id(int id)
 
 void AccountPage::edit_account()
 {
-	clear_creation_error();
-	int error_code = check_creation();
-	
-	if (error_code == -1)
-		return show_creation_error("Wrong name", 0);
-	else if (error_code == -2)
-		return show_creation_error("Wrong login", 1);
-	
-	if (ui->lineEdit_7->text() != "")
-	{
-		if (error_code == 0)
-			return show_creation_error("All fields should be used", 4.8);
-		else if (error_code == -4)
-			return show_creation_error("Wrong password", 2);
-		else if (error_code == -5)
-			return show_creation_error("Password not same", 3);
+	_check->clear_error_message();
+	int error_code;
+
+	if (ui->lineEdit_7->text() != "") {
+		error_code == check_creation();
+		if (error_code == 1)
+			error_code == _check->check_all();
+
+		if (error_code != -3 && error_code != 1) {
+			return _check->show_error_message(error_code);
+		}
 	}
-	
+	else {
+		check_creation();
+		error_code = _check->check_all();
+		if (error_code == -1) {
+			return _check->show_error_message(error_code);
+		}
+	}
+
+
 
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No))
 	{
-		
 		Account account = Account();
 		QString salt, hash;
 
@@ -251,7 +259,6 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 	ui->editAccountPage_title->setText("Accout editing");
 	ui->lineEdit_6->setEnabled(false);
 	clear_account_edit_page();
-	clear_creation_error();
 
 	if (is_removable)
 	{
@@ -314,28 +321,16 @@ void AccountPage::open_edit_account_page(Account account, bool is_removable, boo
 
 void AccountPage::create_account()
 {
-	clear_creation_error();
+	_check->clear_error_message();
 	int error_code = check_creation();
-	
-	if (error_code == 0)
-		return show_creation_error("All fields should be used", 4.8);
-	
-	else if (error_code == -1)
-		return show_creation_error("Wrong name", 0);
-	
-	else if (error_code == -2)
-		return show_creation_error("Wrong login", 1);
-	
-	else if (error_code == -3)
-		return show_creation_error("login already used", 1);
-	
-	else if (error_code == -4)
-		return show_creation_error("Wrong password", 2);
+	if (error_code == 1)
+		error_code = _check->check_all();
 
-	else if (error_code == -5)
-		return show_creation_error("Password not same", 3);
-
-
+	if (error_code != 1) {
+		return _check->show_error_message(error_code); 
+	}
+	
+	
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No))
 	{
 		Account account = Account();
@@ -361,7 +356,6 @@ void AccountPage::open_account_creation_page()
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
 	ui->editAccountPage_title->setText("Accout creation");
 	clear_account_edit_page();
-	clear_creation_error();
 	ui->remove_account_button->setEnabled(false);
 	ui->remove_account_button->setVisible(false);
 	ui->lineEdit_6->setEnabled(true);
@@ -401,18 +395,25 @@ int AccountPage::check_creation() {
 	QString password = ui->lineEdit_7->text();
 	QString repeat_password = ui->lineEdit_8->text();
 
-	Check check({ {name, -1, "^([a-za-z ]{3,30})"}, 
-		{login, -2, "^([\\w]{5,30})"}, 
-		{password, -4, "^([\\w]{5,30})"} });
+	_check->clear_errors();
 
+	_check->add_error_message({ 0, "All fields should be used", 950, 400, 400, 50 });
+
+	_check->add_error_check({ -1, name, regex("^([a-zA-Z ]{3,30})") });
+	_check->add_error_message({-1, "Wrong name", 950, 135, 400, 50});
 	
+	_check->add_error_check({ -2, login, regex("^([\\w]{5,30})") });
+	_check->add_error_message({-2, "Wrong login", 950, 200, 400, 50});
+	
+	_check->add_error_message({ -3, "Login already used", 950, 200, 400, 50 });
+
+	_check->add_error_check({ -4, password, regex("^([\\w]{5,30})") });
+	_check->add_error_message({-4, "Wrong password", 950, 265, 400, 50});
+
+	_check->add_error_message({ -5, "Passwords should be same", 950, 330, 400, 50 });
+
 	if (Check::is_empty({ name, login, password, repeat_password })) 
 		return 0;
-
-	int err = check.check_all();
-
-	if (err != 1) 
-		return err;
 	
 	else if (password != repeat_password) 
 		return -5;
@@ -421,22 +422,6 @@ int AccountPage::check_creation() {
 		return -3;
 
 	return 1;
-}
-
-void AccountPage::show_creation_error(QString message, double num_of_line)
-{
-	const int START_X = 900, START_Y = 135, ADD = 65, WIDTH = 400, HEIGHT = 50;
-	QLabel* error_message = new QLabel(message, ui->editAccountPage);
-	error_message->setObjectName("accountPage_creation_error");
-	error_message->setStyleSheet(STYLE::COLOR::RED);
-	error_message->setFont(FONTS::UBUNTU_12);
-	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
-	error_message->show();
-}
-
-void AccountPage::clear_creation_error() 
-{
-	qDeleteAll(ui->editAccountPage->findChildren<QLabel*>("accountPage_creation_error"));
 }
 
 void AccountPage::adjust_fonts() 
@@ -463,6 +448,8 @@ void AccountPage::init_pixmaps()
 	user_pixmap = user_pixmap.scaled(QSize(62, 52), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);	
 }
 
+void AccountPage::init_check() {
+	}
 
 void AccountPage::set_current_account(Account* current_account)
 {

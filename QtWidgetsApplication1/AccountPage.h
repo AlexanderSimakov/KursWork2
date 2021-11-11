@@ -15,18 +15,15 @@ class AccountPage : public QMainWindow, public Page
 public:
 	AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* account_db);
 
-	virtual void update_window() {
-		show_list();
-	}
-
 	void start();
+	virtual void update_window();
 
 	void open_edit_account_page(Account account, bool is_removable = true, bool is_status_editable = true, bool is_back_to_accounts = true);
 	void set_current_account(Account* current_account);
 
 private:
-	QWidget* _parent;
 	Ui::QtWidgetsApplication1Class* ui;
+	QWidget* _parent;
 	QWidget* page;
 	SQLWork* account_db;
 
@@ -37,7 +34,7 @@ private:
 
 	QPixmap admin_pixmap;
 	QPixmap user_pixmap;
-
+	QCheck* _check;
 	Account* current_account;
 	vector<int> accounts_id;
 
@@ -64,10 +61,9 @@ private:
 	void create_account();
 	void open_account_creation_page();
 	int check_creation();
-	void show_creation_error(QString message, double num_of_line);
-	void clear_creation_error();
 
 	void adjust_fonts();
 	void init_pixmaps();
+	void init_check();
 };
 
