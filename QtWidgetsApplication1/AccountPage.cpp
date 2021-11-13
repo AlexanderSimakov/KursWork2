@@ -8,13 +8,13 @@ AccountPage::AccountPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQ
 	this->account_db = account_db;
 	this->parent = parent;
 
-	_check = new QCheck(ui, ui->editAccountPage);
-
 	adjust_fonts();
 	init_pixmaps();
+	init_checks_messages();
 }
 
-void AccountPage::update_window() {
+void AccountPage::update_window() 
+{
 	show_list();
 }
 
@@ -201,27 +201,8 @@ Account AccountPage::get_account_by_id(const int ID)
 
 void AccountPage::edit_account()
 {
-	_check->clear_error_message();
-	int error_code;
-
-	if (ui->lineEdit_7->text() != "") 
-	{
-		error_code = check_creation();
-
-		if (error_code == ACCOUNT_ERROR::ALL_GOOD || error_code == ACCOUNT_ERROR::LOGIN_EXIST)
-			error_code = _check->check_by_error_codes({ACCOUNT_ERROR::WRONG_NAME, ACCOUNT_ERROR::WRONG_PASSWORD});
-
-		if (error_code != ACCOUNT_ERROR::ALL_GOOD) 
-			return _check->show_error_message(error_code);
-	}
-	else 
-	{
-		error_code = _check->check_all();
-		if (error_code == ACCOUNT_ERROR::WRONG_NAME) 
-			return _check->show_error_message(error_code);
-	}
-
-
+	if (!check_edition())
+		return;
 
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No))
 	{
@@ -256,7 +237,6 @@ void AccountPage::open_edit_account_page(Account account, const bool IS_REMOVABL
 	open_account_edit_widget();
 	clear_account_edit_page();
 
-
 	if (IS_REMOVABLE)
 		ui->remove_account_button->setVisible(true);
 	else
@@ -288,11 +268,11 @@ void AccountPage::open_edit_account_page(Account account, const bool IS_REMOVABL
 	disconnect(ui->remove_account_button, 0, 0, 0);
 	connect(ui->remove_account_button, &QPushButton::clicked, this, 
 		[=]() { 
-		if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
-			account_db->delete_field(DB::ACCOUNTS::FIELD::ID + " = " + ui->lineEdit_9->text());
-			start();
-		}
-	});
+			if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
+				account_db->delete_field(DB::ACCOUNTS::FIELD::ID + " = " + ui->lineEdit_9->text());
+				start();
+			}
+		});
 
 	ui->lineEdit_9->setText(QString::fromStdString(to_string(account.get_id())));
 	ui->lineEdit_2->setText(account.get_name());
@@ -303,15 +283,8 @@ void AccountPage::open_edit_account_page(Account account, const bool IS_REMOVABL
 
 void AccountPage::create_account()
 {
-	_check->clear_error_message();
-	int error_code = check_creation();
-	if (error_code == ACCOUNT_ERROR::ALL_GOOD)
-		error_code = _check->check_all();
-
-	if (error_code != ACCOUNT_ERROR::ALL_GOOD) {
-		return _check->show_error_message(error_code); 
-	}
-	
+	if (!check_creation())
+		return;
 	
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No))
 	{
@@ -342,44 +315,92 @@ void AccountPage::open_account_creation_page()
 	connect(ui->pushButton, &QPushButton::clicked, this, [=]() { create_account(); });
 
 	int min_nonexistent = Page::get_min_nonexist(accounts_id);
-	
 	ui->lineEdit_9->setText(QString::number(min_nonexistent));
 }
 
-
-int AccountPage::check_creation() {
+bool AccountPage::check_creation() {
 	QString name = ui->lineEdit_2->text();
 	QString login = ui->lineEdit_6->text();
 	QString password = ui->lineEdit_7->text();
 	QString repeat_password = ui->lineEdit_8->text();
 
-	_check->clear_errors();
-
-	_check->add_error_message({ ACCOUNT_ERROR::IS_EMPTY, "All fields should be used", 950, 400, 400, 50 });
-
+	_check->clear_error_message();
+	_check->clear_check_list();
 	_check->add_error_check({ ACCOUNT_ERROR::WRONG_NAME, name, regex("^([a-zA-Z ]{3,30})") });
-	_check->add_error_message({ ACCOUNT_ERROR::WRONG_NAME, "Wrong name", 950, 135, 400, 50});
-	
 	_check->add_error_check({ ACCOUNT_ERROR::WRONG_LOGIN, login, regex("^([\\w]{5,30})") });
-	_check->add_error_message({ ACCOUNT_ERROR::WRONG_LOGIN, "Wrong login", 950, 200, 400, 50});
-	
-	_check->add_error_message({ ACCOUNT_ERROR::LOGIN_EXIST, "Login already exist", 950, 200, 400, 50 });
-
 	_check->add_error_check({ ACCOUNT_ERROR::WRONG_PASSWORD, password, regex("^([\\w]{5,30})") });
-	_check->add_error_message({ ACCOUNT_ERROR::WRONG_PASSWORD, "Wrong password", 950, 265, 400, 50});
 
-	_check->add_error_message({ ACCOUNT_ERROR::PASSWORDS_NOT_SAME, "Passwords should be same", 950, 330, 400, 50 });
-
-	if (QCheck::is_empty({ name, login, password, repeat_password })) 
-		return ACCOUNT_ERROR::IS_EMPTY;
-	
-	else if (password != repeat_password) 
-		return ACCOUNT_ERROR::PASSWORDS_NOT_SAME;
-	
+	if (QCheck::is_empty({ name, login, password, repeat_password }))
+	{
+		_check->show_error_message(ACCOUNT_ERROR::IS_EMPTY);
+		return false;
+	}
+	else if (password != repeat_password)
+	{
+		_check->show_error_message(ACCOUNT_ERROR::PASSWORDS_NOT_SAME);
+		return false;
+	}
 	else if (account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 0) != "")
-		return ACCOUNT_ERROR::LOGIN_EXIST;
+	{
+		_check->show_error_message(ACCOUNT_ERROR::LOGIN_EXIST);
+		return false;
+	}
 
-	return ACCOUNT_ERROR::ALL_GOOD;
+	int error_code = _check->check_all();
+	if (error_code != ACCOUNT_ERROR::ALL_GOOD)
+	{
+		_check->show_error_message(error_code);
+		return false;
+	}
+
+	return true;
+}
+
+bool AccountPage::check_edition() 
+{
+	QString name = ui->lineEdit_2->text();
+	QString login = ui->lineEdit_6->text();
+	QString password = ui->lineEdit_7->text();
+	QString repeat_password = ui->lineEdit_8->text();
+
+	_check->clear_error_message();
+	_check->clear_check_list();
+	_check->add_error_check({ ACCOUNT_ERROR::WRONG_NAME, name, regex("^([a-zA-Z ]{3,30})") });
+	_check->add_error_check({ ACCOUNT_ERROR::WRONG_LOGIN, login, regex("^([\\w]{5,30})") });
+	_check->add_error_check({ ACCOUNT_ERROR::WRONG_PASSWORD, password, regex("^([\\w]{5,30})") });
+
+
+	int error_code;
+	if (ui->lineEdit_7->text() != "") 
+	{
+		if (QCheck::is_empty({ name, login, password, repeat_password }))
+		{
+			_check->show_error_message(ACCOUNT_ERROR::IS_EMPTY);
+			return false;
+		}
+		else if (password != repeat_password)
+		{
+			_check->show_error_message(ACCOUNT_ERROR::PASSWORDS_NOT_SAME);
+			return false;
+		}
+		
+		int error_code = _check->check_all();
+		if (error_code != ACCOUNT_ERROR::ALL_GOOD)
+		{
+			_check->show_error_message(error_code);
+			return false;
+		}
+	}
+	else
+	{
+		if (_check->check_by_error_codes({ ACCOUNT_ERROR::WRONG_NAME }) != ACCOUNT_ERROR::ALL_GOOD)
+		{
+			_check->show_error_message(ACCOUNT_ERROR::WRONG_NAME);
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void AccountPage::adjust_fonts() 
@@ -396,7 +417,6 @@ void AccountPage::adjust_fonts()
 	ui->editAccountPage_title->setFont(FONTS::UBUNTU_14);
 }
 
-
 void AccountPage::init_pixmaps() 
 {
 	admin_pixmap = QPixmap("admin.png");
@@ -406,25 +426,40 @@ void AccountPage::init_pixmaps()
 	user_pixmap = user_pixmap.scaled(QSize(62, 52), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);	
 }
 
+void AccountPage::init_checks_messages() 
+{
+	_check = new QCheck(ui, ui->editAccountPage);
+
+	_check->clear_message_list();
+	_check->add_error_message({ ACCOUNT_ERROR::IS_EMPTY, "All fields should be used", 950, 400, 400, 50 });
+	_check->add_error_message({ ACCOUNT_ERROR::WRONG_NAME, "Wrong name", 950, 135, 400, 50});
+	_check->add_error_message({ ACCOUNT_ERROR::WRONG_LOGIN, "Wrong login", 950, 200, 400, 50});
+	_check->add_error_message({ ACCOUNT_ERROR::LOGIN_EXIST, "Login already exist", 950, 200, 400, 50 });
+	_check->add_error_message({ ACCOUNT_ERROR::WRONG_PASSWORD, "Wrong password", 950, 265, 400, 50});
+	_check->add_error_message({ ACCOUNT_ERROR::PASSWORDS_NOT_SAME, "Passwords should be same", 950, 330, 400, 50 });
+}
 
 void AccountPage::set_current_account(Account* current_account)
 {
 	this->current_account = current_account;
 }
 
-void AccountPage::open_main_page() {
+void AccountPage::open_main_page() 
+{
 	ui->stackedWidget->setCurrentWidget(ui->adminMainPage);
 	ui->stackedWidget_2->setCurrentWidget(page);
 }
 
-void AccountPage::open_account_edit_widget() {
+void AccountPage::open_account_edit_widget() 
+{
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
 	ui->editAccountPage_title->setText("Accout editing");
 	ui->lineEdit_6->setEnabled(false);
 	ui->pushButton->setText("Apply");
 }
 
-void AccountPage::open_account_creation_widget() {
+void AccountPage::open_account_creation_widget() 
+{
 	ui->stackedWidget->setCurrentWidget(ui->editAccountPage);
 	ui->editAccountPage_title->setText("Accout creation");
 	ui->remove_account_button->setVisible(false);

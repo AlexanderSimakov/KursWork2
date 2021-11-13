@@ -20,8 +20,6 @@ namespace ACCOUNT_ERROR {
 }
 
 
-
-
 class AccountPage : public QMainWindow, public Page
 {
 	Q_OBJECT
@@ -71,10 +69,13 @@ private:
 	void create_account();
 
 	void open_account_creation_page();
-	int check_creation();
+	
+	bool check_creation();
+	bool check_edition();
 
 	void adjust_fonts();
 	void init_pixmaps();
+	void init_checks_messages();
 
 	void open_main_page();
 	void open_account_edit_widget();
