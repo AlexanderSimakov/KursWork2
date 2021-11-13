@@ -19,6 +19,15 @@ namespace DB {
 			const QString ID = "ID";
 		}
 
+		namespace INT {
+			const int LOGIN = 0;
+			const int NAME = 1;
+			const int HASH = 2;
+			const int SALT = 3;
+			const int ROLE = 4;
+			const int ACCESS = 5;
+			const int ID = 6;
+		}
 	}
 
 	namespace BOOKS {

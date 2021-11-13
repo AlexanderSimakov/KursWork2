@@ -9,6 +9,19 @@
 #include "constants.h"
 #include "Check.h"
 
+namespace ACCOUNT_ERROR {
+	const int ALL_GOOD = 1;
+	const int IS_EMPTY = 0;
+	const int WRONG_NAME = -1;
+	const int WRONG_LOGIN = -2;
+	const int LOGIN_EXIST = -3;
+	const int WRONG_PASSWORD = -4;
+	const int PASSWORDS_NOT_SAME = -5;
+}
+
+
+
+
 class AccountPage : public QMainWindow, public Page
 {
 	Q_OBJECT
@@ -18,18 +31,16 @@ public:
 	void start();
 	virtual void update_window();
 
-	void open_edit_account_page(Account account, bool is_removable = true, bool is_status_editable = true, bool is_back_to_accounts = true);
+	void open_edit_account_page(Account account, const bool IS_REMOVABLE = true, const bool IS_STATUS_EDITABLE = true, const bool IS_BACK_TO_ACCOUNTS = true);
 	void set_current_account(Account* current_account);
 
 private:
 	Ui::QtWidgetsApplication1Class* ui;
-	QWidget* _parent;
+	QWidget* parent;
 	QWidget* page;
 	SQLWork* account_db;
 
 	const int NUMBER_OF_ACCOUNTS_ON_PAGE = 24;
-	const int ADD_X = 265;
-	const int ADD_Y = 100;
 	int current_page = 0;
 
 	QPixmap admin_pixmap;
@@ -45,25 +56,28 @@ private:
 	void clear_account_edit_page();
 
 	void show_list();
-	void show_account(Account* account, int row, int column);
+	void show_account(Account* account, const int ROW, const int COLUMN);
 
-	QLabel* get_name_label(QString name);
-	QLabel* get_login_label(QString name);
+	QLabel* get_name_label(const QString NAME);
+	QLabel* get_login_label(const QString LOGIN);
 	QLabel* get_image_label(const int ROLE, const int ACCESS);
 
 	void create_choise_page_buttons();
 	void create_add_button();
 	
-	Account get_account_by_id(int id);
+	Account get_account_by_id(const int ID);
 
 	void edit_account();
-
 	void create_account();
+
 	void open_account_creation_page();
 	int check_creation();
 
 	void adjust_fonts();
 	void init_pixmaps();
-	void init_check();
+
+	void open_main_page();
+	void open_account_edit_widget();
+	void open_account_creation_widget();
 };
 
