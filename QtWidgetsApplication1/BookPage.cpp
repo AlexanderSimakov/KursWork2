@@ -381,16 +381,7 @@ void BookPage::give_book(Book book) {
 		People people;
 
 		vector<int> IDs = people_db->get_ints();
-		int min_nonexistent = 1;
-
-		if (IDs.size() != 0) {
-			for (int i = 0; i < *max_element(IDs.begin(), IDs.end()) + 2; i++) {
-				if (IDs.end() == std::find(IDs.begin(), IDs.end(), min_nonexistent)) {
-					break;
-				}
-				min_nonexistent++;
-			}
-		}
+		int min_nonexistent = Page::get_min_nonexist(IDs);
 
 		people.set_id(min_nonexistent);
 		people.set_book_id(book.get_id());

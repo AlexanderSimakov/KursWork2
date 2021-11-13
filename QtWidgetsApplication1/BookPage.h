@@ -13,6 +13,27 @@
 #include <regex>
 #include <ctime>
 
+namespace BOOK_ERROR {
+	const int ALL_GOOD = 1;
+	const int IS_EMPTY = 0;
+	const int WRONG_YEAR = -1;
+	const int WRONG_PAGES = -2;
+}
+
+
+namespace PEOPLE_ERROR {
+	const int ALL_GOOD = 1;
+	const int IS_EMPTY = 0;
+	const int WRONG_NAME = -1;
+	const int WRONG_PHONE = -2;
+	const int WRONG_ADDRESS = -3;
+	const int WRONG_AGE = -4;
+	const int WRONG_GIVE_DATE = -5;
+	const int WRONG_RETURN_DATE = -6;
+	const int GIVE_DATE_MORE_THAN_RETURN_DATE = -7;
+}
+
+
 class BookPage : public QMainWindow, public Page
 {
 	Q_OBJECT
