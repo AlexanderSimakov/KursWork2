@@ -44,6 +44,8 @@ public:
 	void add_error_check(ErrorCheck error_check);
 	
 	void clear_errors();
+	void clear_message_list();
+	void clear_check_list();
 	void clear_error_message();
 
 	static bool is_empty(vector<QString> lines);

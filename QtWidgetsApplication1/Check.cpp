@@ -65,8 +65,16 @@ void QCheck::clear_error_message() {
 }
 
 void QCheck::clear_errors() {
-	this->error_checks.clear();
-	this->error_messages.clear();
+	clear_error_message();
+	clear_message_list();
+}
+
+void QCheck::clear_message_list() {
+	error_messages.clear();
+}
+
+void QCheck::clear_check_list() {
+	error_checks.clear();
 }
 
 bool QCheck::is_empty(vector<QString> lines) {
