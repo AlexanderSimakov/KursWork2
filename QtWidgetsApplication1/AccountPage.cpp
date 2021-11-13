@@ -415,7 +415,7 @@ int AccountPage::check_creation() {
 
 	_check->add_error_message({ -5, "Passwords should be same", 950, 330, 400, 50 });
 
-	if (Check::is_empty({ name, login, password, repeat_password })) 
+	if (QCheck::is_empty({ name, login, password, repeat_password })) 
 		return 0;
 	
 	else if (password != repeat_password) 
