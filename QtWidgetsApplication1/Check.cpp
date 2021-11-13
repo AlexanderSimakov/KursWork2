@@ -59,6 +59,19 @@ int QCheck::check_all() {
 	return 1;
 }
 
+int QCheck::check_by_error_codes(vector<int> error_codes) {
+	clear_error_message();
+	
+	for (auto check : error_checks) {
+		if (!regex_match(check.LINE.toUtf8().constData(), result, check.RULE)) {
+			if (find(error_codes.begin(), error_codes.end(), check.RETURN_NUM) != error_codes.end())
+				return check.RETURN_NUM;
+		}
+	}
+
+	return 1;
+}
+
 ErrorMessage QCheck::get_error_message_by_return_num(int return_num) {
 	for (auto message : error_messages) {
 		if (message.RETURN_NUM == return_num) {

@@ -206,19 +206,22 @@ void AccountPage::edit_account()
 	_check->clear_error_message();
 	int error_code;
 
-	if (ui->lineEdit_7->text() != "") {
-		error_code == check_creation();
-		if (error_code == 1)
-			error_code == _check->check_all();
+	if (ui->lineEdit_7->text() != "") 
+	{
+		error_code = check_creation();
+		if (error_code == 1 || error_code == -3)
+			error_code = _check->check_by_error_codes({-1, -4});
 
-		if (error_code != -3 && error_code != 1) {
+		if (error_code != 1) 
+		{
 			return _check->show_error_message(error_code);
 		}
 	}
-	else {
-		check_creation();
+	else 
+	{
 		error_code = _check->check_all();
-		if (error_code == -1) {
+		if (error_code == -1) 
+		{
 			return _check->show_error_message(error_code);
 		}
 	}

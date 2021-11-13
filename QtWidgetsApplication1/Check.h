@@ -76,13 +76,14 @@ public:
 	QCheck(Ui::QtWidgetsApplication1Class* ui, QWidget* page);
 
 	int check_all();
+	int check_by_error_codes(vector<int> error_codes);
 	void show_error_message(ErrorMessage error_message);
 	void show_error_message(int return_num);
 	ErrorMessage get_error_message_by_return_num(int return_num);
 
 	void add_error_message(ErrorMessage error_message);
 	void add_error_check(ErrorCheck error_check);
-
+	
 	void clear_errors();
 	void clear_error_message();
 
