@@ -61,7 +61,7 @@ void QCheck::add_error_check(ErrorCheck error_check) {
 }
 
 void QCheck::clear_error_message() {
-	qDeleteAll(ui->editAccountPage->findChildren<QLabel*>(ERROR_MESSAGE_NAME));
+	qDeleteAll(page->findChildren<QLabel*>(ERROR_MESSAGE_NAME));
 }
 
 void QCheck::clear_errors() {
@@ -78,8 +78,6 @@ void QCheck::clear_check_list() {
 }
 
 bool QCheck::is_empty(vector<QString> lines) {
-	bool _is_empty;
-
 	for (QString line : lines) {
 		if (line == "") return true;
 	}
