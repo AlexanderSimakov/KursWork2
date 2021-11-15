@@ -1,18 +1,19 @@
 #include "BookPage.h"
 
 BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* books_db, SQLWork* people_db)
-	: QMainWindow(parent), PAGE_WIDTH(ui->page_3->width()), PAGE_HEIGHT(ui->page_3->height()) {
-	this->_parent = parent;
+	: QMainWindow(parent) {
+	this->parent = parent;
 	this->ui = ui;
 	this->page = ui->page_3;
 	this->books_db = books_db;
 	this->people_db = people_db;
 
-	choise_page_buttons = new ChoisePageButtons(_parent, ui, page, NUMBER_OF_BOOKS_ON_PAGE, &current_page, *this);
-	searching = new Searching(_parent, ui, page, books_db, *this, books_id);
+	choise_page_buttons = new ChoisePageButtons(parent, ui, page, NUMBER_OF_BOOKS_ON_PAGE, &current_page, *this);
+	searching = new Searching(parent, ui, page, books_db, *this, books_id);
 	ui->id_create_book_line_edit->setVisible(false);
 
 	adjust_fonts();
+	init_cheks_messages();
 
 
 	connect(ui->pushButton_4, &QPushButton::clicked, this, 
@@ -23,9 +24,13 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 		});
 }
 
+
+void BookPage::update_window() {
+	show_list();
+}
+
 void BookPage::start() {
-	ui->stackedWidget->setCurrentWidget(ui->adminMainPage);
-	ui->stackedWidget_2->setCurrentWidget(ui->page_3);
+	open_main_widjet();
 	update_books_id();
 	clear_page();
 	create_add_button();
@@ -75,42 +80,13 @@ void BookPage::show_list(){
 
 void BookPage::show_book(Book book, int row, int column) {
 	const int WIDTH = 340, HEIGHT = 300, START_X = 10, START_Y = 13;
+	const int ADD_X = 360, ADD_Y = 320;
 
-	//  --------------- create name label ----------------
-	QLabel* name = new QLabel(book.get_name(), page);
-	name->setObjectName("BookPage_name");
-	name->setStyleSheet(STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::RADIUS_10);
-	name->setAlignment(Qt::AlignCenter);
-	name->setFont(FONTS::UBUNTU_10);
-
-
-	//  --------------- create image label ---------------
-	QLabel* image = new QLabel("", page);
+	QLabel* name = get_name_label(book.get_name());
+	QLabel* image = new QLabel(page);
+	image->setPixmap(*get_image_pixmap(book.get_path_to_img(), 320, 240));
 	image->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 
-	QPixmap target = QPixmap(QSize(320, 240));
-    target.fill(Qt::transparent);
-
-    QPixmap p = QPixmap(book.get_path_to_img());
-    p = p.scaled(QSize(320, 240), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-    QPainter painter (&target);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-
-
-    QPainterPath path = QPainterPath();
-	int start_x = (320 - p.size().width()) / 2;
-	int start_y = (240 - p.size().height()) / 2;
-    path.addRoundedRect(start_x, start_y, p.size().width(), p.size().height(), 10, 10);
-    painter.setClipPath(path);
-    painter.drawPixmap(start_x, start_y, p);
-
-	image->setPixmap(target);
-	// ---------------------------------------------------
-
-	//  --------------- create button --------------------
 	QPushButton* button = new QPushButton(page);
 	button->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	button->setLayout(new QGridLayout);
@@ -145,6 +121,37 @@ void BookPage::show_book(Book book, int row, int column) {
 			ui->stackedWidget_2->setCurrentWidget(ui->showBookPage);
 			open_show_book_page(book);
 		});
+}
+
+QLabel* BookPage::get_name_label(QString book_name) {
+	QLabel* name = new QLabel(book_name, page);
+	name->setObjectName("BookPage_name");
+	name->setStyleSheet(STYLE::BACKGROUNG::LIGHT_CREAM + STYLE::BORDER::RADIUS_10);
+	name->setAlignment(Qt::AlignCenter);
+	name->setFont(FONTS::UBUNTU_10);
+	return name;
+}
+
+QPixmap* BookPage::get_image_pixmap(QString path_to_img, const int WIDTH, const int HEIGHT) {
+	QPixmap *target = new QPixmap(QSize(WIDTH, HEIGHT));
+    target->fill(Qt::transparent);
+
+    QPixmap p = QPixmap(path_to_img);
+    p = p.scaled(QSize(WIDTH, HEIGHT), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QPainter painter (target);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+    QPainterPath path = QPainterPath();
+	int start_x = (WIDTH - p.size().width()) / 2;
+	int start_y = (HEIGHT - p.size().height()) / 2;
+    path.addRoundedRect(start_x, start_y, p.size().width(), p.size().height(), 10, 10);
+    painter.setClipPath(path);
+    painter.drawPixmap(start_x, start_y, p);
+
+	return target;
 }
 
 void BookPage::create_choise_page_buttons() {
@@ -185,16 +192,6 @@ void BookPage::create_add_button() {
 	add_button->show();
 }
 
-void BookPage::create_edit_button(Book book, int num_in_list) {
-	const int WIDTH = 100, HEIGHT = 33;
-	QPushButton* edit_btn = new QPushButton("edit", page);
-	edit_btn->setObjectName("book_edit_button");
-	edit_btn->setFont(FONTS::UBUNTU_10);
-	edit_btn->setGeometry(PAGE_WIDTH - WIDTH, HEIGHT + MARGIN + ADD * num_in_list, WIDTH, HEIGHT);
-	connect(edit_btn, &QPushButton::clicked, this, [=]() { open_show_book_page(book); });
-	edit_btn->show();
-}
-
 void BookPage::open_show_book_page(Book book) {
 	ui->stackedWidget_2->setCurrentWidget(ui->showBookPage);
 
@@ -205,30 +202,8 @@ void BookPage::open_show_book_page(Book book) {
 	ui->show_content->setText(book.get_content());
 
 
-	//  --------------- create image label ---------------
-	ui->show_image->setStyleSheet("background: transparent;");
-
-	QPixmap target = QPixmap(QSize(326, 326));
-	target.fill(Qt::transparent);
-
-	QPixmap p = QPixmap(book.get_path_to_img());
-	p = p.scaled(QSize(326, 326), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-	QPainter painter(&target);
-	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-
-
-	QPainterPath path = QPainterPath();
-	int start_x = (326 - p.size().width()) / 2;
-	int start_y = (326 - p.size().height()) / 2;
-	path.addRoundedRect(start_x, start_y, p.size().width(), p.size().height(), 10, 10);
-	painter.setClipPath(path);
-	painter.drawPixmap(start_x, start_y, p);
-
-	ui->show_image->setPixmap(target);
-	// ---------------------------------------------------
+	ui->show_image->setPixmap(*get_image_pixmap(book.get_path_to_img(), 326, 326));
+	ui->show_image->setStyleSheet(STYLE::BACKGROUNG::TRANSPARENT);
 	
 
 	if (book.get_enabled()) {
@@ -297,14 +272,28 @@ void BookPage::open_show_book_page(Book book) {
 		ui->show_date_of_getting->setVisible(false);
 		ui->show_date_of_return->setVisible(false);
 	}
-
-	
 }
 
 void BookPage::open_give_book_page(Book book) {
 	ui->stackedWidget_2->setCurrentWidget(ui->giveBookPage);
 	ui->giveBook_book_name_label->setText(book.get_name());
 
+	QString date = get_current_format_date();
+
+	ui->giveBook_give_date_input->setText(date);
+
+	disconnect(ui->giveBook_give_button, 0, 0, 0);
+	connect(ui->giveBook_give_button, &QPushButton::clicked, this, [=]() {
+		give_book(book);
+		});
+
+	disconnect(ui->giveBook_back_button, 0, 0, 0);
+	connect(ui->giveBook_back_button, &QPushButton::clicked, this, [=]() {
+		open_show_book_page(book);
+		});
+}
+
+QString BookPage::get_current_format_date() {
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
 
@@ -324,58 +313,14 @@ void BookPage::open_give_book_page(Book book) {
 		month = QString::number(month_i);
 
 	QString year(QString::number(1900 + ltm->tm_year));
+	QString date = day + "." + month + "." + year;
 
-
-
-	ui->giveBook_give_date_input->setText(day + "." + month + "." + year);
-
-	disconnect(ui->giveBook_give_button, 0, 0, 0);
-	connect(ui->giveBook_give_button, &QPushButton::clicked, this, [=]() {
-		give_book(book);
-		});
-
-	disconnect(ui->giveBook_back_button, 0, 0, 0);
-	connect(ui->giveBook_back_button, &QPushButton::clicked, this, [=]() {
-		open_show_book_page(book);
-		});
+	return date;
 }
 
 void BookPage::give_book(Book book) {
-	clear_give_error();
-	int error_code = check_giving();
-	if (error_code == 0) {
-		show_give_error("All fields should be used", 7);
+	if (!check_giving())
 		return;
-	}
-	else if (error_code == -1) {
-		show_give_error("Wrong name", 0);
-		return;
-	}
-	else if (error_code == -2) {
-		show_give_error("Wrong phone", 1);
-		return;
-	}
-	else if (error_code == -3) {
-		show_give_error("Wrong address", 2);
-		return;
-	}
-	else if (error_code == -4) {
-		show_give_error("Wrong age", 3); 
-		return;
-	}
-	else if (error_code == -5) {
-		show_give_error("Wrong give date", 5); 
-		return;
-	}
-	else if (error_code == -6) {
-		show_give_error("Wrong return date", 6);
-		return;
-	}
-	else if (error_code == -7) {
-		show_give_error("Return date should be more than give date", 6);
-		return;
-	}
-	
 
 	if (QMessageBox::Yes == QMessageBox::question(this, "Give", "Are you shure?", QMessageBox::Yes | QMessageBox::No)) {
 		People people;
@@ -585,16 +530,6 @@ void BookPage::show_creation_error(QString message, double num_of_line) {
 	error_message->show();
 }
 
-void BookPage::show_give_error(QString message, double num_of_line) {
-	const int START_X = 490, START_Y = 110, ADD = 70, WIDTH = 400, HEIGHT = 50;
-	QLabel* error_message = new QLabel(message, ui->giveBookPage);
-	error_message->setObjectName("BookPage_give_error");
-	error_message->setStyleSheet(STYLE::COLOR::RED);
-	error_message->setFont(FONTS::UBUNTU_12);
-	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
-	error_message->show();
-}
-
 void BookPage::clear_creation_error() {
 	qDeleteAll(ui->addBookPage->findChildren<QLabel*>("BookPage_creation_error"));
 }
@@ -620,6 +555,28 @@ void BookPage::reconnect_create_button() {
 			ui->pushButton_3->disconnect();
 			create_book();
 		});
+}
+
+void BookPage::init_cheks_messages() {
+	_check_creation = new QCheck(ui, ui->addBookPage);
+
+	_check_creation->clear_check_list();
+	_check_creation->add_error_message({BOOK_ERROR::IS_EMPTY, "All fields should be used", 950, 100, 400, 50});
+	_check_creation->add_error_message({ BOOK_ERROR::WRONG_YEAR, "Wrong year", 950, 200, 400, 50 });
+	_check_creation->add_error_message({ BOOK_ERROR::WRONG_PAGES, "Wrong pages", 950, 300, 400, 50 });
+
+
+	_check_giving = new QCheck(ui, ui->giveBookPage);
+
+	_check_giving->clear_check_list();
+	_check_giving->add_error_message({PEOPLE_ERROR::IS_EMPTY, "All fields should be used", 490, 600, 400, 50});
+	_check_giving->add_error_message({PEOPLE_ERROR::WRONG_NAME, "Wrong name", 490, 110, 400, 50});
+	_check_giving->add_error_message({PEOPLE_ERROR::WRONG_PHONE, "Wrong phone", 490, 180, 400, 50});
+	_check_giving->add_error_message({PEOPLE_ERROR::WRONG_ADDRESS, "Wrong address", 490, 250, 400, 50});
+	_check_giving->add_error_message({PEOPLE_ERROR::WRONG_AGE, "Wrong age", 490, 320, 400, 50});
+	_check_giving->add_error_message({PEOPLE_ERROR::WRONG_GIVE_DATE, "Wrong give date", 490, 460, 400, 50});
+	_check_giving->add_error_message({PEOPLE_ERROR::WRONG_RETURN_DATE, "Wrong return date", 490, 530, 400, 50});
+	_check_giving->add_error_message({PEOPLE_ERROR::GIVE_DATE_MORE_THAN_RETURN_DATE, "Give date more than return date", 490, 530, 400, 50});
 }
 
 void BookPage::adjust_fonts() {
@@ -662,27 +619,7 @@ void BookPage::adjust_fonts() {
 
 }
 
-/*
- 1 - все хорошо
- 0 - есть незаполненные поля
--1 - неправильное имя
--2 - неправильный телефон
--3 - неправильный адрес
--4 - неправильный возраст
--5 - неправильныя дата выдачи
--6 - неправильная дата возвращения
--7 - дата возвращения меньше или равна дате выдачи
-*/
 int BookPage::check_giving() {
-	cmatch result;
-	regex regular_name("^([A-Za-z ]{3,30})");
-	regex regular_phone("^(\\+375)(\\([0-9]{2}\\))([0-9]{3})(\\-)([0-9]{2})(\\-)([0-9]{2})");
-	regex regular_address("^([A-Za-z., ]{5,30})");
-	regex regular_age("^([1-9])([0-9]{0,1})");
-	regex regular_give_date("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[012])\\.([1-9]([0-9]){2,3})");
-	regex regular_return_date("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[012])\\.([1-9]([0-9]){2,3})");
-
-
 	QString name = ui->giveBook_name_input->text();
 	QString phone = ui->giveBook_phone_input->text();
 	QString address = ui->giveBook_address_input->text();
@@ -690,38 +627,41 @@ int BookPage::check_giving() {
 	QString date_of_giving = ui->giveBook_give_date_input->text();
 	QString date_of_return = ui->giveBook_return_date_input->text();
 
-	if (name == "" || phone == "" || address == "" || age == "" || date_of_giving == "" || date_of_return == "") {
-		return 0;
+	_check_giving->clear_error_message();
+	_check_giving->clear_check_list();
+	_check_giving->add_error_check({PEOPLE_ERROR::WRONG_NAME, name, regex("^([A-Za-z ]{3,30})")});
+	_check_giving->add_error_check({PEOPLE_ERROR::WRONG_PHONE, phone, regex("^(\\+375)(\\([0-9]{2}\\))([0-9]{3})(\\-)([0-9]{2})(\\-)([0-9]{2})")});
+	_check_giving->add_error_check({PEOPLE_ERROR::WRONG_ADDRESS, address, regex("^([A-Za-z., ]{5,30})")});
+	_check_giving->add_error_check({PEOPLE_ERROR::WRONG_AGE, age, regex("^([1-9])([0-9]{0,1})")});
+	_check_giving->add_error_check({PEOPLE_ERROR::WRONG_GIVE_DATE, date_of_giving, regex("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[012])\\.([1-9]([0-9]){2,3})")});
+	_check_giving->add_error_check({PEOPLE_ERROR::WRONG_RETURN_DATE, date_of_return, regex("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[012])\\.([1-9]([0-9]){2,3})")});
+
+	
+	if (QCheck::is_empty({name, phone, address, age, date_of_giving, date_of_return})){
+		_check_giving->show_error_message(PEOPLE_ERROR::IS_EMPTY);
+		return false;
 	}
-	else if (!regex_match(name.toUtf8().constData(), result, regular_name)) {
-		return -1;
+	
+	int error_code = _check_giving->check_all();
+	if (error_code != PEOPLE_ERROR::ALL_GOOD) {
+		_check_giving->show_error_message(error_code);
+		return false;
 	}
-	else  if (!regex_match(phone.toUtf8().constData(), result, regular_phone)) {
-		return -2;
-	}
-	else  if (!regex_match(address.toUtf8().constData(), result, regular_address)) {
-		return -3;
-	}
-	else  if (!regex_match(age.toUtf8().constData(), result, regular_age)) {
-		return -4;
-	}
-	else  if (!regex_match(date_of_giving.toUtf8().constData(), result, regular_give_date)) {
-		return -5;
-	}
-	else  if (!regex_match(date_of_return.toUtf8().constData(), result, regular_return_date)) {
-		return -6;
-	}
-	else{
-		for (int i = date_of_giving.size() - 1; i >= 0; i--) {
-			if (date_of_giving[i] > date_of_return[i]) {
-				return -7;
-			}
+	
+	for (int i = date_of_giving.size() - 1; i >= 0; i--) {
+		if (date_of_giving[i] > date_of_return[i]) {
+			_check_giving->show_error_message(PEOPLE_ERROR::GIVE_DATE_MORE_THAN_RETURN_DATE);
+			return false;
 		}
 	}
-
-	return 1;
+	
+	return true;
 }
 
 
+void BookPage::open_main_widjet() {
+	ui->stackedWidget->setCurrentWidget(ui->adminMainPage);
+	ui->stackedWidget_2->setCurrentWidget(page);
+}
 
 
