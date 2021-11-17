@@ -89,15 +89,9 @@ private:
 	void open_book_creation_page();
 	void create_book();
 
-	int check_creation();
-	void show_creation_error(QString message, double num_of_line);
-	void clear_creation_error();
+	bool check_creation();
 	void clear_creation_fields();
 
-	void reconnect_create_button();
-	
-	void show_give_error(QString message, double num_of_line);
-	void clear_give_error();
 	int check_giving();
 
 	void adjust_fonts();

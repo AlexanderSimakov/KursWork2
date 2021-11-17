@@ -15,7 +15,6 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 	adjust_fonts();
 	init_cheks_messages();
 
-
 	connect(ui->pushButton_4, &QPushButton::clicked, this, 
 		[=]() {
 			ui->pushButton_4->disconnect();
@@ -23,7 +22,6 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 			ui->img_create_book_line_edit->setText(fileName);
 		});
 }
-
 
 void BookPage::update_window() {
 	show_list();
@@ -364,7 +362,7 @@ void BookPage::return_book(Book book) {
 void BookPage::open_edit_book_page(Book book) {
 	ui->stackedWidget->setCurrentWidget(ui->addBookPage);
 	clear_creation_fields();
-	clear_creation_error();
+	_check_creation->clear_error_message();
 
 	ui->pushButton_3->setText("Edit book");
 	
@@ -390,19 +388,8 @@ void BookPage::open_edit_book_page(Book book) {
 }
 
 void BookPage::edit_book() {
-	clear_creation_error();
-	int error_code = check_creation();
-	if (error_code == 0) {
-		show_creation_error("All fields should be used", 8.5);
-		return reconnect_create_button();
-	}
-	else if (error_code == -1) {
-		show_creation_error("Wrong year", 3);
-		return reconnect_create_button();
-	}
-	else if (error_code == -2) {
-		show_creation_error("Wrong pages", 4);
-		return reconnect_create_button();
+	if (!check_creation()) {
+		return;
 	}
 
 	if (QMessageBox::Yes == QMessageBox::question(this, "Apply Confirmation", "Apply?", QMessageBox::Yes | QMessageBox::No)) {
@@ -431,19 +418,9 @@ void BookPage::open_book_creation_page() {
 	ui->pushButton_3->setText("Add book");
 
 	clear_creation_fields();
-	clear_creation_error();
+	_check_creation->clear_error_message();
 
-	vector<int> IDs = books_db->get_ints();
-	int min_nonexistent = 1;
-
-	if (IDs.size() != 0) {
-		for (int i = 0; i < *max_element(IDs.begin(), IDs.end()) + 2; i++) {
-			if (IDs.end() == std::find(IDs.begin(), IDs.end(), min_nonexistent)) {
-				break;
-			}
-			min_nonexistent++;
-		}
-	}
+	int min_nonexistent = Page::get_min_nonexist(books_db->get_ints());
 
 	ui->id_create_book_line_edit->setText(QString::number(min_nonexistent));
 	ui->id_create_book_line_edit->setEnabled(false);
@@ -453,21 +430,16 @@ void BookPage::open_book_creation_page() {
 		start();
 		});
 
-	reconnect_create_button();
+	disconnect(ui->pushButton_3, 0, 0, 0);
+	connect(ui->pushButton_3, &QPushButton::clicked, this,
+		[=]() {
+			create_book();
+		});
 }
 
 void BookPage::create_book() {
-	clear_creation_error();
-	int error_code = check_creation();
-	if (error_code == 0) {
-		show_creation_error("All fields should be used", 8.5);
-		return reconnect_create_button();
-	} else if (error_code == -1) {
-		show_creation_error("Wrong year", 3);
-		return reconnect_create_button();
-	} else if (error_code == -2) {
-		show_creation_error("Wrong pages", 4);
-		return reconnect_create_button();
+	if (!check_creation()) {
+		return;
 	}
 
 	if (QMessageBox::Yes == QMessageBox::question(this, "Add", "Are you shure?", QMessageBox::Yes | QMessageBox::No)) {
@@ -490,52 +462,33 @@ void BookPage::create_book() {
 	}
 }
 
-/*
- 1 - все хорошо
- 0 - есть незаполненные поля
--1 - неправильный год
--2 - неправилные страницы
-*/
-int BookPage::check_creation() {
-	cmatch result;
-	regex regular_year("([1-9])([0-9]{0,3})"); 
-	regex regular_pages("([1-9])([0-9]{0,3})");
+bool BookPage::check_creation() {
 	QString year = ui->year_create_book_line_edit->text();
 	QString pages = ui->pages_create_book_line_edit->text();
 
-	if (ui->name_create_book_line_edit->text() == "" ||
-		ui->author_create_book_line_edit->text() == "" ||
-		ui->year_create_book_line_edit->text() == "" ||
-		ui->pages_create_book_line_edit->text() == "" ||
-		ui->content_create_book_line_edit->toPlainText().toStdString() == "") {
-		return 0;
+	_check_creation->clear_error_message();
+	_check_creation->clear_check_list();
+	_check_creation->add_error_check({ BOOK_ERROR::WRONG_YEAR, year, regex("([1-9])([0-9]{0,3})") });
+	_check_creation->add_error_check({ BOOK_ERROR::WRONG_PAGES, pages, regex("([1-9])([0-9]{0,3})") });
+
+	if (QCheck::is_empty({
+		ui->name_create_book_line_edit->text(), 
+		ui->author_create_book_line_edit->text(),  
+		pages, year,
+		ui->content_create_book_line_edit->toPlainText() })) 
+	{
+		_check_creation->show_error_message(BOOK_ERROR::IS_EMPTY);
+		return false;
 	}
-	else if (!regex_match(year.toUtf8().constData(), result, regular_year)) {
-		return -1;
+
+	int error_code = _check_creation->check_all();
+	if (error_code != BOOK_ERROR::ALL_GOOD)
+	{
+		_check_creation->show_error_message(error_code);
+		return false;
 	}
-	else  if (!regex_match(pages.toUtf8().constData(), result, regular_pages)) {
-		return -2;
-	}
 
-	return 1;
-}
-
-void BookPage::show_creation_error(QString message, double num_of_line) {
-	const int START_X = 900, START_Y = 35, ADD = 65, WIDTH = 400, HEIGHT = 50;
-	QLabel* error_message = new QLabel(message, ui->addBookPage);
-	error_message->setObjectName("BookPage_creation_error");
-	error_message->setStyleSheet(STYLE::COLOR::RED);
-	error_message->setFont(FONTS::UBUNTU_12);
-	error_message->setGeometry(START_X, START_Y + (ADD * num_of_line), WIDTH, HEIGHT);
-	error_message->show();
-}
-
-void BookPage::clear_creation_error() {
-	qDeleteAll(ui->addBookPage->findChildren<QLabel*>("BookPage_creation_error"));
-}
-
-void BookPage::clear_give_error() {
-	qDeleteAll(ui->giveBookPage->findChildren<QLabel*>("BookPage_give_error"));
+	return true;
 }
 
 void BookPage::clear_creation_fields() {
@@ -548,22 +501,13 @@ void BookPage::clear_creation_fields() {
 	ui->content_create_book_line_edit->setText("");
 }
 
-void BookPage::reconnect_create_button() {
-	disconnect(ui->pushButton_3, 0, 0, 0);
-	connect(ui->pushButton_3, &QPushButton::clicked, this,
-		[=]() {
-			ui->pushButton_3->disconnect();
-			create_book();
-		});
-}
-
 void BookPage::init_cheks_messages() {
 	_check_creation = new QCheck(ui, ui->addBookPage);
 
 	_check_creation->clear_check_list();
-	_check_creation->add_error_message({BOOK_ERROR::IS_EMPTY, "All fields should be used", 950, 100, 400, 50});
-	_check_creation->add_error_message({ BOOK_ERROR::WRONG_YEAR, "Wrong year", 950, 200, 400, 50 });
-	_check_creation->add_error_message({ BOOK_ERROR::WRONG_PAGES, "Wrong pages", 950, 300, 400, 50 });
+	_check_creation->add_error_message({BOOK_ERROR::IS_EMPTY, "All fields should be used", 950, 590, 400, 50});
+	_check_creation->add_error_message({ BOOK_ERROR::WRONG_YEAR, "Wrong year", 950, 230, 400, 50 });
+	_check_creation->add_error_message({ BOOK_ERROR::WRONG_PAGES, "Wrong pages", 950, 295, 400, 50 });
 
 
 	_check_giving = new QCheck(ui, ui->giveBookPage);
@@ -657,7 +601,6 @@ int BookPage::check_giving() {
 	
 	return true;
 }
-
 
 void BookPage::open_main_widjet() {
 	ui->stackedWidget->setCurrentWidget(ui->adminMainPage);
