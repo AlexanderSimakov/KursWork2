@@ -59,15 +59,13 @@ private:
 	Searching* searching;
 	QCheck* _check_creation;
 	QCheck* _check_giving;
-	
-	void update_books_id();
 
+	void show_book(Book book, int row, int column);
 	void show_list();
 
 	void clear_page();
 	void clear_book_list();
 
-	void show_book(Book book, int row, int column);
 	QLabel* get_name_label(QString name);
 	QPixmap* get_image_pixmap(QString path, const int WIDTH, const int HEIGHT);
 
@@ -75,30 +73,23 @@ private:
 	void create_search();
 	void create_add_button();
 	
-	void edit_book();
 	void open_edit_book_page(Book book);
-
 	void open_show_book_page(Book book);
-	
 	void open_give_book_page(Book book);
-	QString get_current_format_date();
+	void open_book_creation_page();
 
+	void edit_book();
 	void give_book(Book book);
 	void return_book(Book book);
-
-	void open_book_creation_page();
 	void create_book();
 
 	bool check_creation();
 	void clear_creation_fields();
-
 	int check_giving();
 
+	void update_books_id();
 	void adjust_fonts();
 	void init_cheks_messages();
 	void open_main_widjet();	
-
 };
-
-
 
