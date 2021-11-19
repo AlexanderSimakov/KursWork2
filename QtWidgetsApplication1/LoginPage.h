@@ -6,6 +6,13 @@
 #include "Account.h"
 #include "constants.h"
 #include <string>
+#include "Check.h"
+
+namespace LOGINERROR {
+	const int IS_EMPTY = 0;
+	const int NO_ACCESS = -1;
+	const int WRONG_INPUT = -2;
+}
 
 class LoginPage : QMainWindow
 {
@@ -18,23 +25,17 @@ public:
 	void clear_login_input();
 	Account get_authorized_account();
 
-
 private:
 	Ui::QtWidgetsApplication1Class* ui;
 	QWidget* page;
 	SQLWork* account_db;
-	QLabel* error_message;
-
-	const int PAGE_WIDTH;
-	const int PAGE_HEIGHT;
-
-	void init_error_message();
-	void adjust_fonts();
+	QCheck* check;
 
 	bool is_account_have_access(QString login);
 	QString get_login();
 	QString get_password();
-	void show_error_message(QString text);
 
+	void init_check_message();
+	void adjust_fonts();
 };
 

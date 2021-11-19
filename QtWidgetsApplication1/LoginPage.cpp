@@ -1,45 +1,40 @@
 #include "LoginPage.h"
 
 LoginPage::LoginPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* account_db)
-	: QMainWindow(parent), PAGE_WIDTH(ui->page_3->width()), PAGE_HEIGHT(ui->page_3->height()) {
+	: QMainWindow(parent) 
+{
 	this->ui = ui;
 	this->page = ui->logInPage;
 	this->account_db = account_db;
-	
-	
 	adjust_fonts();
+	init_check_message();
 }
 
-void LoginPage::open() {
+void LoginPage::open() 
+{
 	ui->stackedWidget->setCurrentWidget(page);
 }
 
-Account LoginPage::get_authorized_account() {
+Account LoginPage::get_authorized_account() 
+{
 	Account account;
 	QString login = get_login();
 	QString pass = get_password();
-
-	if (login.size() == 0 || pass.size() == 0) {
-		clear_error_message();
-		show_error_message("Oops. Fields should not be empty");
-		return account;
-	}else if (!is_account_have_access(login)) {
-		clear_error_message();
-		clear_password_input();
-		show_error_message("Oops. Account have no access");
-		return account;
-	}
-
 	QString db_account_hash = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 2);
 	QString db_account_salt = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 3);
 
-	if (!account.is_right_password(db_account_hash, db_account_salt, pass)) {
-		clear_error_message();
-		clear_password_input();
-		show_error_message("Oops. Wrong login or password");
-		return account;
-	}
-	else { 
+	check->clear_error_message();
+	if (login.size() == 0 || pass.size() == 0)
+		check->show_error_message(LOGINERROR::IS_EMPTY);
+	
+	else if (!account.is_right_password(db_account_hash, db_account_salt, pass)) 
+		check->show_error_message(LOGINERROR::WRONG_INPUT);
+		
+	else if (!is_account_have_access(login)) 
+		check->show_error_message(LOGINERROR::NO_ACCESS);
+	
+	else 
+	{
 		account.set_login(login);
 		account.set_name(account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 1));
 		account.set_salted_hash_password(db_account_hash);
@@ -47,57 +42,53 @@ Account LoginPage::get_authorized_account() {
 		account.set_role(account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 4));
 		account.set_access(account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 5));
 		account.set_id(account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 6));
-		return account;
 	}
+	clear_password_input();
+	return account;
 }
 
-bool LoginPage::is_account_have_access(QString login) {
+bool LoginPage::is_account_have_access(QString login) 
+{
 	return account_db->get_int(DB::ACCOUNTS::FIELD::LOGIN, login, 5) == 1;
 }
 
-QString LoginPage::get_login() {
+QString LoginPage::get_login() 
+{
 	return ui->authorization_login_input->text();
 }
 
-QString LoginPage::get_password() {
+QString LoginPage::get_password() 
+{
 	return ui->authorization_pass_input->text();
 }
 
-void LoginPage::show_error_message(QString text) {
-	init_error_message();
-	error_message->setText(text);
-	error_message->show();
-}
-
-void LoginPage::clear_error_message() {
-	qDeleteAll(page->findChildren<QLabel*>("LoginPage_error_message"));
-}
-
-void LoginPage::clear_login_input() {
+void LoginPage::clear_login_input() 
+{
 	ui->authorization_login_input->setText("");
 }
 
-void LoginPage::clear_password_input() {
+void LoginPage::clear_password_input() 
+{
 	ui->authorization_pass_input->setText("");
 }
 
-void LoginPage::adjust_fonts() {
+void LoginPage::adjust_fonts() 
+{
 	ui->log_in_button->setFont(FONTS::UBUNTU_14);
 	ui->authorization_login_input->setFont(FONTS::UBUNTU_14);
 	ui->authorization_pass_input->setFont(FONTS::UBUNTU_14);
 	ui->login_page_name->setFont(FONTS::UBUNTU_16);
 }
 
-void LoginPage::init_error_message() {
-	error_message = new QLabel("", page);
-	error_message->setObjectName("LoginPage_error_message");
-	error_message->setAlignment(Qt::AlignHCenter);
-	error_message->setStyleSheet(STYLE::COLOR::RED);
-	error_message->setFont(FONTS::UBUNTU_12);
-	error_message->setGeometry(391, 468, 500, 30);
+void LoginPage::init_check_message() {
+	check = new QCheck(ui, ui->logInPage);
+	check->clear_check_list();
+	check->add_error_message({ LOGINERROR::IS_EMPTY, "All fields should be used", 540, 470, 500, 30});
+	check->add_error_message({ LOGINERROR::NO_ACCESS, "Account have no access", 540, 470, 500, 30 });
+	check->add_error_message({ LOGINERROR::WRONG_INPUT, "Wrong login or password", 540, 470, 500, 30 });
 }
 
-
-
-
+void LoginPage::clear_error_message() {
+	check->clear_error_message();
+}
 
