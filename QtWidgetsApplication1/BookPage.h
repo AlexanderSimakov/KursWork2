@@ -13,15 +13,16 @@
 #include <ctime>
 #include "Check.h"
 
-namespace BOOK_ERROR {
+namespace BOOK_ERROR 
+{
 	const int ALL_GOOD = 1;
 	const int IS_EMPTY = 0;
 	const int WRONG_YEAR = -1;
 	const int WRONG_PAGES = -2;
 }
 
-
-namespace PEOPLE_ERROR {
+namespace PEOPLE_ERROR 
+{
 	const int ALL_GOOD = 1;
 	const int IS_EMPTY = 0;
 	const int WRONG_NAME = -1;

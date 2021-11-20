@@ -7,7 +7,8 @@
 
 using namespace std;
 
-struct ErrorMessage {
+struct ErrorMessage 
+{
 	const int RETURN_NUM;
 	const QString MESSAGE;
 	const int X;
@@ -17,17 +18,17 @@ struct ErrorMessage {
 
 	ErrorMessage(int return_num, QString message, int x, int y, int width, int height) 
 		: RETURN_NUM(return_num), MESSAGE(message), X(x), Y(y), WIDTH(width), HEIGHT(height) {	}
-
 };
 
 
-struct ErrorCheck {
+struct ErrorCheck 
+{
 	const QString LINE;
 	const regex RULE;
 	const int RETURN_NUM;
 
 	ErrorCheck(int return_num, QString line, regex rule) 
-		: LINE(line), RETURN_NUM(return_num), RULE(rule) {  	}
+		: LINE(line), RETURN_NUM(return_num), RULE(rule) { 	}
 };
 
 class QCheck {
@@ -57,14 +58,7 @@ private:
 	cmatch result;
 	QWidget* page;
 	
-
 	vector<ErrorMessage> error_messages;
 	vector<ErrorCheck> error_checks;
-
 };
-
-
-
-
-
 

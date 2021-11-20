@@ -8,7 +8,8 @@
 #include <string>
 #include "Check.h"
 
-namespace LOGINERROR {
+namespace LOGIN_ERROR 
+{
 	const int IS_EMPTY = 0;
 	const int NO_ACCESS = -1;
 	const int WRONG_INPUT = -2;

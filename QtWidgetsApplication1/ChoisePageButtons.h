@@ -19,7 +19,6 @@ public:
 	void show();
 	void delete_buttons();
 
-
 private:
 	Page& _page;
 	QWidget* page;
@@ -28,11 +27,10 @@ private:
 	int number_of_elements;
 	const int ADD = 50;
 	const int START_X = 10;
-	const int START_Y = 650; // 675 true
+	const int START_Y = 650; 
 	const int SIZE = 40;
 
 	void create_button(int num_in_list, int page_num);
 	void create_line(int num_in_list);
-
 };
 

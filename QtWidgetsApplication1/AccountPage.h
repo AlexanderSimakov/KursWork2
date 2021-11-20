@@ -9,7 +9,8 @@
 #include "constants.h"
 #include "Check.h"
 
-namespace ACCOUNT_ERROR {
+namespace ACCOUNT_ERROR 
+{
 	const int ALL_GOOD = 1;
 	const int IS_EMPTY = 0;
 	const int WRONG_NAME = -1;

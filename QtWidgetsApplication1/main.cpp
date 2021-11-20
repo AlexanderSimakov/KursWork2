@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
     SQLWork books_db(DB::BOOKS::FILENAME, DB::BOOKS::NAME);
     SQLWork people_db(DB::PEOPLE::FILENAME, DB::PEOPLE::NAME);
 
-
     init_accounts_db(&accounts_db);
     init_books_db(&books_db);
     init_people_db(&people_db);
@@ -38,7 +37,8 @@ int main(int argc, char *argv[])
 }
 
 
-void init_accounts_db(SQLWork* db) {
+void init_accounts_db(SQLWork* db) 
+{
     db->open();
     db->create_table_if_not_exists({ 
                  SQL_cell{ DB::ACCOUNTS::FIELD::LOGIN,  DB::FIELD_SETTING::TEXT_PRIMARY},
@@ -53,7 +53,8 @@ void init_accounts_db(SQLWork* db) {
     add_admin_account_if_not_exists(db);
 }
 
-void init_books_db(SQLWork* db) {
+void init_books_db(SQLWork* db) 
+{
     db->open();
     db->create_table_if_not_exists({ 
                  SQL_cell{ DB::BOOKS::FIELD::ID,          DB::FIELD_SETTING::INT_PRIMARY},
@@ -70,7 +71,8 @@ void init_books_db(SQLWork* db) {
         });
 }
 
-void init_people_db(SQLWork* db) {
+void init_people_db(SQLWork* db) 
+{
     db->open();
     db->create_table_if_not_exists({
                  SQL_cell{ DB::PEOPLE::FIELD::ID,      DB::FIELD_SETTING::INT_PRIMARY},
@@ -84,9 +86,10 @@ void init_people_db(SQLWork* db) {
 }
 
 
-void add_admin_account_if_not_exists(SQLWork* db) {
-    if (db->get_text(DB::ACCOUNTS::FIELD::LOGIN, "admin", 2) == "") {
-
+void add_admin_account_if_not_exists(SQLWork* db) 
+{
+    if (db->get_text(DB::ACCOUNTS::FIELD::LOGIN, "admin", 2) == "") 
+    {
         const QString salt = Account::get_generated_salt();
         const QString salted_hash_password = Account::get_generated_hash("admin", salt);
 

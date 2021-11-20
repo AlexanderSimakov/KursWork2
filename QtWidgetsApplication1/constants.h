@@ -3,13 +3,16 @@
 #include <QFont>
 #include <QString>
 
-namespace DB {
+namespace DB 
+{
 
-	namespace ACCOUNTS {
+	namespace ACCOUNTS 
+	{
 		const QString FILENAME = "accounts.db";
 		const QString NAME = "ACCOUNTS";
 
-		namespace FIELD {
+		namespace FIELD 
+		{
 			const QString LOGIN = "LOGIN";
 			const QString NAME = "NAME";
 			const QString HASH = "HASH";
@@ -19,7 +22,8 @@ namespace DB {
 			const QString ID = "ID";
 		}
 
-		namespace INT {
+		namespace INT 
+		{
 			const int LOGIN = 0;
 			const int NAME = 1;
 			const int HASH = 2;
@@ -30,11 +34,13 @@ namespace DB {
 		}
 	}
 
-	namespace BOOKS {
+	namespace BOOKS 
+	{
 		const QString FILENAME = "books.db";
 		const QString NAME = "BOOKS";
 
-		namespace FIELD {
+		namespace FIELD 
+		{
 			const QString ID = "ID";
 			const QString NAME = "NAME";
 			const QString AUTHOR = "AUTHOR_NAME";
@@ -50,11 +56,13 @@ namespace DB {
 
 	}
 
-	namespace PEOPLE {
+	namespace PEOPLE 
+	{
 		const QString FILENAME = "people.db";
 		const QString NAME = "PEOPLE";
 
-		namespace FIELD {
+		namespace FIELD 
+		{
 			const QString ID = "ID";
 			const QString BOOK_ID = "BOOK_ID";
 			const QString NAME = "NAME";
@@ -66,7 +74,8 @@ namespace DB {
 
 	}
 
-	namespace FIELD_SETTING {
+	namespace FIELD_SETTING 
+	{
 		const QString TEXT_PRIMARY = "TEXT PRIMARY KEY NOT NULL";
 		const QString INT_PRIMARY = "INT PRIMARY KEY NOT NULL";
 		const QString TEXT = "TEXT NOT NULL";
@@ -74,7 +83,8 @@ namespace DB {
 	}
 }
 
-namespace FONTS {
+namespace FONTS 
+{
 	const QFont UBUNTU_8("Ubuntu", 8);
 	const QFont UBUNTU_10("Ubuntu", 10);
 	const QFont UBUNTU_12("Ubuntu", 12);
@@ -85,7 +95,8 @@ namespace FONTS {
 
 
 
-namespace COLORS {
+namespace COLORS 
+{
 	const QString BLUE = "#7AB2FF";
 	const QString LIGHT_BLUE ="#9CC5FF";
 	const QString WHITE = "#FFFFFF";
@@ -102,15 +113,18 @@ namespace COLORS {
 	const QString BACK = "#FFF1DE";
 }
 
-namespace STYLE {
+namespace STYLE 
+{
 
-	namespace COLOR {
+	namespace COLOR 
+	{
 		const QString RED = "color: #F5685D; ";
 		const QString WHITE = "color: #FFFFFF; ";
 		const QString DARK_GREEN = "color: #7fbf52; ";
 	}
 
-	namespace BACKGROUNG {
+	namespace BACKGROUNG 
+	{
 		const QString TRANSPARENT = "background: transparent; ";
 		const QString GREEN = "background: #AEFF75; ";
 		const QString LIGHT_RED = "background: #FF7373; ";
@@ -124,7 +138,8 @@ namespace STYLE {
 
 	}
 
-	namespace BORDER {
+	namespace BORDER 
+	{
 		const QString RADIUS_5 = "border-radius: 5px; ";
 		const QString RADIUS_10 = "border-radius: 10px; ";
 		const QString RADIUS_20 = "border-radius: 20px; ";
@@ -137,22 +152,22 @@ namespace STYLE {
 		const QString RED = "border-color: #F5685D; ";
 
 
-		namespace WIDTH {
+		namespace WIDTH 
+		{
 			const QString _2 = "border-width: 2px; ";
 		}
 	}
 
-	namespace ALIGN {
+	namespace ALIGN 
+	{
 		const QString RIGHT = "text-align: right; ";
 	}
 
-	namespace PADDING {
+	namespace PADDING 
+	{
 		const QString RIGHT_10 = "padding-right: 10px; ";
 		const QString LEFT_10 = "padding-left: 10px; ";
 	}
-
-	
-
 }
 
 const int SALT_SIZE = 16;

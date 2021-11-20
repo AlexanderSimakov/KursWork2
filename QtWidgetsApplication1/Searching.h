@@ -10,7 +10,8 @@
 
 using namespace std;
 
-struct Search {
+struct Search 
+{
 	QString name;
 	QString command;
 };
@@ -42,6 +43,5 @@ private:
 	void create_search_button();
 	void create_search_field();
 	void crete_search_choise_method_button();
-
 };
 

@@ -17,10 +17,7 @@ class PeoplePage : public QMainWindow, public Page
 public:
 	PeoplePage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* people_db, SQLWork* book_db);
 
-	virtual void update_window() {
-		show_list();
-	}
-
+	virtual void update_window();
 	void start();
 
 private:
@@ -38,7 +35,6 @@ private:
 	const int PAGE_WIDTH;
 	const int PAGE_HEIGHT;
 	int current_page = 0;
-
 	vector<int> people_id;
 
 	ChoisePageButtons* choise_page_buttons;
@@ -74,6 +70,5 @@ private:
 	void open_book_info_page(People people);
 
 	People get_people_by_id(int id);
-
 };
 

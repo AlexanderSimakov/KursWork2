@@ -1,6 +1,7 @@
 #include "Page.h"
 
-int Page::get_min_nonexist(vector<int> vect) {
+int Page::get_min_nonexist(vector<int> vect) 
+{
 	int min_nonexistent = 1;
 
 	if (vect.size() != 0)
@@ -16,7 +17,8 @@ int Page::get_min_nonexist(vector<int> vect) {
 	return min_nonexistent;
 }
 
-QString Page::get_current_format_date() {
+QString Page::get_current_format_date() 
+{
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
 

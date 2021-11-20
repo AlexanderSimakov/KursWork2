@@ -6,11 +6,9 @@
 
 using namespace std;
 
-
 class Book
 {
 public:
-
 	void set_id(int id);
 	void set_name(QString name);
 	void set_author_name(QString author_name);
@@ -37,16 +35,11 @@ public:
 	QString get_date_of_return();
 	bool get_enabled();
 
-
 	void update(SQLWork* db);
 	void add_in_db(SQLWork* db);
 	static Book get_book_by_id(SQLWork* db, int id);
-	
-
 
 private:
-	
-
 	int id = 0;
 	QString name = "";
 	QString author_name = "";
@@ -55,11 +48,8 @@ private:
 	int amount_of_page = 0;
 	QString content = "";
 	QString path_to_img = "";
-
 	QString date_of_giving = "-";
 	QString date_of_return = "-";
 	bool is_enabled = true;
-
-
 };
 

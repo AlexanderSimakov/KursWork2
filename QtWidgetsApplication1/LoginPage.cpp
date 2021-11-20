@@ -80,7 +80,8 @@ void LoginPage::adjust_fonts()
 	ui->login_page_name->setFont(FONTS::UBUNTU_16);
 }
 
-void LoginPage::init_check_message() {
+void LoginPage::init_check_message() 
+{
 	check = new QCheck(ui, ui->logInPage);
 	check->clear_check_list();
 	check->add_error_message({ LOGINERROR::IS_EMPTY, "All fields should be used", 540, 470, 500, 30});
@@ -88,7 +89,8 @@ void LoginPage::init_check_message() {
 	check->add_error_message({ LOGINERROR::WRONG_INPUT, "Wrong login or password", 540, 470, 500, 30 });
 }
 
-void LoginPage::clear_error_message() {
+void LoginPage::clear_error_message() 
+{
 	check->clear_error_message();
 }
 

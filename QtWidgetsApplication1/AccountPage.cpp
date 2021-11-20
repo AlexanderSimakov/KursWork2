@@ -233,7 +233,8 @@ void AccountPage::edit_account()
 	}
 }
 
-void AccountPage::open_edit_account_page(Account account, const bool IS_REMOVABLE, const bool IS_STATUS_EDITABLE, const bool IS_BACK_TO_ACCOUNTS) {
+void AccountPage::open_edit_account_page(Account account, const bool IS_REMOVABLE, const bool IS_STATUS_EDITABLE, const bool IS_BACK_TO_ACCOUNTS) 
+{
 	open_account_edit_widget();
 	clear_account_edit_page();
 
@@ -318,7 +319,8 @@ void AccountPage::open_account_creation_page()
 	ui->lineEdit_9->setText(QString::number(min_nonexistent));
 }
 
-bool AccountPage::check_creation() {
+bool AccountPage::check_creation() 
+{
 	QString name = ui->lineEdit_2->text();
 	QString login = ui->lineEdit_6->text();
 	QString password = ui->lineEdit_7->text();
@@ -429,7 +431,6 @@ void AccountPage::init_pixmaps()
 void AccountPage::init_checks_messages() 
 {
 	_check = new QCheck(ui, ui->editAccountPage);
-
 	_check->clear_message_list();
 	_check->add_error_message({ ACCOUNT_ERROR::IS_EMPTY, "All fields should be used", 950, 400, 400, 50 });
 	_check->add_error_message({ ACCOUNT_ERROR::WRONG_NAME, "Wrong name", 950, 135, 400, 50});
@@ -466,7 +467,4 @@ void AccountPage::open_account_creation_widget()
 	ui->lineEdit_6->setEnabled(true);
 	ui->pushButton->setText("Add");
 }
-
-
-
 

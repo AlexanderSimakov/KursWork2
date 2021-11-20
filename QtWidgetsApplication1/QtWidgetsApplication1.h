@@ -32,7 +32,6 @@ private slots:
     void open_accounts_page();
     void open_editing_current_account_page();
    
-
 private:
     SQLWork* accounts_db = nullptr;
     SQLWork* books_db = nullptr;
@@ -54,5 +53,4 @@ private:
     void mark_accounts_button();
 
     void adjust_fonts();
-    
 };

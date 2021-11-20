@@ -23,10 +23,8 @@ public:
 	int get_age();
 	int get_sex();
 
-	void update(SQLWork* people_db);
 	void add_in_db(SQLWork* people_db);
 	static People get_people_by_book_id(SQLWork* people_db, int book_id);
-
 
 private:
 	int id = 0;
@@ -36,8 +34,5 @@ private:
 	QString address = "";
 	int age = 0;
 	int sex = 0;
-
-
-
 };
 

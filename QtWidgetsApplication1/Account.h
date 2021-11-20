@@ -47,6 +47,5 @@ private:
     QString salt = "";
     int role = -1;
     bool access = false;
-
 };
 

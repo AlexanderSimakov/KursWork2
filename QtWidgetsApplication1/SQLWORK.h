@@ -48,7 +48,6 @@ private:
 	bool do_sql(QString sql);
 	QString get_created_table_sql_command();
 	QString get_push_back_sql(vector<QString> field);
-	
 };
 
 
