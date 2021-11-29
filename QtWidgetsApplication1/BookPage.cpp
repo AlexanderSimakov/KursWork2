@@ -16,12 +16,7 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 	adjust_fonts();
 	init_cheks_messages();
 
-	connect(ui->pushButton_4, &QPushButton::clicked, this, 
-		[=]() {
-			ui->pushButton_4->disconnect();
-			QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("Images (*.png *.jpg)"));
-			ui->img_create_book_line_edit->setText(fileName);
-		});
+	
 }
 
 void BookPage::update_window() 
@@ -275,6 +270,7 @@ void BookPage::open_show_book_page(Book book)
 void BookPage::open_give_book_page(Book book) 
 {
 	ui->stackedWidget_2->setCurrentWidget(ui->giveBookPage);
+	clear_give_fields();
 	ui->giveBook_book_name_label->setText(book.get_name());
 
 	QString date = get_current_format_date();
@@ -286,6 +282,16 @@ void BookPage::open_give_book_page(Book book)
 
 	disconnect(ui->giveBook_back_button, 0, 0, 0);
 	connect(ui->giveBook_back_button, &QPushButton::clicked, this, [=]() { open_show_book_page(book); });
+}
+
+void BookPage::clear_give_fields() {
+	ui->giveBook_name_input->setText("");
+	ui->giveBook_phone_input->setText("");
+	ui->giveBook_address_input->setText("");
+	ui->giveBook_age_input->setText("");
+	ui->giveBook_sex_input->setCurrentIndex(0);
+	ui->giveBook_give_date_input->setText("");
+	ui->giveBook_return_date_input->setText("");
 }
 
 void BookPage::give_book(Book book) 
@@ -354,6 +360,14 @@ void BookPage::open_edit_book_page(Book book)
 	disconnect(ui->pushButton_3, 0, 0, 0);
 	connect(ui->pushButton_3, &QPushButton::clicked, this, [=]() { edit_book(); });
 
+	disconnect(ui->pushButton_4, 0, 0, 0);
+	connect(ui->pushButton_4, &QPushButton::clicked, this, 
+		[=]() {
+			ui->pushButton_4->disconnect();
+			QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("Images (*.png *.jpg)"));
+			ui->img_create_book_line_edit->setText(fileName);
+		});
+
 	disconnect(ui->commandLinkButton_3, 0, 0, 0);
 	connect(ui->commandLinkButton_3, &QPushButton::clicked, this, [=]() { start(); open_show_book_page(book); });
 }
@@ -400,6 +414,15 @@ void BookPage::open_book_creation_page()
 
 	disconnect(ui->commandLinkButton_3, 0, 0, 0);
 	connect(ui->commandLinkButton_3, &QPushButton::clicked, this, [=]() { start(); });
+
+
+	disconnect(ui->pushButton_4, 0, 0, 0);
+	connect(ui->pushButton_4, &QPushButton::clicked, this, 
+		[=]() {
+			ui->pushButton_4->disconnect();
+			QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("Images (*.png *.jpg)"));
+			ui->img_create_book_line_edit->setText(fileName);
+		});
 
 	disconnect(ui->pushButton_3, 0, 0, 0);
 	connect(ui->pushButton_3, &QPushButton::clicked, this, [=]() { create_book(); });

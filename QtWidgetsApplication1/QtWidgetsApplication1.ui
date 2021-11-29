@@ -1534,12 +1534,37 @@ padding-left: 10px;</string>
         </item>
         <item>
          <property name="text">
+          <string>Art</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Science</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>History</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Diseases</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Adventure</string>
          </property>
         </item>
         <item>
          <property name="text">
           <string>Fiction</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sociology</string>
          </property>
         </item>
        </widget>

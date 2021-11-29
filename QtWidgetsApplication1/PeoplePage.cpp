@@ -9,7 +9,7 @@ PeoplePage::PeoplePage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLW
 	this->book_db = book_db;
 	this->_parent = parent;
 
-	searching = new Searching(_parent, ui, page, book_db, *this, people_id);
+	searching = new Searching(_parent, ui, page, people_db, *this, people_id);
 }
 
 void PeoplePage::start() 
@@ -56,7 +56,8 @@ void PeoplePage::show_list()
 		people_end_at = people_id.size();
 
 	int j = 0, k = 0, n = 1;
-	for (int i = 0; i < people_end_at - people_start_at; i++) {
+	for (int i = 0; i < people_end_at - people_start_at; i++) 
+	{
 		show_people(&get_people_by_id(people_id[i + people_start_at]), j, k);
 		if (j == 3) 
 		{
@@ -108,9 +109,10 @@ void PeoplePage::create_choise_page_buttons()
 void PeoplePage::create_search() 
 {
 	vector<Search> comm;
-	comm.push_back({"Name", " WHERE " + DB::BOOKS::FIELD::NAME + " GLOB "});
-	comm.push_back({"Given", " WHERE " + DB::BOOKS::FIELD::GIVE_DATE + " GLOB " });
-	comm.push_back({"Return", " WHERE " + DB::BOOKS::FIELD::RETURN_DATE + " GLOB " });
+	comm.push_back({"Name", " WHERE " + DB::PEOPLE::FIELD::NAME + " GLOB "});
+	comm.push_back({"Phone", " WHERE " + DB::PEOPLE::FIELD::PHONE + " GLOB " });
+	comm.push_back({"Address", " WHERE " + DB::PEOPLE::FIELD::ADDRESS + " GLOB " });
+	comm.push_back({"Age", " WHERE " + DB::PEOPLE::FIELD::AGE + " GLOB " });
 	searching->init(comm, &current_page);
 	searching->show();
 }

@@ -86,6 +86,7 @@ private:
 
 	bool check_creation();
 	void clear_creation_fields();
+	void clear_give_fields();
 	int check_giving();
 
 	void update_books_id();

@@ -25,13 +25,13 @@ Account LoginPage::get_authorized_account()
 
 	check->clear_error_message();
 	if (login.size() == 0 || pass.size() == 0)
-		check->show_error_message(LOGINERROR::IS_EMPTY);
+		check->show_error_message(LOGIN_ERROR::IS_EMPTY);
 	
 	else if (!account.is_right_password(db_account_hash, db_account_salt, pass)) 
-		check->show_error_message(LOGINERROR::WRONG_INPUT);
+		check->show_error_message(LOGIN_ERROR::WRONG_INPUT);
 		
 	else if (!is_account_have_access(login)) 
-		check->show_error_message(LOGINERROR::NO_ACCESS);
+		check->show_error_message(LOGIN_ERROR::NO_ACCESS);
 	
 	else 
 	{
@@ -84,9 +84,9 @@ void LoginPage::init_check_message()
 {
 	check = new QCheck(ui, ui->logInPage);
 	check->clear_check_list();
-	check->add_error_message({ LOGINERROR::IS_EMPTY, "All fields should be used", 540, 470, 500, 30});
-	check->add_error_message({ LOGINERROR::NO_ACCESS, "Account have no access", 540, 470, 500, 30 });
-	check->add_error_message({ LOGINERROR::WRONG_INPUT, "Wrong login or password", 540, 470, 500, 30 });
+	check->add_error_message({ LOGIN_ERROR::IS_EMPTY, "All fields should be used", 540, 470, 500, 30});
+	check->add_error_message({ LOGIN_ERROR::NO_ACCESS, "Account have no access", 540, 470, 500, 30 });
+	check->add_error_message({ LOGIN_ERROR::WRONG_INPUT, "Wrong login or password", 540, 470, 500, 30 });
 }
 
 void LoginPage::clear_error_message() 
