@@ -79,7 +79,6 @@ void PeoplePage::show_people(People* people, int row, int column)
 	create_age_label(people, row, column);
 	create_sex_label(people, row, column);
 	create_return_button(*people, row, column);
-	create_book_button(*people, row, column);
 
 	Book book = Book::get_book_by_id(book_db, people->get_book_id());
 	bool is_overdue = false;
@@ -256,7 +255,7 @@ void PeoplePage::create_book_return_date_label(Book* book, int row, int column, 
 
 void PeoplePage::create_return_button(People people, int row, int column) 
 {
-	const int WIDTH = 62, HEIGHT = 72, START_X = 275, START_Y = 221;
+	const int WIDTH = 62, HEIGHT = 124, START_X = 275, START_Y = 169;
 	QPushButton* return_btn = new QPushButton("Return", page);
 	return_btn->setObjectName("book_return_button");
 	return_btn->setFont(FONTS::UBUNTU_10);
@@ -268,48 +267,6 @@ void PeoplePage::create_return_button(People people, int row, int column)
 	return_btn->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
 	connect(return_btn, &QPushButton::clicked, this, [=]() { return_book(people); });
 	return_btn->show();
-}
-
-void PeoplePage::create_book_button(People people, int row, int column) 
-{
-	const int WIDTH = 62, HEIGHT = 40, START_X = 275, START_Y = 170;
-	QPushButton* return_btn = new QPushButton("Book", page);
-	return_btn->setObjectName("book_show_button");
-	return_btn->setFont(FONTS::UBUNTU_10);
-
-	return_btn->setStyleSheet("QPushButton#book_show_button{ " + STYLE::BACKGROUNG::BLUE +
-		STYLE::BORDER::SIZE_10 + STYLE::BORDER::RADIUS_5  + STYLE::COLOR::WHITE + " } " +
-		"QPushButton#book_show_button:hover{ " +  STYLE::BACKGROUNG::LIGHT_BLUE + " }");
-	
-	return_btn->setGeometry(START_X + ADD_X * row, START_Y + ADD_Y * column, WIDTH, HEIGHT);
-	connect(return_btn, &QPushButton::clicked, this, [=]() { open_book_info_page(people);  });
-	return_btn->show();
-}
-
-void PeoplePage::open_book_info_page(People people) 
-{
-	ui->stackedWidget_2->setCurrentWidget(ui->showBookPage);
-	Book book = Book::get_book_by_id(book_db, people.get_book_id());
-
-	QPixmap pixmap = QPixmap(book.get_path_to_img());
-	pixmap = pixmap.scaled(QSize(326, 326), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-	ui->show_image->setAlignment(Qt::AlignCenter);
-	ui->show_image->setPixmap(pixmap);
-
-	ui->show_book_name->setText(book.get_name());
-	ui->show_author->setText(book.get_author_name());
-	ui->show_year->setText(QString::number(book.get_year()));
-	ui->show_pages->setText(QString::number(book.get_amount_of_page()));
-	ui->show_content->setText(book.get_content());
-
-	ui->show_remove_book_button->setEnabled(false);
-	ui->show_remove_book_button->setVisible(false);
-	ui->show_edit_book_button->setEnabled(false);
-	ui->show_edit_book_button->setVisible(false);
-	ui->show_return_book_button->setEnabled(false);
-	ui->show_return_book_button->setVisible(false);
-	ui->show_back_to_book_button->setEnabled(false);
-	ui->show_back_to_book_button->setVisible(false);
 }
 
 void PeoplePage::return_book(People people) 

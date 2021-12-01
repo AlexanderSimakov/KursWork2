@@ -63,11 +63,8 @@ private:
 	void create_book_give_date_label(Book* book, int row, int column, bool is_overdue = false); // создание пол€ дл€ отображени€ даты выдачи вз€той книги
 	void create_book_return_date_label(Book* book, int row, int column, bool is_overdue = false); // создание пол€ дл€ отображени€ даты возвращени€ вз€той книги
 
-	void create_book_button(People people, int row, int column); // инициализаци€ кнопки просмотра вз€той человеком книги
 	void create_return_button(People people, int row, int column); // инициализаци€ кнопки возвращени€ вз€той книги
-
 	void return_book(People people); // функци€ возвращаюш€ книгу
-	void open_book_info_page(People people); // функци€ открыти€ всей информации о книге
 
 	People get_people_by_id(int id); // возвращени€ обекта People по его id
 };
