@@ -15,9 +15,9 @@ class ChoisePageButtons : public QMainWindow
 
 public:
 	ChoisePageButtons(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, QWidget* page, const int NUMBER_OF_ELEMENTS_ON_PAGE, int* current_page, Page& _page);
-	void set_number_of_elements(int number_of_elements);
-	void show();
-	void delete_buttons();
+	void set_number_of_elements(int number_of_elements); // установка количества элементов, помещающихся на одной странице
+	void show(); // вывод кнопок на экран
+	void delete_buttons(); // очистка кнопок с экрана
 
 private:
 	Page& _page;
@@ -30,7 +30,7 @@ private:
 	const int START_Y = 650; 
 	const int SIZE = 40;
 
-	void create_button(int num_in_list, int page_num);
-	void create_line(int num_in_list);
+	void create_button(int num_in_list, int page_num); // инициализация кнопки выбора страницы
+	void create_line(int num_in_list); // инициализация линии между кнопками
 };
 

@@ -41,8 +41,8 @@ class BookPage : public QMainWindow, public Page
 public:
 	BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* books_db, SQLWork* people_db);
 
-	virtual void update_window();
-	void start();
+	virtual void update_window(); // обновление экрана
+	void start(); // запуск страницы книг
 
 private:
 	Ui::QtWidgetsApplication1Class* ui;
@@ -61,37 +61,37 @@ private:
 	QCheck* _check_creation;
 	QCheck* _check_giving;
 
-	void show_book(Book book, int row, int column);
-	void show_list();
+	void show_book(Book book, int row, int column); // вывод книги на экран
+	void show_list(); // вывод списка книг
 
-	void clear_page();
-	void clear_book_list();
+	void clear_page(); // очистка страницы
+	void clear_book_list(); // очистка выведенных книг
 
-	QLabel* get_name_label(QString name);
-	QPixmap* get_image_pixmap(QString path, const int WIDTH, const int HEIGHT);
+	QLabel* get_name_label(QString name); // инициализирует и возвращает виджет с названием книги
+	QPixmap* get_image_pixmap(QString path, const int WIDTH, const int HEIGHT); // инициализирует и возвращает картинку книги
 
-	void create_choise_page_buttons();
-	void create_search();
-	void create_add_button();
+	void create_choise_page_buttons(); // инициализация кнопок выбора страницы
+	void create_search(); // инициализация поиска
+	void create_add_button(); // инициализация кнопки добавления книги
 	
-	void open_edit_book_page(Book book);
-	void open_show_book_page(Book book);
-	void open_give_book_page(Book book);
-	void open_book_creation_page();
+	void open_edit_book_page(Book book); // открывает страницу редактирования книги
+	void open_show_book_page(Book book); // открывает страницу вывода информации о книге
+	void open_give_book_page(Book book); // открывает страницу выдачи книги
+	void open_book_creation_page(); // открывает страницу добавления новой книги
 
-	void edit_book();
-	void give_book(Book book);
-	void return_book(Book book);
-	void create_book();
+	void edit_book(); // изменяет информацию о книге
+	void give_book(Book book); // выдача книги
+	void return_book(Book book); // возвращение книги
+	void create_book(); // создание книги
 
-	bool check_creation();
-	void clear_creation_fields();
-	void clear_give_fields();
-	int check_giving();
+	bool check_creation(); // проверка при создании книги
+	void clear_creation_fields(); // очистка полей ввода при создании книги
+	void clear_give_fields(); // очистка полей ввода при выдаче книги
+	int check_giving(); // проверка при выдаче книги
 
-	void update_books_id();
-	void adjust_fonts();
-	void init_cheks_messages();
-	void open_main_widjet();	
+	void update_books_id(); // обновление вектора, содержащего id книг
+	void adjust_fonts(); // настройки стилей шрифтов
+	void init_cheks_messages(); // инициализация сообщений проверки
+	void open_main_widjet(); // открытие главного окна 
 };
 

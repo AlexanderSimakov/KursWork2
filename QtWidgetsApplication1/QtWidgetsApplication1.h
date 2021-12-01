@@ -17,20 +17,20 @@ class QtWidgetsApplication1 : public QMainWindow
 
 public:
     QtWidgetsApplication1(QWidget *parent = Q_NULLPTR);
-    void set_accounts_db(SQLWork* db);
-    void set_books_db(SQLWork* db);
-    void set_people_db(SQLWork* db);
+    void set_accounts_db(SQLWork* db); // передача таблицы аккаунтов
+    void set_books_db(SQLWork* db); // передача таблицы книг
+    void set_people_db(SQLWork* db); // передача таблицы людей
     void init();
 
 
 private slots:
-    void log_in();
-    void back_to_accounts();
-    void back_to_authorization();
-    void open_books_page();
-    void open_subsriber_page();
-    void open_accounts_page();
-    void open_editing_current_account_page();
+    void log_in(); // слот срабатывающий на нажатие кнопки авторизации
+    void back_to_accounts(); // слот срабатывающий на нажатие кнопки возвращения к аккаунтам
+    void back_to_authorization(); // слот срабатывающий на нажатие кнопки выхода
+    void open_books_page(); // слот срабатывающий на нажатие кнопки выбора страницы книг
+    void open_subsriber_page(); // слот срабатывающий на нажатие кнопки выбора страницы людей
+    void open_accounts_page(); // слот срабатывающий на нажатие кнопки выбора страницы аккаунтов
+    void open_editing_current_account_page(); // слот срабатывающий на нажатие кнопки редактирования своего аккаунта
    
 private:
     SQLWork* accounts_db = nullptr;
@@ -45,12 +45,12 @@ private:
 
     Ui::QtWidgetsApplication1Class ui;
 
-    void update_current_account_info();
+    void update_current_account_info(); // обновление информации о аккаунте из которого был произведен вход
 
-    void clear_all_mark_buttons();
-    void mark_books_button();
-    void mark_subscriber_button();
-    void mark_accounts_button();
+    void clear_all_mark_buttons(); // убирает выделение с кнопок выбора страниц
+    void mark_books_button(); // выделяет кнопку выбора страницы книг
+    void mark_subscriber_button(); // выделяет кнопку выбора страницы людей
+    void mark_accounts_button(); // выделяет кнопку выбора страницы аккаунтов
 
-    void adjust_fonts();
+    void adjust_fonts(); // настройка стилей шрифтов для страницы
 };

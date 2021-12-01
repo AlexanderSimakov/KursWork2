@@ -7,24 +7,24 @@
 class People
 {
 public:
-	void set_id(int id);
-	void set_book_id(int book_id);
-	void set_name(QString name);
-	void set_phone(QString phone);
-	void set_address(QString address);
-	void set_age(int age);
-	void set_sex(int sex);
+	void set_id(int id); // установка id
+	void set_book_id(int book_id); // установка id взятой книги
+	void set_name(QString name); // установка имени
+	void set_phone(QString phone); // установка номера телефона
+	void set_address(QString address); // установка адреса
+	void set_age(int age); // установка возраста
+	void set_sex(int sex); // установка пола
 
-	int get_id();
-	int get_book_id();
-	QString get_name();
-	QString get_phone();
-	QString get_address();
-	int get_age();
-	int get_sex();
+	int get_id(); // возвращает id
+	int get_book_id(); // возвращает id книги
+	QString get_name(); // возвращает имя
+	QString get_phone(); // возвращает номер телефона
+	QString get_address(); // возвращаеь адрес
+	int get_age(); // возвращает возраст
+	int get_sex(); // возвращает пол
 
-	void add_in_db(SQLWork* people_db);
-	static People get_people_by_book_id(SQLWork* people_db, int book_id);
+	void add_in_db(SQLWork* people_db); // добавление обьекта в таблицу
+	static People get_people_by_book_id(SQLWork* people_db, int book_id); // возвращение обьекта из таблицы по его id
 
 private:
 	int id = 0;
