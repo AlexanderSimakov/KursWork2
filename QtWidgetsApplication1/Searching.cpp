@@ -94,3 +94,4 @@ void Searching::crete_search_choise_method_button()
 		
 	combo_box->setGeometry(X, Y, WIDTH, HEIGHT);
 }
+

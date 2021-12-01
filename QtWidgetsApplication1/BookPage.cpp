@@ -15,8 +15,6 @@ BookPage::BookPage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork*
 
 	adjust_fonts();
 	init_cheks_messages();
-
-	
 }
 
 void BookPage::update_window() 

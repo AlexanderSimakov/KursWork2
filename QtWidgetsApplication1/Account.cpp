@@ -70,17 +70,10 @@ bool Account::get_access()
 	return access;
 }
 
-QString Account::get_password(QString true_hash, QString true_salt, QString password) 
-{
-	if (true_hash != get_generated_hash(password, true_salt)) // неправильный логин или пароль
-		return "-1";
-	else  // все хорошо
-		return password;
-}
 
 bool Account::is_right_password(QString true_hash, QString true_salt, QString password) 
 {
-	if (true_hash != get_generated_hash(password, true_salt)) // неправильный логин или пароль
+	if (true_hash != get_generated_hash(password, true_salt)) 
 		return false;
 	else
 		return true;

@@ -7,8 +7,6 @@ ChoisePageButtons::ChoisePageButtons(QWidget* parent, Ui::QtWidgetsApplication1C
 	this->page = page;
 }
 
-
-
 void ChoisePageButtons::set_number_of_elements(int number_of_elements) 
 {
 	this->number_of_elements = number_of_elements;
