@@ -28,12 +28,8 @@ private:
 	SQLWork* book_db;
 
 	const int NUMBER_OF_PEOPLE_ON_PAGE = 7;
-	const int ADD = 130;
 	const int ADD_X = 360;
 	const int ADD_Y = 320;
-	const int MARGIN = 5;
-	const int PAGE_WIDTH;
-	const int PAGE_HEIGHT;
 	int current_page = 0;
 	vector<int> people_id;
 

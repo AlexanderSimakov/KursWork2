@@ -1,7 +1,7 @@
 #include "PeoplePage.h"
 
 PeoplePage::PeoplePage(QWidget* parent, Ui::QtWidgetsApplication1Class* ui, SQLWork* people_db, SQLWork* book_db) 
-	: QMainWindow(parent), PAGE_WIDTH(ui->page->width()), PAGE_HEIGHT(ui->page->height()) 
+	: QMainWindow(parent) 
 {
 	this->ui = ui;
 	this->page = ui->page;
