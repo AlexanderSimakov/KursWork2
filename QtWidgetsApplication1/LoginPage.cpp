@@ -24,7 +24,7 @@ Account LoginPage::get_authorized_account()
 	QString db_account_salt = account_db->get_text(DB::ACCOUNTS::FIELD::LOGIN, login, 3);
 
 	check->clear_error_message();
-	if (login.size() == 0 || pass.size() == 0)
+	if (QCheck::is_empty({login, pass}))
 		check->show_error_message(LOGIN_ERROR::IS_EMPTY);
 	
 	else if (!account.is_right_password(db_account_hash, db_account_salt, pass)) 
